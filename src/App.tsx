@@ -1,9 +1,13 @@
+import Login from './pages/Login'
 import './App.css'
+import Center from './components/Center'
 
 function App() {
   return (
     <>
-      <h1>Meta corp</h1>
+      <Center className="h-screen">
+        <Login />
+      </Center>
     </>
   )
 }
