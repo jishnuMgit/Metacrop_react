@@ -1,6 +1,19 @@
-#root{
-   @apply bg-[#E9F1FA]
+#root {
+  @apply bg-[#E9F1FA];
 }
-input:focus-visible{
-    outline-color: #00ABE4;
+input:focus-visible {
+  outline-color: #00abe4;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track{
+    border: #00abe4;
+    box-shadow: inset 0 0 6px grey
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #00ABE4;
+    box-shadow: inset 0 0 6px rgba(177, 17, 17, 0.3);
+  }

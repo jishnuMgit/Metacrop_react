@@ -1,7 +1,7 @@
 import Login from './pages/Login'
-import './App.css'
 import Center from './components/Center'
 import Home from './pages/Home'
+import './App.css'
 
 function App() {
   const isLoggedIn = true

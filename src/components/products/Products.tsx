@@ -1,16 +1,28 @@
+import Item from './Item'
+
 type ProductsProps = {
   products: string[]
+  setCurrent: (items: any[]) => void
 }
-function Products({ products }: ProductsProps) {
+
+function Products({ products, setCurrent }: ProductsProps) {
+  const handleCurrent = (a: string) => {
+    console.log(a)
+    setCurrent((prev: any[]) => {
+      if (prev.find((val) => val.id == a)) {
+        return prev
+      }
+      console.log(prev.find((val) => val.id != a))
+      return [
+        ...prev,
+        { id: a, count: 1, name: parseInt(a) % 2 === 0 ? 'Milk' : 'Lime' },
+      ]
+    })
+  }
   return (
     <>
-      {products.map((val, i) => (
-        <div className="mb-5 m-1 " key={i}>
-          <div className="flex flex-col items-center">
-            <p className="text-3xl mb-1">{val}</p>
-            Fruits
-          </div>
-        </div>
+      {products.map((_val, i) => (
+        <Item i={i} key={i} onClick={handleCurrent} />
       ))}
     </>
   )
