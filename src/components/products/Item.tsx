@@ -1,19 +1,22 @@
-import milk from '../../assets/images/milk.jpeg'
-import orange from '../../assets/images/orange-1558624428.jpg'
+import { baseImgUrl } from '../../config/constants'
+import { useAppDispatch } from '../../config/hooks'
+import { ProductType } from '../../db'
+import { addToOrders } from '../../redux/order'
 
 type ItemProps = {
-  i: number
-  onClick: (a: string) => void
+  item: ProductType
 }
-function Item({ i, onClick }: ItemProps) {
+
+function Item({ item }: ItemProps) {
+  const dispatch = useAppDispatch()
   return (
     <div
-      onClick={() => onClick('' + i)}
+      onClick={() => dispatch(addToOrders(item))}
       className="mb-5 p-1 rounded-md cursor-pointer hover:bg-blue-400"
     >
       <div className="flex flex-col items-center">
-        <img className="h-10" src={i % 2 === 0 ? milk : orange} />
-        <p>{i % 2 === 0 ? 'Milk' : 'Lime'}</p>
+        <img className="h-10" src={`${baseImgUrl}${item.imageSrc}`} />
+        <p>{item.name}</p>
       </div>
     </div>
   )

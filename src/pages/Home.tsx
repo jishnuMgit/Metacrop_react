@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Input from '../components/Input'
 import ItemContainer from '../components/ItemContainer'
 import Logo from '../components/Logo'
@@ -7,24 +6,9 @@ import IconScan from '../components/icons/ScanIcon'
 import IconSearch from '../components/icons/SearchIcon'
 import CurrentOrder from '../components/products/CurrentOrder'
 import Products from '../components/products/Products'
+import { products } from '../db'
 
 function Home() {
-  const [currentOrder, setCurrentOrder] = useState([])
-  const products = [
-    '😀',
-    '🐦',
-    '🐧',
-    '🐥',
-    '🐜',
-    '🦆',
-    '🦐',
-    '🦑',
-    '🦑',
-    '🐚',
-    '🐦',
-    '🦉',
-    '🐚',
-  ]
   return (
     <>
       <Logo small />
@@ -46,11 +30,11 @@ function Home() {
               </div>
             </div>
             <div className="grid grid-flow-row grid-cols-5 gap-3  justify-items-center items-center">
-              <Products products={products} setCurrent={setCurrentOrder} />
+              <Products products={products} />
             </div>
           </>
         </ItemContainer>
-        <CurrentOrder orderList={currentOrder} />
+        <CurrentOrder />
       </div>
     </>
   )

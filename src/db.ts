@@ -1,0 +1,95 @@
+//mock data
+export type ProductType = {
+  id: number
+  name: string
+  imageSrc: string
+  price: number
+  qty: number
+}
+
+export const products = [
+  {
+    id: 1,
+    name: 'Milk',
+    imageSrc: 'milk.jpeg',
+    price: 2.5,
+    qty: 1,
+  },
+  {
+    id: 2,
+    name: 'Apple',
+    imageSrc: 'apple.jpg',
+    price: 1.0,
+    qty: 1,
+  },
+  {
+    id: 3,
+    name: 'Banana',
+    imageSrc: 'banana.jpg',
+    price: 0.5,
+    qty: 1,
+  },
+  {
+    id: 4,
+    name: 'Orange',
+    imageSrc: 'orange.jpg',
+    price: 0.75,
+    qty: 1,
+  },
+  {
+    id: 5,
+    name: 'Rice',
+    imageSrc: 'rice.jpg',
+    price: 3.0,
+    qty: 1,
+  },
+  {
+    id: 6,
+    name: 'Strawberry',
+    imageSrc: 'strawberry.jpg',
+    price: 2.0,
+    qty: 1,
+  },
+  {
+    id: 7,
+    name: 'Lettuce',
+    imageSrc: 'lettuce.jpg',
+    price: 1.5,
+    qty: 1,
+  },
+  {
+    id: 8,
+    name: 'Tomato',
+    imageSrc: 'tomato.jpg',
+    price: 1.25,
+    qty: 1,
+  },
+  {
+    id: 9,
+    name: 'Bread',
+    imageSrc: 'bread.jpg',
+    price: 2.75,
+    qty: 1,
+  },
+  {
+    id: 10,
+    name: 'Eggs',
+    imageSrc: 'eggs.jpg',
+    price: 2.0,
+    qty: 1,
+  },
+  {
+    id: 11,
+    name: 'Potato',
+    imageSrc: 'potato.jpg',
+    price: 1.2,
+    qty: 1,
+  },
+  {
+    id: 12,
+    name: 'Onion',
+    imageSrc: 'onion.jpg',
+    price: 0.8,
+    qty: 1,
+  },
+]

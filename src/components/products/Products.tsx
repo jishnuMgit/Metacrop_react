@@ -1,28 +1,15 @@
+import { ProductType } from '../../db'
 import Item from './Item'
 
 type ProductsProps = {
-  products: string[]
-  setCurrent: (items: any[]) => void
+  products: ProductType[]
 }
 
-function Products({ products, setCurrent }: ProductsProps) {
-  const handleCurrent = (a: string) => {
-    console.log(a)
-    setCurrent((prev: any[]) => {
-      if (prev.find((val) => val.id == a)) {
-        return prev
-      }
-      console.log(prev.find((val) => val.id != a))
-      return [
-        ...prev,
-        { id: a, count: 1, name: parseInt(a) % 2 === 0 ? 'Milk' : 'Lime' },
-      ]
-    })
-  }
+function Products({ products }: ProductsProps) {
   return (
     <>
-      {products.map((_val, i) => (
-        <Item i={i} key={i} onClick={handleCurrent} />
+      {products.map((val, i) => (
+        <Item item={val} key={i} />
       ))}
     </>
   )
