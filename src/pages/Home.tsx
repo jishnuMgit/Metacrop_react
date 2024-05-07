@@ -11,30 +11,32 @@ import { products } from '../db'
 function Home() {
   return (
     <>
-      <Logo small />
-      <div className="flex p-3">
-        <ItemContainer>
-          <>
-            <div className="flex items-center mb-3">
-              <div className="relative w-full">
-                <Input
-                  className="indent-5 mb-0"
-                  type="text"
-                  placeholder="QR/ Bar Code/ Pid /Product Name"
-                />
-                <IconSearch />
+      <div>
+        <Logo small />
+        <div className="flex p-3">
+          <ItemContainer>
+            <>
+              <div className="flex items-center mb-3">
+                <div className="relative w-full">
+                  <Input
+                    className="indent-5 mb-0 w-full"
+                    type="text"
+                    placeholder="QR/ Bar Code/ Pid /Product Name"
+                  />
+                  <IconSearch />
+                </div>
+                <div className="flex p-1">
+                  <IconScan />
+                  <IconMic />
+                </div>
               </div>
-              <div className="flex p-1">
-                <IconScan />
-                <IconMic />
+              <div className="grid grid-flow-row grid-cols-5 gap-3  justify-items-center items-center">
+                <Products products={products} />
               </div>
-            </div>
-            <div className="grid grid-flow-row grid-cols-5 gap-3  justify-items-center items-center">
-              <Products products={products} />
-            </div>
-          </>
-        </ItemContainer>
-        <CurrentOrder />
+            </>
+          </ItemContainer>
+          <CurrentOrder />
+        </div>
       </div>
     </>
   )

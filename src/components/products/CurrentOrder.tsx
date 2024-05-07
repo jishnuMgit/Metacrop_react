@@ -12,6 +12,7 @@ function CurrentOrder() {
     () => orders.reduce((prev, val) => prev + val.qty * val.price, 0),
     [orders]
   )
+
   const handleClear = () => {
     dispatch(clearOrder())
   }
