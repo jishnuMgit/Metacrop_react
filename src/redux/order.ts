@@ -12,8 +12,13 @@ const orderSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     addToOrders: (state, action) => {
-      if (state.orders.find((item) => item.id === action.payload.id)) {
-        return
+      const item = state.orders.find((item) => item.id === action.payload.id)
+      if (item) {
+        return state.orders.forEach((val) => {
+          if (item.id === val.id) {
+            val.qty++
+          }
+        })
       }
       state.orders.push(action.payload)
     },

@@ -1,5 +1,7 @@
 #root {
-  @apply bg-[#E9F1FA];
+  @apply bg-white;
+  /* @apply font-semibold */
+  color: #1e1b16;
 }
 input:focus-visible {
   outline-color: #00abe4;
@@ -8,12 +10,12 @@ input:focus-visible {
 ::-webkit-scrollbar {
   width: 6px;
 }
-::-webkit-scrollbar-track{
-    border: #00abe4;
-    box-shadow: inset 0 0 6px grey
+::-webkit-scrollbar-track {
+  border: #00abe4;
+  box-shadow: inset 0 0 6px #cec6b4;
 }
 ::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: #00ABE4;
-    box-shadow: inset 0 0 6px rgba(177, 17, 17, 0.3);
-  }
+  border-radius: 6px;
+  background-color: #b4b1ab;
+  box-shadow: inset 0 0 6px rgba(112, 118, 95, 0.3);
+}

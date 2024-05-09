@@ -24,16 +24,16 @@ function CurrentOrder() {
           <div>
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-2xl font-semibold">Current Order</h1>
-              <Button type="button" onClick={handleClear}>
+              <Button type="button" classType="secondary" onClick={handleClear}>
                 Clear All
               </Button>
             </div>
-            <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+            <hr className="h-[2px] my-8 bg-[#cec6b4] border-0 " />
             {orders.map((val) => (
               <OrderItem item={val} key={val.id} />
             ))}
             <div className="flex justify-end">
-              <h1>Total:{totalAmount}</h1>
+              <h1>Total:{totalAmount.toFixed(2)}</h1>
             </div>
           </div>
         </ItemContainer>
