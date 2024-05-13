@@ -1,6 +1,7 @@
 import Input from '../components/Input'
 import ItemContainer from '../components/ItemContainer'
 import Logo from '../components/Logo'
+import NavBar from '../components/navbar/NavBar'
 import IconMic from '../components/icons/MicICon'
 import IconScan from '../components/icons/ScanIcon'
 import IconSearch from '../components/icons/SearchIcon'
@@ -13,33 +14,32 @@ function Home() {
   const productsDoubled = products.concat(products)
   return (
     <>
-      <div>
-        <Logo small />
-        <div className="flex px-6">
-          <ItemContainer>
-            <>
-              <div className="flex items-center mb-6 sticky z-50 top-0">
-                <div className=" relative w-full">
-                  <Input
-                    className="indent-7 mb-0 w-full bg-inherit h-14 border border-black placeholder:text-black"
-                    type="text"
-                    placeholder="QR/ Bar Code/ Pid /Product Name"
-                  />
-                  <IconSearch />
-                </div>
-                <div className="flex p-1">
-                  <IconScan />
-                  <IconMic />
-                </div>
+      <div className="flex px-6">
+        <ItemContainer>
+          <>
+            <div className="flex items-center mb-6 sticky z-10 top-0 mt-5">
+              <div className=" relative w-full ">
+                <Input
+                  className="indent-7 mb-0 w-full  h-7  rounded-xl placeholder:text-black"
+                  type="text"
+                  placeholder="QR/ Bar Code/ Pid /Product Name"
+                />
+                <IconSearch />
               </div>
-              <div className="grid grid-flow-row grid-cols-5 justify-items-center items-center mx-3">
-                <Products products={productsDoubled} />
+              <div className="flex p-1">
+                <IconScan />
+                <IconMic />
               </div>
-            </>
-          </ItemContainer>
+            </div>
+            <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-2 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">
+              <Products products={productsDoubled} />
+            </div>
+          </>
+        </ItemContainer>
+        <div className="flex flex-col w-1/2 mx-3">
           <CurrentOrder />
+          <Invoice />
         </div>
-        <Invoice />
       </div>
     </>
   )

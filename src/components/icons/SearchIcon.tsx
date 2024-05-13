@@ -1,9 +1,9 @@
 function IconSearch(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <div className="absolute top-5 left-2">
+    <div className="absolute top-1 left-2">
       <svg
         viewBox="0 0 1024 1024"
-        fill="currentColor"
+        fill="#429CF0"
         height="1.3em"
         width="1.3em"
         {...props}

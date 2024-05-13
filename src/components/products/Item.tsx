@@ -16,7 +16,7 @@ function Item({ item }: ItemProps) {
     >
       <div className="flex flex-col items-center">
         <img
-          className="h-8 mb-3"
+          className="h-10 mb-3"
           src={`${baseImgUrl}${item.id % 5 == 0 ? 'milk.png' : 'groceries.png'}`}
         />
         <p className="text-[#28251f] text-sm">{item.name}</p>

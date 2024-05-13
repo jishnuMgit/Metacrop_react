@@ -13,19 +13,19 @@ function OrderItem({ item }: OrderItemProps) {
   const itemRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    itemRef.current?.scrollIntoView({
-      behavior: 'smooth',
-    })
+    // itemRef.current?.scrollIntoView({
+    //   behavior: 'smooth',
+    // })
   }, [item])
   const dispatch = useAppDispatch()
   return (
     <div ref={itemRef}>
       <div className="flex mb-4">
         <div className="flex w-1/2 items-center ">
-          <div className="flex w-1/2">
+          <div className="flex w-1/3">
             <img className="h-8" src={`${baseImgUrl}${'milk.png'}`} alt="l" />
           </div>
-          <p className="text-sm">{item.name}</p>
+          <p className="text-base font-bold">{item.name}</p>
         </div>
         <div className="flex items-center justify-center w-1/2">
           <div className="flex items-center justify-items-center">
@@ -44,7 +44,7 @@ function OrderItem({ item }: OrderItemProps) {
             />
           </div>
           <div className="flex justify-end w-full">
-            <p>{`$${(item.price * item.qty).toFixed(2)}`}</p>
+            <p className="font-semibold">{`$${(item.price * item.qty).toFixed(2)}`}</p>
           </div>
         </div>
       </div>

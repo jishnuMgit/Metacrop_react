@@ -8,7 +8,7 @@ type ItemContainerProps = {
 function ItemContainer({ children, className }: ItemContainerProps) {
   return (
     <div
-      className={`flex flex-col  bg-[#ece9df] m-3 border-2 rounded-lg shadow-xl shadow-slate-200 border-[#b4cee3] p-5 max-h-[30rem] overflow-y-auto  ${className ? className : 'w-1/2'}`}
+      className={`flex flex-col bg-white container-shadow m-3 rounded-[35px] p-5 px-7 h-min max-h-[30rem] ${className ? className : 'md:w-1/2'} sm:w-full`}
     >
       {children}
     </div>
