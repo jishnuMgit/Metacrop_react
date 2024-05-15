@@ -20,7 +20,7 @@ function Input({
       <input
         onChange={onChange}
         placeholder={placeholder}
-        className={`p-1 pl-2 border border-solid border-slate-200 rounded-md shadow-sm w-full ${className}`}
+        className={`p-1 pl-2 input-shadow ${className}`}
         type={type}
       />
     </>

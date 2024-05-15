@@ -3,15 +3,11 @@ import ItemContainer from '../ItemContainer'
 import OrderItem from './OrderItem'
 import { useAppDispatch, useAppSelector } from '../../config/hooks'
 import { clearOrder } from '../../redux/order'
-import { useMemo } from 'react'
 
 function CurrentOrder() {
   const dispatch = useAppDispatch()
   const orders = useAppSelector((state) => state.order.orders)
-  const totalAmount = useMemo(
-    () => orders.reduce((prev, val) => prev + val.qty * val.price, 0),
-    [orders]
-  )
+
   const handleClear = () => {
     dispatch(clearOrder())
   }
@@ -19,20 +15,19 @@ function CurrentOrder() {
   return (
     <>
       {orders.length !== 0 && (
-        <ItemContainer>
+        <ItemContainer className="w-full secondary-shadow">
           <div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center">
               <h1 className="text-2xl font-semibold">Current Order</h1>
-              <Button type="button" onClick={handleClear}>
+              <Button type="button" classType="secondary" onClick={handleClear}>
                 Clear All
               </Button>
             </div>
-            <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-            {orders.map((val) => (
-              <OrderItem item={val} key={val.id} />
-            ))}
-            <div className="flex justify-end">
-              <h1>Total:{totalAmount}</h1>
+            <hr className="h-[2px] my-3 bg-[#cec6b4] border-0 " />
+            <div className="overflow-y-auto max-h-36 pe-3">
+              {orders.map((val) => (
+                <OrderItem item={val} key={val.id} />
+              ))}
             </div>
           </div>
         </ItemContainer>

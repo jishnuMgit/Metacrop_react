@@ -12,11 +12,14 @@ function Item({ item }: ItemProps) {
   return (
     <div
       onClick={() => dispatch(addToOrders(item))}
-      className="mb-5 p-1 rounded-md cursor-pointer hover:bg-blue-400"
+      className=" p-1 rounded-md cursor-pointer hover:bg-blue-400"
     >
       <div className="flex flex-col items-center">
-        <img className="h-10" src={`${baseImgUrl}${item.imageSrc}`} />
-        <p>{item.name}</p>
+        <img
+          className="h-10 mb-3"
+          src={`${baseImgUrl}${item.id % 5 == 0 ? 'milk.png' : 'groceries.png'}`}
+        />
+        <p className="text-[#28251f] text-sm">{item.name}</p>
       </div>
     </div>
   )

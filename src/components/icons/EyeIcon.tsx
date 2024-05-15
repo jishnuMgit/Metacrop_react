@@ -5,7 +5,7 @@ function IconEye(props: PwdIconProps) {
     <div
       title="Show password"
       onClick={props.onclick}
-      className="absolute cursor-pointer right-2 top-[6.2rem]"
+      className="absolute cursor-pointer right-2 top-[5.5rem]"
     >
       <svg
         viewBox="0 0 1024 1024"
