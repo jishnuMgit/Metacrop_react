@@ -1,14 +1,14 @@
 import Input from '../components/Input'
 import ItemContainer from '../components/ItemContainer'
-import Logo from '../components/Logo'
-import NavBar from '../components/navbar/NavBar'
 import IconMic from '../components/icons/MicICon'
 import IconScan from '../components/icons/ScanIcon'
 import IconSearch from '../components/icons/SearchIcon'
 import CurrentOrder from '../components/products/CurrentOrder'
-import Invoice from '../components/products/Invoice'
+import Invoice from '../components/invoice/Invoice'
 import Products from '../components/products/Products'
 import { products } from '../db'
+import Center from '../components/Center'
+import Button from '../components/Button'
 
 function Home() {
   const productsDoubled = products.concat(products)
@@ -20,9 +20,9 @@ function Home() {
             <div className="flex items-center mb-6 sticky z-10 top-0 mt-5">
               <div className=" relative w-full ">
                 <Input
-                  className="indent-7 mb-0 w-full  h-7  rounded-xl placeholder:text-black"
+                  className="indent-7 mb-0 w-full h-8 rounded-xl placeholder:text-[#429CF0]"
                   type="text"
-                  placeholder="QR/ Bar Code/ Pid /Product Name"
+                  placeholder="Product Name"
                 />
                 <IconSearch />
               </div>
@@ -36,9 +36,10 @@ function Home() {
             </div>
           </>
         </ItemContainer>
-        <div className="flex flex-col w-1/2 mx-3">
+        <div className="flex flex-col w-1/2 mx-3 ">
           <CurrentOrder />
           <Invoice />
+          
         </div>
       </div>
     </>

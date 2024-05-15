@@ -1,6 +1,6 @@
-import { Navbar } from 'flowbite-react'
 import Logo from '../Logo'
 import Li from './Li'
+import GearIcon from '../icons/GearIcon'
 function NavBar() {
   return (
     <nav className="bg-[#F1F1F1] border-gray-200 sticky z-50 top-0">
@@ -52,6 +52,9 @@ function NavBar() {
             <Li>Finance</Li>
             <Li>Inventory</Li>
             <Li>Analytics</Li>
+            <Li>
+              <GearIcon />
+            </Li>
             {/* <li>
               <a
                 href="#"

@@ -15,16 +15,16 @@ function CurrentOrder() {
   return (
     <>
       {orders.length !== 0 && (
-        <ItemContainer className="w-full">
+        <ItemContainer className="w-full secondary-shadow">
           <div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center">
               <h1 className="text-2xl font-semibold">Current Order</h1>
               <Button type="button" classType="secondary" onClick={handleClear}>
                 Clear All
               </Button>
             </div>
-            <hr className="h-[2px] my-4 bg-[#cec6b4] border-0 " />
-            <div className="overflow-y-auto max-h-72 pe-3">
+            <hr className="h-[2px] my-3 bg-[#cec6b4] border-0 " />
+            <div className="overflow-y-auto max-h-36 pe-3">
               {orders.map((val) => (
                 <OrderItem item={val} key={val.id} />
               ))}

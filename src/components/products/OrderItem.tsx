@@ -13,9 +13,9 @@ function OrderItem({ item }: OrderItemProps) {
   const itemRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    // itemRef.current?.scrollIntoView({
-    //   behavior: 'smooth',
-    // })
+    itemRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    })
   }, [item])
   const dispatch = useAppDispatch()
   return (
