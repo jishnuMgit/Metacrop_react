@@ -29,7 +29,7 @@ function Home() {
                 <IconMic />
               </div>
             </div>
-            <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-2 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">
+            <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">
               <Products products={productsDoubled} />
             </div>
           </>
