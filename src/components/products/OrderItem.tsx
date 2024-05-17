@@ -25,7 +25,7 @@ function OrderItem({ item }: OrderItemProps) {
           <div className="flex w-1/3">
             <img className="h-8" src={`${baseImgUrl}${'milk.png'}`} alt="l" />
           </div>
-          <p className="text-base font-bold">{item.name}</p>
+          <p className="text-base md:font-bold font-semibold">{item.name}</p>
         </div>
         <div className="flex items-center justify-center w-1/2">
           <div className="flex items-center justify-items-center">

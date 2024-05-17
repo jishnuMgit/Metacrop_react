@@ -1,9 +1,6 @@
 #root {
-  @apply bg-[#F1F1F1];
-  /* @apply font-semibold */
   color: #1e1b16;
   font-family: 'Montserrat';
-  @apply h-screen;
 }
 input:focus-visible {
   outline-color: #00abe4;
