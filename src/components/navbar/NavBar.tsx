@@ -2,6 +2,7 @@ import Logo from '../Logo'
 import Li from './Li'
 import GearIcon from '../icons/GearIcon'
 import { useState } from 'react'
+
 function NavBar() {
   const [show, setShow] = useState(false)
   return (

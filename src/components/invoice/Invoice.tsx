@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import ItemContainer from '../ItemContainer'
 import InvoiceLi from './InvoiceLi'
-import { useAppSelector } from '../../config/hooks'
+import { useAppSelector } from '@/config/hooks'
 import Center from '../Center'
 import Button from '../Button'
 

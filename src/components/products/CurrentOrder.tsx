@@ -1,8 +1,8 @@
-import Button from '../Button'
-import ItemContainer from '../ItemContainer'
+import Button from '@/components/Button'
+import ItemContainer from '@/components/ItemContainer'
 import OrderItem from './OrderItem'
-import { useAppDispatch, useAppSelector } from '../../config/hooks'
-import { clearOrder } from '../../redux/order'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
+import { clearOrder } from '@/redux/order'
 
 function CurrentOrder() {
   const dispatch = useAppDispatch()

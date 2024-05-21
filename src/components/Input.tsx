@@ -1,4 +1,4 @@
-import { InputTypes } from '../utils/types'
+import { InputTypes } from '@/utils/types'
 
 type InputProps = {
   type: InputTypes

@@ -1,12 +1,12 @@
-import Input from '../components/Input'
-import ItemContainer from '../components/ItemContainer'
-import IconMic from '../components/icons/MicICon'
-import IconScan from '../components/icons/ScanIcon'
-import IconSearch from '../components/icons/SearchIcon'
-import CurrentOrder from '../components/products/CurrentOrder'
-import Invoice from '../components/invoice/Invoice'
-import Products from '../components/products/Products'
-import { products } from '../db'
+import Input from '@/components/Input'
+import ItemContainer from '@/components/ItemContainer'
+import IconMic from '@/components/icons/MicICon'
+import IconScan from '@/components/icons/ScanIcon'
+import IconSearch from '@/components/icons/SearchIcon'
+import CurrentOrder from '@/components/products/CurrentOrder'
+import Invoice from '@/components/invoice/Invoice'
+import Products from '@/components/products/Products'
+import { products } from '@/db'
 
 function Home() {
   const productsDoubled = products.concat(products)

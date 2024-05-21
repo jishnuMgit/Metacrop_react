@@ -1,6 +1,6 @@
 import React from 'react'
-import { ButtonTypes } from '../utils/types'
-import { btnStyles } from '../config/constants'
+import { ButtonTypes } from '@/utils/types'
+import { btnStyles } from '@/config/constants'
 
 type ButtonProps = {
   children: React.JSX.Element | string

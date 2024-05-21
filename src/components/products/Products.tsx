@@ -1,4 +1,4 @@
-import { ProductType } from '../../db'
+import { ProductType } from '@/db'
 import Item from './Item'
 
 type ProductsProps = {

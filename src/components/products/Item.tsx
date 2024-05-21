@@ -1,7 +1,7 @@
-import { baseImgUrl } from '../../config/constants'
-import { useAppDispatch } from '../../config/hooks'
-import { ProductType } from '../../db'
-import { addToOrders } from '../../redux/order'
+import { baseImgUrl } from '@/config/constants'
+import { useAppDispatch } from '@/config/hooks'
+import { ProductType } from '@/db'
+import { addToOrders } from '@/redux/order'
 
 type ItemProps = {
   item: ProductType

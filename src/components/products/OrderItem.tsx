@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
-import { baseImgUrl } from '../../config/constants'
-import { useAppDispatch } from '../../config/hooks'
-import { ProductType } from '../../db'
-import { decrement, increment } from '../../redux/order'
-import SmallBtn from '../SmallBtn'
+import { baseImgUrl } from '@/config/constants'
+import { useAppDispatch } from '@/config/hooks'
+import { ProductType } from '@/db'
+import { decrement, increment } from '@/redux/order'
+import SmallBtn from '@/components/SmallBtn'
 
 type OrderItemProps = {
   item: ProductType

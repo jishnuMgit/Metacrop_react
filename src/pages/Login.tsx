@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import Button from '../components/Button'
-import Center from '../components/Center'
-import Form from '../components/Form'
-import Input from '../components/Input'
-import Logo from '../components/Logo'
-import IconEye from '../components/icons/EyeIcon'
-import IconEyeInvisible from '../components/icons/EyeOff'
+import Button from '@/components/Button'
+import Center from '@/components/Center'
+import Form from '@/components/Form'
+import Input from '@/components/Input'
+import Logo from '@/components/Logo'
+import IconEye from '@/components/icons/EyeIcon'
+import IconEyeInvisible from '@/components/icons/EyeOff'
 
 function Login() {
   const [show, setShow] = useState(false)
