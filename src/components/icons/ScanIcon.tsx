@@ -1,6 +1,8 @@
-function IconScan(props: React.SVGProps<SVGSVGElement>) {
+import { IconProps } from '@/utils/types'
+
+function IconScan(props: IconProps) {
   return (
-    <div className="">
+    <div onClick={props.onclick}>
       <svg
         viewBox="0 0 24 24"
         fill="currentColor"

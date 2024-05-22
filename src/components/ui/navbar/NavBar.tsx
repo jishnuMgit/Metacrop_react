@@ -1,6 +1,6 @@
-import Logo from '../Logo'
+import { Logo } from '@/components/ui'
 import Li from './Li'
-import GearIcon from '../icons/GearIcon'
+import { GearIcon } from '@/components/icons'
 import { useState } from 'react'
 
 function NavBar() {

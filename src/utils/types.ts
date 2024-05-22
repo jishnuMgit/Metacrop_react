@@ -1,7 +1,7 @@
 export type InputTypes = 'text' | 'number' | 'password' | 'email'
 export type ButtonTypes = 'button' | 'submit'
 
-export type PwdIconProps = React.SVGProps<SVGSVGElement> & {
+export type IconProps = React.SVGProps<SVGSVGElement> & {
   onclick?: () => void
 }
 export type HandleQty = {

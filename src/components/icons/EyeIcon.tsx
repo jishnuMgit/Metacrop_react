@@ -1,6 +1,6 @@
-import { PwdIconProps } from '../../utils/types'
+import { IconProps } from '@/utils/types'
 
-function IconEye(props: PwdIconProps) {
+function IconEye(props: IconProps) {
   const { onclick, ...rest } = props
   return (
     <div

@@ -3,7 +3,7 @@ import { baseImgUrl } from '@/config/constants'
 import { useAppDispatch } from '@/config/hooks'
 import { ProductType } from '@/db'
 import { decrement, increment } from '@/redux/order'
-import SmallBtn from '@/components/SmallBtn'
+import SmallBtn from '@/components/ui/button/SmallBtn'
 
 type OrderItemProps = {
   item: ProductType

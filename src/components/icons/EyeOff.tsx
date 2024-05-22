@@ -1,6 +1,6 @@
-import { PwdIconProps } from '../../utils/types'
+import { IconProps } from '@/utils/types'
 
-function IconEyeInvisible(props: PwdIconProps) {
+function IconEyeInvisible(props: IconProps) {
   return (
     <div
       title="Hide password"

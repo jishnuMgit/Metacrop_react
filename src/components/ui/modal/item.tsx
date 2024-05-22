@@ -1,9 +1,9 @@
-import Button from './Button'
-import Input from './Input'
+import Button from '@/components/ui/button/Button'
+import Input from '@/components/ui/input/Input'
 
-function Modal() {
+function item() {
   return (
-    <div className="flex flex-col   absolute top-[10%] left-1/4 h-[80%] w-1/2 z-10 bg-white rounded-md shadow-2xl border ">
+    <div>
       <div className="flex flex-col items-center mb-4 ">
         <div className="">
           <img
@@ -33,4 +33,4 @@ function Modal() {
   )
 }
 
-export default Modal
+export default item

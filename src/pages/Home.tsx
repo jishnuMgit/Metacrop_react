@@ -1,24 +1,25 @@
-import Input from '@/components/Input'
-import ItemContainer from '@/components/ItemContainer'
-import IconMic from '@/components/icons/MicICon'
-import IconScan from '@/components/icons/ScanIcon'
-import IconSearch from '@/components/icons/SearchIcon'
-import CurrentOrder from '@/components/products/CurrentOrder'
-import Invoice from '@/components/invoice/Invoice'
-import Products from '@/components/products/Products'
+import Input from '@/components/ui/input/Input'
+import ItemContainer from '@/components/ui/ItemContainer'
+import { MicICon, ScanIcon, SearchIcon } from '@/components/icons'
+import { Products, CurrentOrder, Invoice } from '@/components'
 import { ProductType, products as productList } from '@/db'
 import { fuzzySearch } from '@/utils/helpers'
 import { ChangeEvent, useState } from 'react'
+import Cam from '@/components/ui/Cam'
 
 function Home() {
   const [products, setProducts] = useState<ProductType[]>(
     productList.concat(productList)
   )
+  const [scanner, setscanner] = useState(false)
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value !== '') {
       return setProducts(fuzzySearch(productList, e.target.value))
     }
     setProducts(productList.concat(productList))
+  }
+  const handleScanner = () => {
+    setscanner(!scanner)
   }
 
   return (
@@ -34,11 +35,12 @@ function Home() {
                   type="text"
                   placeholder="Product Name"
                 />
-                <IconSearch />
+                <SearchIcon />
               </div>
               <div className="flex p-1">
-                <IconScan />
-                <IconMic />
+                <ScanIcon onClick={handleScanner} />
+                {scanner && <Cam />}
+                <MicICon />
               </div>
             </div>
             <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">

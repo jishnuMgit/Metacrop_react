@@ -1,11 +1,6 @@
 import { useState } from 'react'
-import Button from '@/components/Button'
-import Center from '@/components/Center'
-import Form from '@/components/Form'
-import Input from '@/components/Input'
-import Logo from '@/components/Logo'
-import IconEye from '@/components/icons/EyeIcon'
-import IconEyeInvisible from '@/components/icons/EyeOff'
+import { Button, Center, Form, Input, Logo } from '@/components/ui'
+import { EyeIcon, EyeOff } from '@/components/icons'
 
 function Login() {
   const [show, setShow] = useState(false)
@@ -31,9 +26,9 @@ function Login() {
                 className="w-full border-slate-200"
               />
               {!show ? (
-                <IconEye onclick={togglePassword} />
+                <EyeIcon onclick={togglePassword} />
               ) : (
-                <IconEyeInvisible onclick={togglePassword} />
+                <EyeOff onclick={togglePassword} />
               )}
 
               <div className="flex justify-center ">

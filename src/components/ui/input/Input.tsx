@@ -1,5 +1,5 @@
-import { InputTypes } from '@/utils/types'
 import { ChangeEvent } from 'react'
+import { InputTypes } from '@/utils/types'
 
 type InputProps = {
   type: InputTypes
