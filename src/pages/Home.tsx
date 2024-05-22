@@ -6,10 +6,21 @@ import IconSearch from '@/components/icons/SearchIcon'
 import CurrentOrder from '@/components/products/CurrentOrder'
 import Invoice from '@/components/invoice/Invoice'
 import Products from '@/components/products/Products'
-import { products } from '@/db'
+import { ProductType, products as productList } from '@/db'
+import { fuzzySearch } from '@/utils/helpers'
+import { ChangeEvent, useState } from 'react'
 
 function Home() {
-  const productsDoubled = products.concat(products)
+  const [products, setProducts] = useState<ProductType[]>(
+    productList.concat(productList)
+  )
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value !== '') {
+      return setProducts(fuzzySearch(productList, e.target.value))
+    }
+    setProducts(productList.concat(productList))
+  }
+
   return (
     <>
       <div className="flex md:px-6 md:flex-row flex-col">
@@ -18,6 +29,7 @@ function Home() {
             <div className="flex items-center mb-6 sticky z-10 top-0 mt-5">
               <div className=" relative w-full ">
                 <Input
+                  onChange={handleChange}
                   className="indent-7 mb-0 w-full h-8 rounded-xl placeholder:text-[#429CF0]"
                   type="text"
                   placeholder="Product Name"
@@ -30,7 +42,7 @@ function Home() {
               </div>
             </div>
             <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">
-              <Products products={productsDoubled} />
+              <Products products={products} />
             </div>
           </>
         </ItemContainer>

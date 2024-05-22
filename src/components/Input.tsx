@@ -1,11 +1,12 @@
 import { InputTypes } from '@/utils/types'
+import { ChangeEvent } from 'react'
 
 type InputProps = {
   type: InputTypes
   label?: string
   className?: string
   placeholder?: string
-  onChange?: () => void
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 function Input({
   label,
