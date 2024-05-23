@@ -1,17 +1,18 @@
-import Input from '@/components/ui/input/Input'
-import ItemContainer from '@/components/ui/ItemContainer'
+import { Cam, Input, ItemContainer } from '@/components/ui'
 import { MicICon, ScanIcon, SearchIcon } from '@/components/icons'
 import { Products, CurrentOrder, Invoice } from '@/components'
 import { ProductType, products as productList } from '@/db'
 import { fuzzySearch } from '@/utils/helpers'
 import { ChangeEvent, useState } from 'react'
-import Cam from '@/components/ui/Cam'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
+import { showModal } from '@/redux/component'
 
 function Home() {
   const [products, setProducts] = useState<ProductType[]>(
     productList.concat(productList)
   )
-  const [scanner, setscanner] = useState(false)
+  const dispatch = useAppDispatch()
+  const scanner = useAppSelector((state) => state.uiState.modalState)
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value !== '') {
       return setProducts(fuzzySearch(productList, e.target.value))
@@ -19,7 +20,7 @@ function Home() {
     setProducts(productList.concat(productList))
   }
   const handleScanner = () => {
-    setscanner(!scanner)
+    dispatch(showModal())
   }
 
   return (
@@ -27,7 +28,7 @@ function Home() {
       <div className="flex md:px-6 md:flex-row flex-col">
         <ItemContainer>
           <>
-            <div className="flex items-center mb-6 sticky z-10 top-0 mt-5">
+            <div className="flex items-center mb-6 mt-5">
               <div className=" relative w-full ">
                 <Input
                   onChange={handleChange}

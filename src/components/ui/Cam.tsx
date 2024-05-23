@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Webcam from 'react-webcam'
-import { Button, Modal } from '@/components/ui'
+import { Center, Modal } from '@/components/ui'
+import { CircleIcon } from '../icons'
 
 function Cam() {
   const [imgSrc, setImgSrc] = useState<string | null>(null)
@@ -12,13 +13,26 @@ function Cam() {
       setImgSrc(imgsrc)
     }
   }, [webCamRef])
+  useEffect(() => {
+    console.log('cam activated')
+    return () => {
+      console.log('cam deleeted')
+    }
+  }, [])
 
   return (
     <>
       <Modal>
         <>
-          <Webcam audio={false} ref={webCamRef} screenshotFormat="image/jpeg" />
-          <Button onClick={capture}>{'Capture'}</Button>
+          <Webcam
+            audio={false}
+            ref={webCamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={{ facingMode: { exact: 'environment' } }}
+          />
+          <Center>
+            <CircleIcon onclick={capture} />
+          </Center>
           {imgSrc && <img className="absolute" src={imgSrc} alt="" />}
         </>
       </Modal>
