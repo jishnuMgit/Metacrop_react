@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react'
-import { baseImgUrl } from '@/config/constants'
 import { useAppDispatch } from '@/config/hooks'
 import { ProductType } from '@/db'
 import { decrement, increment } from '@/redux/order'
-import SmallBtn from '@/components/ui/button/SmallBtn'
-
+import { SmallBtn } from '@/components/ui'
+import milkImg from '@/assets/images/milk.png'
 type OrderItemProps = {
   item: ProductType
 }
@@ -23,7 +22,7 @@ function OrderItem({ item }: OrderItemProps) {
       <div className="flex mb-4">
         <div className="flex w-1/2 items-center ">
           <div className="flex w-1/3">
-            <img className="h-8" src={`${baseImgUrl}${'milk.png'}`} alt="l" />
+            <img className="h-8" src={`${milkImg}`} alt="l" />
           </div>
           <p className="text-base md:font-bold font-semibold">{item.name}</p>
         </div>

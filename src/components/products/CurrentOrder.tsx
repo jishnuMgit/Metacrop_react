@@ -1,5 +1,4 @@
-import Button from '@/components/ui/button/Button'
-import ItemContainer from '@/components/ui/ItemContainer'
+import { ItemContainer, Button } from '@/components/ui'
 import OrderItem from './OrderItem'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { clearOrder } from '@/redux/order'

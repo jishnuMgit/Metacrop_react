@@ -6,7 +6,7 @@ import { useState } from 'react'
 function NavBar() {
   const [show, setShow] = useState(false)
   return (
-    <nav className="bg-[#F1F1F1] border-gray-200 sticky z-[8] top-0">
+    <nav className="bg-[#F1F1F1] border-gray-200 sticky z-[8] top-0 shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
         <a
           href="https://flowbite.com/"

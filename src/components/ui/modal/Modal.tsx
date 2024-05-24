@@ -19,7 +19,7 @@ function Modal({ children, center = false }: ModalProps) {
     <>
       {modalState && (
         <div className="modal-overlay z-50">
-          <div className="flex flex-col absolute top-[20%] md:top-[10%] md:left-1/4 h-[50%] md:h-[80%] w-full md:w-1/2 z-[1001] bg-white rounded-md shadow-2xl border ">
+          <div className="flex flex-col  top-[20%] md:top-[10%] md:left-1/4 h-[50%] md:h-[80%] w-full md:w-1/2 z-[1001] bg-white rounded-md shadow-2xl border ">
             {center ? <Center children={children} /> : <>{children}</>}
           </div>
           <Close onclick={handleClick} />
