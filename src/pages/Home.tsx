@@ -3,25 +3,42 @@ import { MicICon, ScanIcon, SearchIcon } from '@/components/icons'
 import { Products, CurrentOrder, Invoice } from '@/components'
 import { ProductType, products as productList } from '@/db'
 import { fuzzySearch } from '@/utils/helpers'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
-import { showModal } from '@/redux/component'
+import { setQrData, showModal } from '@/redux/component'
 
 function Home() {
   const [products, setProducts] = useState<ProductType[]>(
     productList.concat(productList)
   )
+  const [searchInputVal, setSearchInputVal] = useState('')
   const dispatch = useAppDispatch()
-  const scanner = useAppSelector((state) => state.uiState.modalState)
+  const { modalState, qrData } = useAppSelector((state) => state.uiState)
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log('change')
+    setSearchInputVal(e.target.value)
     if (e.target.value !== '') {
       return setProducts(fuzzySearch(productList, e.target.value))
     }
     setProducts(productList.concat(productList))
   }
+
+  //when scanner icon click
   const handleScanner = () => {
     dispatch(showModal())
   }
+
+  useEffect(() => {
+    if (qrData !== '') {
+      setSearchInputVal(qrData)
+      setProducts(fuzzySearch(productList, qrData))
+    }
+    return () => {
+      //unmount home clear qrdata.
+      dispatch(setQrData(''))
+    }
+  }, [qrData])
 
   return (
     <>
@@ -34,13 +51,14 @@ function Home() {
                   onChange={handleChange}
                   className="indent-7 mb-0 w-full h-8 rounded-xl placeholder:text-[#429CF0]"
                   type="text"
+                  value={searchInputVal}
                   placeholder="Product Name"
                 />
                 <SearchIcon />
               </div>
               <div className="flex p-1">
                 <ScanIcon onClick={handleScanner} />
-                {scanner && <Cam />}
+                {modalState && <Cam />}
                 <MicICon />
               </div>
             </div>

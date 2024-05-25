@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ProductType } from '../db'
 
 type InitialState = { orders: ProductType[]; totalAmount: number }
@@ -11,7 +11,7 @@ const orderSlice = createSlice({
   name: 'order',
   initialState: INITIAL_STATE,
   reducers: {
-    addToOrders: (state, action) => {
+    addToOrders: (state, action: PayloadAction<ProductType>) => {
       const item = state.orders.find((item) => item.id === action.payload.id)
       if (item) {
         return state.orders.forEach((val) => {

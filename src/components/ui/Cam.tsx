@@ -2,14 +2,18 @@ import { useEffect } from 'react'
 import { Modal } from '@/components/ui'
 import { QrPlugin } from '@/components'
 import { QrcodeSuccessCallback } from 'html5-qrcode'
+import { useAppDispatch } from '@/config/hooks'
+import { hideModal, setQrData } from '@/redux/component'
 
 function Cam() {
+  const dispatch = useAppDispatch()
   const successCallback: QrcodeSuccessCallback = (
     decodedText,
     decodedResult
   ) => {
-    alert(decodedText)
-    alert(decodedResult)
+    dispatch(setQrData(decodedText))
+    dispatch(hideModal())
+    console.log(decodedResult)
   }
   useEffect(() => {
     console.log('cam activated')

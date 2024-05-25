@@ -3,6 +3,7 @@ import { InputTypes } from '@/utils/types'
 
 type InputProps = {
   type: InputTypes
+  value?: string
   label?: string
   className?: string
   placeholder?: string
@@ -11,6 +12,7 @@ type InputProps = {
 function Input({
   label,
   type,
+  value = '',
   placeholder,
   className = '',
   onChange,
@@ -22,6 +24,7 @@ function Input({
         onChange={onChange}
         placeholder={placeholder}
         className={`p-1 pl-2 input-shadow ${className}`}
+        value={value}
         type={type}
       />
     </>
