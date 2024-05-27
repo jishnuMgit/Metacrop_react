@@ -14,6 +14,7 @@ function OrderItem({ item }: OrderItemProps) {
   useEffect(() => {
     itemRef.current?.scrollIntoView({
       behavior: 'smooth',
+      block: 'nearest',
     })
   }, [item])
   const dispatch = useAppDispatch()
@@ -30,17 +31,19 @@ function OrderItem({ item }: OrderItemProps) {
           <div className="flex items-center justify-items-center">
             <SmallBtn
               className="bg-[#f3f4f5]"
-              children={<p className="text-[30px] leading-[32px]">-</p>}
               onClick={() => {
                 dispatch(decrement(item.id))
               }}
-            />
+            >
+              <p className="text-[30px] leading-[32px]">-</p>
+            </SmallBtn>
             <p className="mx-3 "> {item.qty}</p>
             <SmallBtn
               className="bg-[#f3f4f5]"
-              children={<span className="text-[30px] leading-[26px]  ">+</span>}
               onClick={() => dispatch(increment(item.id))}
-            />
+            >
+              <span className="text-[30px] leading-[26px]  ">+</span>
+            </SmallBtn>
           </div>
           <div className="flex justify-end w-full">
             <p className="font-semibold">{`$${(item.price * item.qty).toFixed(2)}`}</p>

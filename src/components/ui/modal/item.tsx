@@ -26,8 +26,8 @@ function item() {
         </div>
       </div>
       <div className="flex justify-evenly mt-4">
-        <Button children={'Close'} />
-        <Button children={'Add'} />
+        <Button>Close</Button>
+        <Button>Add</Button>
       </div>
     </div>
   )

@@ -15,7 +15,12 @@ module.exports = {
       version: 'detect',
     },
   },
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    'tailwind.config.js',
+    'postcss.config.js',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -33,4 +38,3 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
   },
 }
-

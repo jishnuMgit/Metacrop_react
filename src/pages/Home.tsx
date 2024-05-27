@@ -34,10 +34,12 @@ function Home() {
       setSearchInputVal(qrData)
       setProducts(fuzzySearch(productList, qrData))
     }
+
     return () => {
       //unmount home clear qrdata.
       dispatch(setQrData(''))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrData])
 
   return (
