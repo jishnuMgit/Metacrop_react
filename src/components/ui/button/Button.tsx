@@ -4,7 +4,7 @@ import { btnStyles } from '@/config/constants'
 
 type ButtonProps = {
   children: React.JSX.Element | string
-  onClick?: () => void
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   classType?: keyof typeof btnStyles
   className?: string
   type?: ButtonTypes

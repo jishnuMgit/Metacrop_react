@@ -1,11 +1,11 @@
 import { IconProps } from '@/utils/types'
 
-function IconEyeInvisible(props: IconProps) {
+function IconEyeInvisible({ onclick, ...props }: IconProps) {
   return (
     <div
       title="Hide password"
-      onClick={props.onclick}
-      className="absolute cursor-pointer right-2 top-[6.2rem]"
+      onClick={onclick}
+      className="absolute cursor-pointer right-2 top-[5.3rem]"
     >
       <svg
         viewBox="0 0 1024 1024"

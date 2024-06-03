@@ -1,5 +1,5 @@
 export { Button, SmallBtn } from './button'
-export { Input } from './input'
+export { Input, FormInput } from './input'
 export { Modal } from './modal'
 export { NavBar } from './navbar'
 export { default as Cam } from './Cam'

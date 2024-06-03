@@ -1,8 +1,19 @@
 import { QrcodeErrorCallback, QrcodeSuccessCallback } from 'html5-qrcode'
 import { Html5QrcodeScannerConfig } from 'html5-qrcode/esm/html5-qrcode-scanner'
+import { ChangeEvent } from 'react'
 
 export type InputTypes = 'text' | 'number' | 'password' | 'email'
 export type ButtonTypes = 'button' | 'submit'
+
+export type InputProps = {
+  type: InputTypes
+  name: string
+  value?: string
+  label?: string
+  className?: string
+  placeholder?: string
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+}
 
 export type IconProps = React.SVGProps<SVGSVGElement> & {
   onclick?: () => void

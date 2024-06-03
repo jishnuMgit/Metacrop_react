@@ -3,7 +3,7 @@
 import { IconProps } from '@/utils/types'
 import { useEffect, useState } from 'react'
 
-function IconClose(props: IconProps) {
+function IconClose({ onclick, ...props }: IconProps) {
   const [hide, setHide] = useState(true)
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -14,7 +14,6 @@ function IconClose(props: IconProps) {
     }
   }, [])
 
-  const { onclick, ...rest } = props
   return (
     <>
       {!hide && (
@@ -27,7 +26,7 @@ function IconClose(props: IconProps) {
             viewBox="0 0 24 24"
             height="2em"
             width="2em"
-            {...rest}
+            {...props}
           >
             <path
               fill="white"

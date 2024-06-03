@@ -1,8 +1,8 @@
 import { IconProps } from '@/utils/types'
 
-function IconScan(props: IconProps) {
+function IconScan({ onclick, ...props }: IconProps) {
   return (
-    <div onClick={props.onclick}>
+    <div onClick={onclick}>
       <svg
         viewBox="0 0 24 24"
         fill="currentColor"

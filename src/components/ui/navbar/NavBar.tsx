@@ -55,8 +55,8 @@ function NavBar() {
                 Home
               </a>
             </li> */}
-            <Li>Home</Li>
-            <Li active>Sales</Li>
+            <Li link="/">Home</Li>
+            <Li link="/sales">Sales</Li>
             <Li>Procuremnt</Li>
             <Li>Finance</Li>
             <Li>Inventory</Li>
