@@ -1,4 +1,5 @@
 import { paths } from '@/config/constants'
+import { clsx } from 'clsx'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -21,7 +22,11 @@ function Li({ children, active = false, link = '#link' }: LiProps) {
     <>
       <Link
         to={link}
-        className={`block py-2 px-3  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ${!active ? 'text-lg text-[#747474]' : 'text-black text text-xl'} `}
+        className={clsx(
+          `block py-2 px-3  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`,
+          !active && 'text-lg text-[#747474]',
+          active && 'text-black text text-xl'
+        )}
       >
         {children}
       </Link>

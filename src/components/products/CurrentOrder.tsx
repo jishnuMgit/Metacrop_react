@@ -25,7 +25,7 @@ function CurrentOrder() {
             <hr className="h-[2px] my-3 bg-[#cec6b4] border-0 " />
             <div className="overflow-y-auto max-h-36 pe-3">
               {orders.map((val) => (
-                <OrderItem item={val} key={val.id} />
+                <OrderItem item={val} key={val.PKItemID} />
               ))}
             </div>
           </div>

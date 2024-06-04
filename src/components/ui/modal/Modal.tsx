@@ -1,7 +1,8 @@
 import { Close } from '@/components/icons'
 import { Center } from '@/components/ui'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
-import { hideModal } from '@/redux/component'
+import { hideModal, showModal } from '@/redux/component'
+import { useEffect } from 'react'
 
 type ModalProps = {
   children: React.JSX.Element
@@ -14,6 +15,9 @@ function Modal({ children, center = false }: ModalProps) {
   const handleClick = () => {
     dispatch(hideModal())
   }
+  useEffect(() => {
+    dispatch(showModal())
+  }, [])
 
   return (
     <>

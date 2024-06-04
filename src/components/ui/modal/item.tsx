@@ -1,5 +1,5 @@
-import Button from '@/components/ui/button/Button'
-import Input from '@/components/ui/input/FormInput'
+import { Button } from '@/components/ui'
+import { Input } from '@/components/ui/'
 
 function item() {
   return (

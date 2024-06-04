@@ -61,7 +61,7 @@ function NavBar() {
             <Li>Finance</Li>
             <Li>Inventory</Li>
             <Li>Analytics</Li>
-            <Li>
+            <Li link="/settings">
               <GearIcon />
             </Li>
             {/* <li>

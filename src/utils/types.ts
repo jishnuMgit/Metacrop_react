@@ -7,7 +7,7 @@ export type ButtonTypes = 'button' | 'submit'
 
 export type InputProps = {
   type: InputTypes
-  name: string
+  name?: string
   value?: string
   label?: string
   className?: string

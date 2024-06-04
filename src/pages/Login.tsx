@@ -1,25 +1,38 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Center, Form, FormInput, Logo } from '@/components/ui'
 import { EyeIcon, EyeOff } from '@/components/icons'
 import { Formik } from 'formik'
-import { loginSchema } from '@/schema'
+import { LoginSchema } from '@/schema'
 import { initialFormValues } from '@/config/constants'
+import { setCookie } from '@/utils/helpers'
+import { useNavigate } from 'react-router-dom'
+import { useFormApi } from 'useipa'
 
 function Login() {
   const [show, setShow] = useState(false)
+  const navigate = useNavigate()
+  const { success, submitForm } = useFormApi()
   const togglePassword = () => {
     setShow(!show)
   }
+  if (success) {
+    setCookie('logged_in', 'true')
+  }
+  useEffect(() => {
+    navigate('/')
+  }, [success])
 
   return (
     <div className="w-full">
       <Formik
         initialValues={initialFormValues.login}
-        validationSchema={loginSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        validationSchema={LoginSchema}
+        onSubmit={(values, { setSubmitting }) => {
           console.log(values)
           setSubmitting(false)
-          resetForm()
+          submitForm('/auth/login', values)
+
+          // resetForm()
         }}
       >
         {(formik) => (

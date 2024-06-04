@@ -7,6 +7,8 @@ const qrId = 'qr-reader'
 
 function QrPlugin(props: QrPluginProps) {
   useEffect(() => {
+    console.log('scann')
+
     const config = createQrConfig(props)
     const scanner = new Html5QrcodeScanner(qrId, config, false)
     scanner.render(props.onSuccess, props.onFailure)

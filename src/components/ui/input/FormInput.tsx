@@ -1,7 +1,9 @@
 import { InputProps } from '@/utils/types'
 import { useField } from 'formik'
 
-type FInputProps = Omit<InputProps, 'onChange'>
+type FInputProps = Omit<InputProps, 'onChange' | 'name'> & {
+  name: string
+}
 function FormInput({ label, className = '', ...props }: FInputProps) {
   const [field, meta] = useField(props)
   return (

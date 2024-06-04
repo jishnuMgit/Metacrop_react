@@ -1,4 +1,5 @@
 export const baseImgUrl = 'src/assets/images/'
+export const COOKIE_TTL = 24 * 60 * 60
 
 export const btnStyles = {
   primary: `bg-blue-400 hover:bg-blue-600  text-white  rounded-md`,
@@ -15,5 +16,6 @@ export const initialFormValues = {
 export const paths = {
   home: '/',
   sales: '/sales',
+  settings: '/settings',
   test: '#link',
 } as const

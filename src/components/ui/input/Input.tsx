@@ -3,7 +3,8 @@ import { InputProps } from '@/utils/types'
 function Input({
   label,
   type,
-  value = '',
+  name,
+  value,
   placeholder,
   className = '',
   onChange,
@@ -17,6 +18,7 @@ function Input({
         className={`p-1 pl-2 input-shadow ${className}`}
         value={value}
         type={type}
+        name={name}
       />
     </>
   )
