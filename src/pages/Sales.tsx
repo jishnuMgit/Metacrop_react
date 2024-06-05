@@ -2,7 +2,6 @@ import { Cam, ErrorText, Input, ItemContainer, Modal } from '@/components/ui'
 import { MicICon, ScanIcon, SearchIcon } from '@/components/icons'
 import { Products, CurrentOrder, Invoice } from '@/components'
 import { ProductType } from '@/db'
-// import { fuzzySearch } from '@/utils/helpers'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
@@ -12,9 +11,6 @@ import { fuzzySearch } from '@/utils/helpers'
 function Sales() {
   const [products, setProducts] = useState<ProductType[]>()
   const productRef = useRef<ProductType[]>()
-  // <ProductType[]>(
-  //   productList.concat(productList)
-  // )
   const [searchInputVal, setSearchInputVal] = useState('')
   const [cam, setCam] = useState<boolean>(false)
   const dispatch = useAppDispatch()
@@ -34,6 +30,7 @@ function Sales() {
     }
     setProducts(productRef.current)
   }
+
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const isString = isNaN(Number(searchInputVal))
@@ -45,6 +42,7 @@ function Sales() {
   const handleClose = () => {
     setCam(false)
   }
+
   useEffect(() => {
     if (data) {
       if (!Array.isArray(data.data)) {
@@ -69,7 +67,6 @@ function Sales() {
       setSearchInputVal(qrData)
       setProducts(fuzzySearch(products!, qrData))
     }
-
     return () => {
       //unmount home clear qrdata.
       dispatch(setQrData(''))
@@ -78,14 +75,12 @@ function Sales() {
   }, [qrData])
 
   useEffect(() => {
-    console.log('defwerwerf')
-
     fetchData('/products')
   }, [])
 
   return (
     <>
-      <div className="flex md:px-6 md:flex-row flex-col">
+      <div className="flex md:px-6 md:flex-row flex-col transition-all">
         <ItemContainer>
           <>
             <div className="flex items-center mb-6 mt-5">
