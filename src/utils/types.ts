@@ -13,6 +13,7 @@ export type InputProps = {
   className?: string
   placeholder?: string
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 export type IconProps = React.SVGProps<SVGSVGElement> & {

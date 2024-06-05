@@ -1,15 +1,17 @@
-import { Cam, Input, ItemContainer } from '@/components/ui'
+import { Cam, ErrorText, Input, ItemContainer, Modal } from '@/components/ui'
 import { MicICon, ScanIcon, SearchIcon } from '@/components/icons'
 import { Products, CurrentOrder, Invoice } from '@/components'
 import { ProductType } from '@/db'
 // import { fuzzySearch } from '@/utils/helpers'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
 import { useApi } from 'useipa'
+import { fuzzySearch } from '@/utils/helpers'
 
 function Sales() {
   const [products, setProducts] = useState<ProductType[]>()
+  const productRef = useRef<ProductType[]>()
   // <ProductType[]>(
   //   productList.concat(productList)
   // )
@@ -17,20 +19,41 @@ function Sales() {
   const [cam, setCam] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const { qrData } = useAppSelector((state) => state.uiState)
-  const { data, fetchData } = useApi<{ data: ProductType[] }>()
+  const { data, fetchData, error, clearState } = useApi<{
+    data: ProductType[]
+  }>()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (error) {
+      clearState()
+    }
     console.log('change')
     setSearchInputVal(e.target.value)
     if (e.target.value !== '') {
-      // return setProducts(fuzzySearch(productList, e.target.value))
+      return setProducts(fuzzySearch(productRef.current!, e.target.value))
     }
-    // setProducts(productList.concat(productList))
+    setProducts(productRef.current)
+  }
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const isString = isNaN(Number(searchInputVal))
+      console.log(isString)
+
+      fetchData(`/products/?${isString ? 'q' : 'id'}=${searchInputVal}`)
+    }
+  }
+  const handleClose = () => {
+    setCam(false)
   }
   useEffect(() => {
     if (data) {
+      if (!Array.isArray(data.data)) {
+        data.data = [data.data]
+      }
       console.log(data.data)
-
+      if (!productRef.current) {
+        productRef.current = data.data
+      }
       setProducts(data.data)
     }
   }, [data])
@@ -44,7 +67,7 @@ function Sales() {
   useEffect(() => {
     if (qrData !== '') {
       setSearchInputVal(qrData)
-      // setProducts(fuzzySearch(productList, qrData))
+      setProducts(fuzzySearch(products!, qrData))
     }
 
     return () => {
@@ -70,6 +93,7 @@ function Sales() {
                 <Input
                   name="search"
                   onChange={handleChange}
+                  onKeyUp={handleEnter}
                   className="indent-7 mb-0 w-full h-8 rounded-xl placeholder:text-[#429CF0]"
                   type="text"
                   value={searchInputVal}
@@ -79,10 +103,15 @@ function Sales() {
               </div>
               <div className="flex p-1">
                 <ScanIcon onClick={handleScanner} />
-                {cam && <Cam />}
+
+                <Modal isOpen={cam} handleClose={handleClose}>
+                  <Cam />
+                </Modal>
+
                 <MicICon />
               </div>
             </div>
+            {error && <ErrorText message={error.message} />}
             <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">
               <Products products={products!} />
             </div>

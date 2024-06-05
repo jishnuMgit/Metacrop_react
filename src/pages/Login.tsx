@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Button, Center, Form, FormInput, Logo } from '@/components/ui'
+import {
+  Button,
+  Center,
+  ErrorText,
+  Form,
+  FormInput,
+  Logo,
+} from '@/components/ui'
 import { EyeIcon, EyeOff } from '@/components/icons'
 import { Formik } from 'formik'
 import { LoginSchema } from '@/schema'
@@ -11,7 +18,7 @@ import { useFormApi } from 'useipa'
 function Login() {
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
-  const { success, submitForm } = useFormApi()
+  const { success, submitForm, error } = useFormApi()
   const togglePassword = () => {
     setShow(!show)
   }
@@ -60,6 +67,7 @@ function Login() {
                     <EyeOff onclick={togglePassword} />
                   )}
 
+                  {error && <ErrorText message={error.message} />}
                   <div className="flex justify-center ">
                     <Button type="submit" className="mt-3 w-5/12">
                       Login

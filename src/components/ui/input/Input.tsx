@@ -8,12 +8,14 @@ function Input({
   placeholder,
   className = '',
   onChange,
+  onKeyUp,
 }: InputProps) {
   return (
     <>
       <label>{label}</label>
       <input
         onChange={onChange}
+        onKeyUp={onKeyUp}
         placeholder={placeholder}
         className={`p-1 pl-2 input-shadow ${className}`}
         value={value}

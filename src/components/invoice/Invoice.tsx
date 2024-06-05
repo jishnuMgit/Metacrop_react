@@ -1,12 +1,11 @@
-import { useMemo } from 'react'
-import ItemContainer from '../ui/ItemContainer'
+import { useEffect, useMemo, useState } from 'react'
 import InvoiceLi from './InvoiceLi'
-import { useAppSelector } from '@/config/hooks'
-import { Center } from '../ui/'
-import { Button } from '../ui/'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { BillGenerate } from '@/schema'
 import { useApi } from 'useipa'
-import SalesData from './SalesData'
+import { Success, ItemContainer, Center, Button } from '../ui'
+import { Modal } from '@/components/ui'
+import { clearOrder } from '@/redux/order'
 
 function Invoice() {
   const orders = useAppSelector((state) => state.order.orders)
@@ -14,21 +13,50 @@ function Invoice() {
     () => orders.reduce((prev, val) => prev + val.qty * val.Price, 0),
     [orders]
   )
-  const { mutate, success } = useApi()
-  const handleClick = async (): Promise<void> => {
-    const items = await BillGenerate.validate(orders, { stripUnknown: true })
-    mutate('/sales/create', { items, totalAmount })
-  }
-
-  if (success) {
-    return <SalesData></SalesData>
-  }
+  const [isOpen, setisOpen] = useState(false)
+  const { mutate, success, error, clearState } = useApi()
+  const dispatch = useAppDispatch()
   const tax = 5
   const taxAmount = (tax / 100) * totalAmount
   const discount = 0.5
   const grandTotal = totalAmount + taxAmount - discount
+  const handleClick = async (): Promise<void> => {
+    const items = await BillGenerate.validate(orders, { stripUnknown: true })
+    mutate('/sales/create', { items, totalAmount })
+  }
+  const handleClickWrapper = () => {
+    handleClick().catch(
+      () =>
+        new Response('Validation Error', {
+          status: 400,
+          statusText: 'VAlidation Error',
+        })
+    )
+  }
+  if (error) {
+    console.log(error)
+
+    throw new Response(error.message, {
+      status: error?.status,
+      statusText: error.message,
+    })
+  }
+  const handleClose = () => {
+    setisOpen(false)
+    clearState()
+    dispatch(clearOrder())
+  }
+  useEffect(() => {
+    if (success) {
+      setisOpen(true)
+    }
+  }, [success])
+
   return (
     <>
+      <Modal handleClose={handleClose} center isOpen={isOpen}>
+        <Success />
+      </Modal>
       {orders.length !== 0 && (
         <>
           <ItemContainer className="w-full">
@@ -49,7 +77,7 @@ function Invoice() {
           </ItemContainer>
           <Center>
             <Button
-              onClick={handleClick}
+              onClick={handleClickWrapper}
               className="ms-3"
               classType="secondary"
             >

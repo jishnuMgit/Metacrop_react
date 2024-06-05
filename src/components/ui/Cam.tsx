@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { Modal } from '@/components/ui'
 import { QrPlugin } from '@/components'
 import { QrcodeSuccessCallback } from 'html5-qrcode'
 import { useAppDispatch } from '@/config/hooks'
@@ -24,11 +23,7 @@ function Cam() {
 
   return (
     <>
-      <Modal>
-        <>
-          <QrPlugin fps={60} qrbox={250} onSuccess={successCallback} />
-        </>
-      </Modal>
+      <QrPlugin fps={60} qrbox={250} onSuccess={successCallback} />
     </>
   )
 }
