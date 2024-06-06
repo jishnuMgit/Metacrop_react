@@ -1,3 +1,3 @@
-const env = import.meta.env
+const Env = import.meta.env
 
-export default env
+export default Env

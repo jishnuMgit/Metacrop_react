@@ -14,6 +14,7 @@ function App() {
   const client: CreateAxiosDefaults = {
     baseURL: Env.VITE_BASE_URL,
   }
+
   return (
     <Provider store={store}>
       <ApiClientProvider client={client}>

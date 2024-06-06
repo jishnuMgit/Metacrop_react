@@ -1,4 +1,11 @@
-import { Cam, ErrorText, Input, ItemContainer, Modal } from '@/components/ui'
+import {
+  Cam,
+  ErrorText,
+  Input,
+  ItemContainer,
+  Modal,
+  Spinner,
+} from '@/components/ui'
 import { MicICon, ScanIcon, SearchIcon } from '@/components/icons'
 import { Products, CurrentOrder, Invoice } from '@/components'
 import { ProductType } from '@/db'
@@ -15,7 +22,7 @@ function Sales() {
   const [cam, setCam] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const { qrData } = useAppSelector((state) => state.uiState)
-  const { data, fetchData, error, clearState } = useApi<{
+  const { data, error, fetching, clearState, fetchData } = useApi<{
     data: ProductType[]
   }>()
 
@@ -30,9 +37,9 @@ function Sales() {
     }
     setProducts(productRef.current)
   }
-
+  // when Enter key press in search input.
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && searchInputVal !== '') {
       const isString = isNaN(Number(searchInputVal))
       console.log(isString)
 
@@ -106,6 +113,7 @@ function Sales() {
                 <MicICon />
               </div>
             </div>
+            {fetching && <Spinner />}
             {error && <ErrorText message={error.message} />}
             <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">
               <Products products={products!} />

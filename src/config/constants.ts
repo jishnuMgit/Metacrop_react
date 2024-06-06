@@ -1,5 +1,6 @@
 export const baseImgUrl = 'src/assets/images/'
-export const COOKIE_TTL = 24 * 60 * 60
+// COOKIE_TTL value is days
+export const COOKIE_TTL = 1
 
 export const btnStyles = {
   primary: `bg-blue-400 hover:bg-blue-600  text-white  rounded-md`,
