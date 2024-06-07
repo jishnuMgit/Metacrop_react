@@ -53,13 +53,13 @@ function Login() {
                     type="email"
                     label="Email"
                     name="email"
-                    className="w-full border-slate-200"
+                    className="w-full border-slate-200 "
                   />
                   <FormInput
                     type={`${show ? 'text' : 'password'}`}
                     label="Password"
                     name="password"
-                    className="w-full border-slate-200"
+                    className="w-full border-slate-200 "
                   />
                   {!show ? (
                     <EyeIcon onclick={togglePassword} />

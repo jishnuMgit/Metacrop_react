@@ -17,7 +17,7 @@ function Input({
         onChange={onChange}
         onKeyUp={onKeyUp}
         placeholder={placeholder}
-        className={`p-1 pl-2 input-shadow ${className}`}
+        className={`p-1 pl-2 ${className}`}
         value={value}
         type={type}
         name={name}

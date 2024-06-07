@@ -13,6 +13,7 @@ import Env from './config/env'
 function App() {
   const client: CreateAxiosDefaults = {
     baseURL: Env.VITE_BASE_URL,
+    withCredentials: true,
   }
 
   return (

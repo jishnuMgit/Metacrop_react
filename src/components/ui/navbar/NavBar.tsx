@@ -2,18 +2,17 @@ import { Logo } from '@/components/ui'
 import Li from './Li'
 import { GearIcon } from '@/components/icons'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function NavBar() {
   const [show, setShow] = useState(false)
   return (
-    <nav className="bg-[#F1F1F1] border-gray-200 sticky z-[8] top-0 shadow">
+    <nav className="bg-white border-gray-200 sticky z-[8] top-0 shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
-        <a
-          href="https://flowbite.com/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
+        <Link to={'/'}>
           <Logo small />
-        </a>
+        </Link>
+
         <button
           data-collapse-toggle="navbar-default"
           type="button"

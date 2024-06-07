@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
 import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
+import { Button } from 'flowbite-react'
 
 function Sales() {
   const [products, setProducts] = useState<ProductType[]>()
@@ -87,16 +88,23 @@ function Sales() {
 
   return (
     <>
-      <div className="flex md:px-6 md:flex-row flex-col transition-all">
+      <div className="flex md:px-1 md:flex-row flex-col transition-all">
         <ItemContainer>
           <>
+            <div className="flex w-full justify-between ">
+              <Button className="w-32 p-1 rounded-sm hover:bg-red-400">
+                Category
+              </Button>
+              <Button className="w-32 p-1 rounded-sm">Recent</Button>
+              <Button className="w-32 p-1 rounded-sm">Most</Button>
+            </div>
             <div className="flex items-center mb-6 mt-5">
               <div className=" relative w-full ">
                 <Input
                   name="search"
                   onChange={handleChange}
                   onKeyUp={handleEnter}
-                  className="indent-7 mb-0 w-full h-8 rounded-xl placeholder:text-[#429CF0]"
+                  className="indent-7 mb-0 w-full h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0]"
                   type="text"
                   value={searchInputVal}
                   placeholder="Product Name"
@@ -115,7 +123,7 @@ function Sales() {
             </div>
             {fetching && <Spinner />}
             {error && <ErrorText message={error.message} />}
-            <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center mx-3 overflow-y-auto max-h-[22.5rem] pe-3 gap-y-2">
+            <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center overflow-y-auto max-h-[22.5rem] pe-3 ">
               <Products products={products!} />
             </div>
           </>

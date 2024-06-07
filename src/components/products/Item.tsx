@@ -12,7 +12,7 @@ function Item({ item }: ItemProps) {
   return (
     <div
       onClick={() => dispatch(addToOrders(item))}
-      className=" p-1 rounded-md cursor-pointer hover:bg-blue-400"
+      className=" p-1 cursor-pointer hover:bg-blue-400 w-full h-full border border-sm py-3"
     >
       <div className="flex flex-col items-center">
         <img
@@ -20,6 +20,7 @@ function Item({ item }: ItemProps) {
           src={`${baseImgUrl}${item.PKItemID % 5 == 0 ? 'milk.png' : 'groceries.png'}`}
         />
         <p className="text-[#28251f] text-sm">{item.ItemName}</p>
+        <span className="font-semibold">{item.HSNCode}</span>
       </div>
     </div>
   )
