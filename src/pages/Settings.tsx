@@ -1,26 +1,44 @@
-import { Modal, Button } from '@/components/ui'
+import { Hr } from '@/components/ui'
+import Sidebar from '@/components/ui/Sidebar'
 import { removeCookie } from '@/utils/helpers'
-import { useState } from 'react'
+import { Button } from 'flowbite-react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useApi } from 'useipa'
 
-function Settings() {
-  const [isOpen, setOpen] = useState(true)
+function Settings({
+  isOpen,
+  handleClose,
+}: {
+  isOpen: boolean
+  handleClose: () => void
+}) {
   const navigate = useNavigate()
+  const { success, mutate } = useApi()
+
   const handleLogout = () => {
-    removeCookie('logged_in')
-    return navigate('/')
+    mutate('/auth/logout')
   }
-  const handleClose = () => {
-    setOpen(false)
-    return navigate('/sales')
-  }
+  useEffect(() => {
+    if (success) {
+      removeCookie('logged_in')
+      return navigate('/')
+    }
+  }, [success])
+
   if (!isOpen) {
     return null
   }
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} center>
-      <Button onClick={handleLogout}>Logout</Button>
-    </Modal>
+    <Sidebar side="right" handleClose={handleClose}>
+      <>
+        <div className="flex h-14"></div>
+        <div className="absolute bottom-0 w-full">
+          <Hr />
+          <Button onClick={handleLogout}>Logout</Button>
+        </div>
+      </>
+    </Sidebar>
   )
 }
 

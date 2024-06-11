@@ -14,7 +14,7 @@ function Invoice() {
     [orders]
   )
   const [isOpen, setisOpen] = useState(false)
-  const { mutate, success, error, clearState } = useApi()
+  const { mutate, success, error, fetching, clearState } = useApi()
   const dispatch = useAppDispatch()
   const tax = 5
   const taxAmount = (tax / 100) * totalAmount
@@ -80,6 +80,7 @@ function Invoice() {
               onClick={handleClickWrapper}
               className="ms-3"
               classType="secondary"
+              fetching={fetching}
             >
               Generate Bill
             </Button>

@@ -1,7 +1,17 @@
-function Loader() {
+import clsx from 'clsx'
+
+type SpinnerProps = {
+  small?: boolean
+}
+function Spinner({ small }: SpinnerProps) {
   return (
     <>
-      <div className="h-32 flex justify-center items-center bg-opacity-35 ">
+      <div
+        className={clsx(
+          { 'h-32 ': !small },
+          'flex justify-center items-center bg-opacity-35 '
+        )}
+      >
         <div role="status">
           <svg
             aria-hidden="true"
@@ -25,4 +35,4 @@ function Loader() {
   )
 }
 
-export default Loader
+export default Spinner

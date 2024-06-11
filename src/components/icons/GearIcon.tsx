@@ -1,6 +1,6 @@
-function GearIcon() {
+function GearIcon({ onClick }: { onClick?: () => void }) {
   return (
-    <div>
+    <div onClick={onClick}>
       <svg
         width="27"
         height="29"

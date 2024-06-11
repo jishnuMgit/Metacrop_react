@@ -18,7 +18,7 @@ import { useFormApi } from 'useipa'
 function Login() {
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
-  const { success, submitForm, error } = useFormApi()
+  const { success, submitForm, error, fetching } = useFormApi()
   const togglePassword = () => {
     setShow(!show)
   }
@@ -69,7 +69,11 @@ function Login() {
 
                   {error && <ErrorText message={error.message} />}
                   <div className="flex justify-center ">
-                    <Button type="submit" className="mt-3 w-5/12">
+                    <Button
+                      fetching={fetching}
+                      type="submit"
+                      className="mt-3 w-5/12"
+                    >
                       Login
                     </Button>
                   </div>
