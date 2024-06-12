@@ -10,8 +10,8 @@ function Settings({
   isOpen,
   handleClose,
 }: {
-  isOpen: boolean
-  handleClose: () => void
+  isOpen?: boolean
+  handleClose?: () => void
 }) {
   const navigate = useNavigate()
   const { success, mutate } = useApi()

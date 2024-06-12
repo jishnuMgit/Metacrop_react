@@ -9,6 +9,7 @@ import '@fontsource/montserrat/500.css'
 import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
 import Env from './config/env'
+import { ThemeProvider } from '@material-tailwind/react'
 
 function App() {
   const client: CreateAxiosDefaults = {
@@ -19,7 +20,9 @@ function App() {
   return (
     <Provider store={store}>
       <ApiClientProvider client={client}>
-        <RouterProvider router={router} />
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </ApiClientProvider>
     </Provider>
   )

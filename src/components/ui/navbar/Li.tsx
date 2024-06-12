@@ -8,8 +8,17 @@ type LiProps = {
   link?: (typeof paths)[keyof typeof paths]
   active?: boolean
   className?: string
+  path?: string
+  dropdown?: boolean
 }
-function Li({ children, active = false, link, className }: LiProps) {
+function Li({
+  children,
+  active = false,
+  link,
+  className,
+  path,
+  dropdown,
+}: LiProps) {
   const location = useLocation().pathname
 
   if (location === '/') {
@@ -17,16 +26,16 @@ function Li({ children, active = false, link, className }: LiProps) {
   } else {
     active =
       location.split('/')[1] ===
-      (typeof children === 'string' && children.toLowerCase())
+      ((typeof children === 'string' && children.toLowerCase()) || path)
   }
   const liClass = clsx(
     !className &&
       `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`,
     !active && 'text-lg text-[#747474]',
     active && 'text-black text text-xl',
-    !!className && className
+    !!className && className,
+    dropdown && location.split('/')[2] === path && 'bg-gray-100'
   )
-  console.log(liClass, active, location)
 
   return (
     <>

@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
 import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
-import { Button } from 'flowbite-react'
+import { Button } from '@material-tailwind/react'
 
 function Sales() {
   const [products, setProducts] = useState<ProductType[]>()
@@ -92,11 +92,9 @@ function Sales() {
         <ItemContainer>
           <>
             <div className="flex w-full justify-between ">
-              <Button className="w-32 p-1 rounded-sm hover:bg-red-400">
-                Category
-              </Button>
-              <Button className="w-32 p-1 rounded-sm">Recent</Button>
-              <Button className="w-32 p-1 rounded-sm">Most</Button>
+              <Button className="w-32  rounded-sm">Category</Button>
+              <Button className="w-32  rounded-sm">Recent</Button>
+              <Button className="w-32  rounded-sm">Most</Button>
             </div>
             <div className="flex items-center mb-6 mt-5">
               <div className=" relative w-full ">

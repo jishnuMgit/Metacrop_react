@@ -75,7 +75,7 @@ function NavBar() {
           >
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
               <Li link="/">Home</Li>
-              <Li>
+              <Li path="sales">
                 <>
                   <div ref={refs.setReference} {...getReferenceProps()}>
                     Sales
@@ -83,7 +83,6 @@ function NavBar() {
                   </div>
                 </>
               </Li>
-
               <Li>Procuremnt</Li>
               <Li>Finance</Li>
               <Li>Inventory</Li>
@@ -102,13 +101,27 @@ function NavBar() {
                   style={floatingStyles}
                 >
                   <Li
+                    dropdown
+                    path="pos"
                     className="hover:bg-gray-100  px-4 py-2 w-full flex"
-                    link="/sales"
+                    link="/sales/pos"
                   >
                     Pos
                   </Li>
-                  <Li className="hover:bg-gray-100  px-4 py-2 ">Sales List</Li>
-                  <Li className="hover:bg-gray-100  px-4 py-2 ">
+                  <Li
+                    dropdown
+                    path="list"
+                    className="hover:bg-gray-100  px-4 py-2 w-full flex "
+                    link="/sales/list"
+                  >
+                    Sales List
+                  </Li>
+                  <Li
+                    dropdown
+                    path="return"
+                    link="/sales/return"
+                    className="hover:bg-gray-100  px-4 py-2 w-full flex"
+                  >
                     Sales Return
                   </Li>
                 </div>

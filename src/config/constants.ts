@@ -1,4 +1,4 @@
-export const baseImgUrl = 'src/assets/images/'
+export const baseImgUrl = '/src/assets/images/'
 // COOKIE_TTL value is days
 export const COOKIE_TTL = 1
 
@@ -16,7 +16,9 @@ export const initialFormValues = {
 
 export const paths = {
   home: '/',
-  sales: '/sales',
+  pos: '/sales/pos',
+  salesList: '/sales/list',
+  salesReturn: '/sales/return',
   settings: '/settings',
   test: '#link',
 } as const
