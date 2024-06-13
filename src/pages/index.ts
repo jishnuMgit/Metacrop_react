@@ -1,6 +1,5 @@
 export { default as Error } from './Error'
 export { default as Home } from './Home'
 export { default as Login } from './Login'
-export { default as Sales } from './Sales'
 export { default as Settings } from './Settings'
-export { default as SalesList } from './SalesList'
+export { SalesList, Sales, SalesReturn } from './sales'

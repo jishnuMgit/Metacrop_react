@@ -2,7 +2,7 @@ import { Logo } from '@/components/ui'
 import Li from './Li'
 import { GearIcon } from '@/components/icons'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Settings } from '@/pages'
 import {
   useFloating,
@@ -10,6 +10,7 @@ import {
   useInteractions,
   safePolygon,
 } from '@floating-ui/react'
+import { List } from '@material-tailwind/react'
 
 function NavBar() {
   const [show, setShow] = useState(false)
@@ -24,11 +25,8 @@ function NavBar() {
 
   const { getReferenceProps, getFloatingProps } = useInteractions([hover])
 
-  const navigate = useNavigate()
-
   const handleClose = () => {
     setSettings(false)
-    return navigate('/sales')
   }
   const handleClick = () => {
     setSettings(true)
@@ -79,7 +77,7 @@ function NavBar() {
                 <>
                   <div ref={refs.setReference} {...getReferenceProps()}>
                     Sales
-                    <span className="arrow-icon ml-2 mt-2"></span>
+                    <span className="arrow-icon hover:rotate-180 ml-2 mt-2"></span>
                   </div>
                 </>
               </Li>
@@ -90,7 +88,6 @@ function NavBar() {
               <Li>
                 <GearIcon onClick={handleClick} />
               </Li>
-              <Settings isOpen={settings} handleClose={handleClose} />
 
               {/* drop down for sales */}
               {dropdown && (
@@ -100,45 +97,39 @@ function NavBar() {
                   {...getFloatingProps()}
                   style={floatingStyles}
                 >
-                  <Li
-                    dropdown
-                    path="pos"
-                    className="hover:bg-gray-100  px-4 py-2 w-full flex"
-                    link="/sales/pos"
-                  >
-                    Pos
-                  </Li>
-                  <Li
-                    dropdown
-                    path="list"
-                    className="hover:bg-gray-100  px-4 py-2 w-full flex "
-                    link="/sales/list"
-                  >
-                    Sales List
-                  </Li>
-                  <Li
-                    dropdown
-                    path="return"
-                    link="/sales/return"
-                    className="hover:bg-gray-100  px-4 py-2 w-full flex"
-                  >
-                    Sales Return
-                  </Li>
+                  <List>
+                    <Li
+                      dropdown
+                      path="pos"
+                      className="hover:bg-gray-100  px-4 py-2 w-full flex"
+                      link="/sales/pos"
+                    >
+                      Pos
+                    </Li>
+                    <Li
+                      dropdown
+                      path="list"
+                      className="hover:bg-gray-100  px-4 py-2 w-full flex "
+                      link="/sales/list"
+                    >
+                      Sales List
+                    </Li>
+                    <Li
+                      dropdown
+                      path="return"
+                      link="/sales/return"
+                      className="hover:bg-gray-100  px-4 py-2 w-full flex"
+                    >
+                      Sales Return
+                    </Li>
+                  </List>
                 </div>
               )}
-
-              {/* <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Services
-              </a>
-            </li> */}
             </ul>
           </div>
         </div>
       </nav>
+      {<Settings isOpen={settings} handleClose={handleClose} />}
     </>
   )
 }

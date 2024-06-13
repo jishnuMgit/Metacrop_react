@@ -1,6 +1,6 @@
 function GearIcon({ onClick }: { onClick?: () => void }) {
   return (
-    <div onClick={onClick}>
+    <div className="cursor-pointer" onClick={onClick}>
       <svg
         width="27"
         height="29"

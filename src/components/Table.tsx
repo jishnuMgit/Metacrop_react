@@ -123,7 +123,7 @@ function SortableTable() {
             </TabsHeader>
           </Tabs>
           <div className="w-full md:w-72">
-            <Input
+            <Input 
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
             />
@@ -162,7 +162,7 @@ function SortableTable() {
                   : 'p-4 border-b border-blue-gray-50'
 
                 return (
-                  <tr key={name} className='hover:bg-blue-gray-50'>
+                  <tr key={name} className="hover:bg-blue-gray-50">
                     <td className={classes}>
                       <div className="flex items-center gap-3">
                         <Avatar src={img} alt={name} size="sm" />
@@ -227,12 +227,12 @@ function SortableTable() {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {'$'+grand}
+                        {'$' + grand}
                       </Typography>
                     </td>
                     <td className={classes}>
                       <Tooltip content="Edit Sale">
-                        <IconButton  variant="text">
+                        <IconButton variant="text">
                           <PencilIcon className="h-4 w-4" />
                         </IconButton>
                       </Tooltip>
