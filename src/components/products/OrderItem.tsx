@@ -4,6 +4,7 @@ import { ProductType } from '@/db'
 import { decrement, increment } from '@/redux/order'
 import { SmallBtn } from '@/components/ui'
 import milkImg from '@/assets/images/milk.png'
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid'
 type OrderItemProps = {
   item: ProductType
 }
@@ -33,19 +34,19 @@ function OrderItem({ item }: OrderItemProps) {
         <div className="flex items-center justify-center w-1/2">
           <div className="flex items-center justify-items-center">
             <SmallBtn
-              className="bg-[#f3f4f5]"
+              className="p-2 px-3"
               onClick={() => {
                 dispatch(decrement(item.PKItemID))
               }}
             >
-              <p className="text-[30px] leading-[32px]">-</p>
+              <MinusIcon strokeWidth={4} className="h-5 w-5" />
             </SmallBtn>
-            <p className="mx-3 "> {item.qty}</p>
+            <p className="mx-3 w-4 "> {item.qty}</p>
             <SmallBtn
-              className="bg-[#f3f4f5]"
+              className=" p-2 px-3"
               onClick={() => dispatch(increment(item.PKItemID))}
             >
-              <span className="text-[30px] leading-[26px]  ">+</span>
+              <PlusIcon strokeWidth={4} className="h-5 w-5" />
             </SmallBtn>
           </div>
           <div className="flex justify-end w-full">

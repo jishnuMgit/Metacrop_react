@@ -123,7 +123,7 @@ function SortableTable() {
             </TabsHeader>
           </Tabs>
           <div className="w-full md:w-72">
-            <Input 
+            <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
             />

@@ -9,8 +9,10 @@ import {
   useHover,
   useInteractions,
   safePolygon,
+  useTransitionStyles,
 } from '@floating-ui/react'
 import { List } from '@material-tailwind/react'
+import { ChevronDownIcon } from '@heroicons/react/24/solid'
 
 function NavBar() {
   const [show, setShow] = useState(false)
@@ -21,7 +23,14 @@ function NavBar() {
     open: dropdown,
     onOpenChange: setDropdown,
   })
-  const hover = useHover(context, { handleClose: safePolygon() })
+  const { isMounted, styles } = useTransitionStyles(context, {
+    initial: {
+      opacity: 0,
+      transform: 'scale(0.8)',
+    },
+    close: { opacity: 0, transform: 'scale(0.8)' },
+  })
+  const hover = useHover(context, { handleClose: safePolygon(), delay: 100 })
 
   const { getReferenceProps, getFloatingProps } = useInteractions([hover])
 
@@ -75,9 +84,20 @@ function NavBar() {
               <Li link="/">Home</Li>
               <Li path="sales">
                 <>
-                  <div ref={refs.setReference} {...getReferenceProps()}>
+                  <div
+                    className="flex flex-row"
+                    ref={refs.setReference}
+                    {...getReferenceProps()}
+                  >
                     Sales
-                    <span className="arrow-icon hover:rotate-180 ml-2 mt-2"></span>
+                    <span className="flex items-center">
+                      <ChevronDownIcon
+                        strokeWidth={4}
+                        className={`h-4 w-5 transition-transform ${
+                          dropdown ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </span>
                   </div>
                 </>
               </Li>
@@ -90,39 +110,43 @@ function NavBar() {
               </Li>
 
               {/* drop down for sales */}
-              {dropdown && (
+              {isMounted && (
                 <div
-                  className="bg-white border border-solid min-w-32 shadow"
                   ref={refs.setFloating}
                   {...getFloatingProps()}
                   style={floatingStyles}
                 >
-                  <List>
-                    <Li
-                      dropdown
-                      path="pos"
-                      className="hover:bg-gray-100  px-4 py-2 w-full flex"
-                      link="/sales/pos"
-                    >
-                      Pos
-                    </Li>
-                    <Li
-                      dropdown
-                      path="list"
-                      className="hover:bg-gray-100  px-4 py-2 w-full flex "
-                      link="/sales/list"
-                    >
-                      Sales List
-                    </Li>
-                    <Li
-                      dropdown
-                      path="return"
-                      link="/sales/return"
-                      className="hover:bg-gray-100  px-4 py-2 w-full flex"
-                    >
-                      Sales Return
-                    </Li>
-                  </List>
+                  <div
+                    className="bg-white border border-solid min-w-32 shadow"
+                    style={{ ...styles }}
+                  >
+                    <List>
+                      <Li
+                        dropdown
+                        path="pos"
+                        className="hover:bg-gray-100  px-4 py-2 w-full flex"
+                        link="/sales/pos"
+                      >
+                        Pos
+                      </Li>
+                      <Li
+                        dropdown
+                        path="list"
+                        className="hover:bg-gray-100  px-4 py-2 w-full flex "
+                        link="/sales/list"
+                      >
+                        Sales List
+                      </Li>
+                      <Li
+                        dropdown
+                        path="return"
+                        link="/sales/return"
+                        className="hover:bg-gray-100  px-4 py-2 w-full flex"
+                      >
+                        Sales Return
+                      </Li>
+                    </List>
+                  </div>
                 </div>
               )}
             </ul>

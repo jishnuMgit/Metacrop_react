@@ -1,3 +1,4 @@
+import { Button } from '@material-tailwind/react'
 import React from 'react'
 
 type SmallBtnProps = {
@@ -8,13 +9,14 @@ type SmallBtnProps = {
 
 function SmallBtn({ children, className, onClick }: SmallBtnProps) {
   return (
-    <button
-      className={`${className && className}  p-1 w-10  rounded-md text-[#4e483b[] text-center hover:bg-cyan-700`}
+    <Button
+      variant="gradient"
+      className={className}
       type="button"
       onClick={() => onClick()}
     >
       {children}
-    </button>
+    </Button>
   )
 }
 
