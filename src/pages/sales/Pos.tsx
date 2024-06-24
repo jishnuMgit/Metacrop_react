@@ -6,7 +6,7 @@ import {
   Modal,
   Spinner,
 } from '@/components/ui'
-import { MicICon, ScanIcon, SearchIcon } from '@/components/icons'
+import { MicIcon, ScanIcon, SearchIcon } from '@/components/icons'
 import { Products, CurrentOrder, Invoice } from '@/components'
 import { ProductType } from '@/db'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
@@ -116,7 +116,7 @@ function Sales() {
                   <Cam />
                 </Modal>
 
-                <MicICon />
+                <MicIcon />
               </div>
             </div>
             {fetching && <Spinner />}

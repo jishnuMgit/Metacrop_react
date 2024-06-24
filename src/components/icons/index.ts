@@ -1,7 +1,7 @@
 export { default as EyeIcon } from './EyeIcon'
 export { default as EyeOff } from './EyeOff'
 export { default as GearIcon } from './GearIcon'
-export { default as MicICon } from './MicIcon'
+export { default as MicIcon } from './MicIcon'
 export { default as ScanIcon } from './ScanIcon'
 export { default as SearchIcon } from './SearchIcon'
 export { default as CircleIcon } from './Circle'

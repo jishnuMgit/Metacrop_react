@@ -57,36 +57,31 @@ function Invoice() {
       <Modal handleClose={handleClose} center isOpen={isOpen}>
         <Success />
       </Modal>
-      {orders.length !== 0 && (
-        <>
-          <ItemContainer className="w-full">
-            <div className="flex flex-col w-full">
-              <InvoiceLi start="Bill Number" end="123ABC" />
-              <InvoiceLi start="SubTotal" end={`$ ` + totalAmount.toFixed(2)} />
-              <InvoiceLi
-                start={`Tax (${tax + '%'}) `}
-                end={taxAmount.toFixed(2)}
-              />
-              <InvoiceLi start="Discount" end={discount} />
-              <InvoiceLi
-                start="Total:"
-                end={`$ ` + grandTotal.toFixed(2)}
-                bold
-              />
-            </div>
-          </ItemContainer>
-          <Center>
-            <Button
-              onClick={handleClickWrapper}
-              className="ms-3"
-              classType="secondary"
-              fetching={fetching}
-            >
-              Generate Bill
-            </Button>
-          </Center>
-        </>
-      )}
+
+      <>
+        <ItemContainer className="w-full">
+          <div className="flex flex-col w-full">
+            <InvoiceLi start="Bill Number" end="123ABC" />
+            <InvoiceLi start="SubTotal" end={`$ ` + totalAmount.toFixed(2)} />
+            <InvoiceLi
+              start={`Tax (${tax + '%'}) `}
+              end={taxAmount.toFixed(2)}
+            />
+            <InvoiceLi start="Discount" end={discount} />
+            <InvoiceLi start="Total:" end={`$ ` + grandTotal.toFixed(2)} bold />
+          </div>
+        </ItemContainer>
+        <Center>
+          <Button
+            onClick={handleClickWrapper}
+            className="ms-3"
+            classType="secondary"
+            fetching={fetching}
+          >
+            Generate Bill
+          </Button>
+        </Center>
+      </>
     </>
   )
 }

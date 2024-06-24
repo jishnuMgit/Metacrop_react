@@ -13,24 +13,22 @@ function CurrentOrder() {
 
   return (
     <>
-      {orders.length !== 0 && (
-        <ItemContainer className="w-full">
-          <div>
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-semibold">Current Order</h1>
-              <Button type="button" classType="secondary" onClick={handleClear}>
-                Clear All
-              </Button>
-            </div>
-            <hr className="h-[2px] my-3 bg-[#cec6b4] border-0 " />
-            <div className="overflow-y-auto max-h-96 pe-3">
-              {orders.map((val) => (
-                <OrderItem item={val} key={val.PKItemID} />
-              ))}
-            </div>
+      <ItemContainer className="w-full">
+        <div>
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-semibold">Current Order</h1>
+            <Button type="button" classType="secondary" onClick={handleClear}>
+              Clear All
+            </Button>
           </div>
-        </ItemContainer>
-      )}
+          <hr className="h-[2px] my-3 bg-[#cec6b4] border-0 " />
+          <div className="overflow-y-auto max-h-96 pe-3">
+            {orders.map((val) => (
+              <OrderItem item={val} key={val.PKItemID} />
+            ))}
+          </div>
+        </div>
+      </ItemContainer>
     </>
   )
 }
