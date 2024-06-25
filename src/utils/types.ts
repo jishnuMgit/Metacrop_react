@@ -30,3 +30,18 @@ export type QrPluginProps = {
   onFailure?: QrcodeErrorCallback
   verbose?: boolean
 } & Html5QrcodeScannerConfig
+
+// Dynamic table col type
+type ColumnKeys = `col${number}`
+export type DynamicTableCol = {
+  [key in ColumnKeys]?: string | number
+}
+
+// sales response api data type
+export type ApiSalesData = {
+  CreatedOn: string
+  ModifiedOn: string
+  PKSalesID: number | string
+  TotalAmount: number | string
+  saled_items: []
+}

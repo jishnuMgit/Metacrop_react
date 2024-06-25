@@ -30,3 +30,11 @@ export const getCookie = (key: string) => {
 export const removeCookie = (key: string) => {
   Cookies.remove(key)
 }
+
+export const dateParser = (dateString: string): string => {
+  const date = new Date(dateString)
+  if (isNaN(date.getTime())) {
+    return date.toString()
+  }
+  return date.toLocaleDateString()
+}
