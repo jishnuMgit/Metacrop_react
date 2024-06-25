@@ -15,7 +15,7 @@ export type TableRowProps = {
 function TableRow({ classes, ...props }: TableRowProps) {
   const paid = true
   return (
-    <tr className="hover:bg-blue-gray-50">
+    <tr className="hover:bg-blue-gray-50 cursor-pointer">
       <td className={classes}>
         <div className="flex items-center gap-3">
           <Avatar

@@ -31,17 +31,45 @@ export type QrPluginProps = {
   verbose?: boolean
 } & Html5QrcodeScannerConfig
 
-// Dynamic table col type
+/**
+ * Dynamic table col type.
+ *  ```js
+ * //achieve incremental name for column.
+ * const tableCol: DynamicTableCol = {
+   col1: 'foo',
+   col2: 'bar',
+   col3: 'some',
+   //col4...
+  }
+ * ```
+ */
+
 type ColumnKeys = `col${number}`
 export type DynamicTableCol = {
   [key in ColumnKeys]?: string | number
 }
 
-// sales response api data type
+/**
+ * sales response api data type
+ */
 export type ApiSalesData = {
   CreatedOn: string
   ModifiedOn: string
   PKSalesID: number | string
   TotalAmount: number | string
   saled_items: []
+}
+
+/**
+ * sales return response api data type
+ */
+export type ApiSalesReturn = {
+  CreatedOn: string
+  FKItemID: number | string
+  FKSaledItemID: number | string
+  FKSalesID: number | string
+  PKReturnID: number | string
+  Qty: number
+  SubTotal: number | string
+  item: { ItemName: number }
 }

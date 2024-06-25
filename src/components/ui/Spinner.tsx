@@ -2,14 +2,16 @@ import clsx from 'clsx'
 
 type SpinnerProps = {
   small?: boolean
+  className?: string
 }
-function Spinner({ small }: SpinnerProps) {
+function Spinner({ small, className }: SpinnerProps) {
   return (
     <>
       <div
         className={clsx(
           { 'h-32 ': !small },
-          'flex justify-center items-center bg-opacity-35 '
+          'flex justify-center items-center bg-opacity-35 ',
+          className
         )}
       >
         <div role="status">

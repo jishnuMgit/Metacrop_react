@@ -29,7 +29,7 @@ function Invoice() {
       () =>
         new Response('Validation Error', {
           status: 400,
-          statusText: 'VAlidation Error',
+          statusText: 'Validation Error',
         })
     )
   }
