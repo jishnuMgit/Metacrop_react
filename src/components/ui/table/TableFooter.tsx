@@ -2,12 +2,14 @@ import { Button, CardFooter, Typography } from '@material-tailwind/react'
 
 type TableFooterProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>
+  page: number
+  isLast?: boolean
 }
-function TableFooter({ setPage }: TableFooterProps) {
+function TableFooter({ setPage, page, isLast }: TableFooterProps) {
   return (
     <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
       <Typography variant="small" color="blue-gray" className="font-normal">
-        Page 1 of 10
+        {`Page ${page} of 10`}
       </Typography>
       <div className="flex gap-2">
         <Button
@@ -24,6 +26,9 @@ function TableFooter({ setPage }: TableFooterProps) {
         </Button>
         <Button
           onClick={() => {
+            if (isLast) {
+              return
+            }
             setPage((page) => page + 1)
           }}
           variant="outlined"

@@ -55,9 +55,9 @@ export type DynamicTableCol = {
 export type ApiSalesData = {
   CreatedOn: string
   ModifiedOn: string
-  PKSalesID: number | string
+  PKSaleID: number | string
   TotalAmount: number | string
-  saled_items: []
+  SoldItems: []
 }
 
 /**
@@ -73,3 +73,8 @@ export type ApiSalesReturn = {
   SubTotal: number | string
   item: { ItemName: number }
 }
+
+/**
+ * Sort types
+ */
+export type SortTypes = 'id' | 'date' | 'price'

@@ -8,7 +8,17 @@ function TableBody({
   fetching?: boolean
 }) {
   return (
-    <tbody>{fetching ? <Spinner className="w-full" /> : <>{children}</>}</tbody>
+    <tbody>
+      {fetching ? (
+        <tr>
+          <td>
+            <Spinner className="w-svw" />
+          </td>
+        </tr>
+      ) : (
+        <>{children}</>
+      )}
+    </tbody>
   )
 }
 

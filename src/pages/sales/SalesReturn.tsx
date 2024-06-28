@@ -6,9 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ApiSalesReturn, DynamicTableCol } from '@/utils/types'
+import { ApiSalesReturn, DynamicTableCol, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useApi } from 'useipa'
 
 const TABLE_HEAD = [
@@ -22,16 +22,19 @@ const TABLE_HEAD = [
 ]
 function SalesReturn() {
   const { fetchData, data } = useApi<{ data?: ApiSalesReturn[] }>()
-
+  const [page, setPage] = useState(1)
+  const [sort, setSort] = useState<SortTypes>('desc')
+  const [limit, setLimit] = useState<number>(10)
+  const [sortType, setSortType] = useState<SortTypes>('date')
   useEffect(() => {
     fetchData('/sales/returns')
-  }, [])
-  console.log(data)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sort, sortType, page, limit])
 
   return (
     <>
       <Card className="h-full w-full">
-        <Header name="Sales Return" />
+        <Header setSortType={setSortType} name="Sales Return" />
         <TableComponent>
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
           <TableBody>
@@ -52,8 +55,8 @@ function SalesReturn() {
               })}
             </>
           </TableBody>
-          <TableFooter></TableFooter>
         </TableComponent>
+        <TableFooter setPage={setPage} page={page}></TableFooter>
       </Card>
     </>
   )

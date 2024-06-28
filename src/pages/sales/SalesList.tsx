@@ -6,7 +6,7 @@ import {
   TableFooter,
   TableRow,
 } from '@/components/ui/table'
-import { ApiSalesData, DynamicTableCol } from '@/utils/types'
+import { ApiSalesData, DynamicTableCol, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import { useApi } from 'useipa'
@@ -21,23 +21,45 @@ const TABLE_HEAD = [
   'Action',
 ]
 
+type SortOrder = 'asc' | 'desc'
+
 function SalesList() {
   const [page, setPage] = useState(1)
+  const [sort, setSort] = useState<SortOrder>('desc')
+  const [sortType, setSortType] = useState<SortTypes>('date')
+  const [btnName, setbtnName] = useState('view all')
   const { fetchData, data, fetching } = useApi<{ data?: ApiSalesData[] }>()
   const [limit, setLimit] = useState<number>(10)
+
   const viewAll = () => {
+    if (limit == -1) {
+      setbtnName('view all')
+      return setLimit(10)
+    }
+    setbtnName('view page')
     setLimit(-1)
     setPage(1)
   }
+  const sortHandler = (val: SortTypes) => {
+    setSortType(val)
+  }
   useEffect(() => {
-    fetchData(`/sales?sort=desc&page=${page}&limit=${limit}`)
-  }, [page, limit])
+    fetchData(
+      `/sales?sort=${sort}&sortType=${sortType}&page=${page}&limit=${limit}`
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, limit, sortType, sort])
   console.log(data)
 
   return (
     <>
       <Card className="h-full w-full">
-        <Header viewAll={viewAll} name="Sales" />
+        <Header
+          setSortType={sortHandler}
+          viewAll={viewAll}
+          name="Sales"
+          btnName={btnName}
+        />
         <TableComponent>
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
           <TableBody fetching={fetching}>
@@ -49,9 +71,9 @@ function SalesList() {
                   : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
                   col1: 'unknown',
-                  col2: val.PKSalesID,
+                  col2: val.PKSaleID,
                   col3: new Date(val.CreatedOn).toLocaleDateString(),
-                  col4: val.saled_items.length,
+                  col4: val.SoldItems.length,
                   col5: val.TotalAmount,
                 }
                 return <TableRow key={index} {...columns} classes={classes} />
@@ -59,7 +81,13 @@ function SalesList() {
             </>
           </TableBody>
         </TableComponent>
-        {limit !== -1 && <TableFooter setPage={setPage}></TableFooter>}
+        {limit !== -1 && (
+          <TableFooter
+            page={page}
+            setPage={setPage}
+            isLast={data?.data?.length !== limit}
+          ></TableFooter>
+        )}
       </Card>
     </>
   )

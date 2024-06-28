@@ -1,8 +1,18 @@
-import PropTypes from 'prop-types'
 import { Typography } from '@material-tailwind/react'
 import { HeartIcon } from '@heroicons/react/24/solid'
 
-export function Footer({ brandName, brandLink, routes }) {
+const defaultProps = {
+  brandName: 'Abid',
+  brandLink: '',
+  routes: [
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+    { name: 'License', path: '/license' },
+  ],
+}
+export function Footer() {
+  const { brandName, brandLink, routes } = { ...defaultProps }
   const year = new Date().getFullYear()
 
   return (
@@ -13,12 +23,13 @@ export function Footer({ brandName, brandLink, routes }) {
           <HeartIcon className="-mt-0.5 inline-block h-3.5 w-3.5 text-red-600" />{' '}
           by{' '}
           <a
+            rel="noreferrer"
             href={brandLink}
             target="_blank"
             className="transition-colors hover:text-blue-500 font-bold"
           >
             {brandName}
-          </a>{' '}
+          </a>
           for a better web.
         </Typography>
         <ul className="flex items-center gap-4">
@@ -40,24 +51,5 @@ export function Footer({ brandName, brandLink, routes }) {
     </footer>
   )
 }
-
-Footer.defaultProps = {
-  brandName: 'Abid',
-  brandLink: '',
-  routes: [
-    { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'License', path: '/license' },
-  ],
-}
-
-Footer.propTypes = {
-  brandName: PropTypes.string,
-  brandLink: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object),
-}
-
-Footer.displayName = '/src/widgets/layout/footer.jsx'
 
 export default Footer
