@@ -1,7 +1,6 @@
 function IconMic(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <div>
-      {' '}
+    <div className="cursor-pointer">
       <svg
         fill="currentColor"
         viewBox="0 0 16 16"

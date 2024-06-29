@@ -6,7 +6,12 @@ import {
   TableFooter,
   TableRow,
 } from '@/components/ui/table'
-import { ApiSalesData, DynamicTableCol, SortTypes } from '@/utils/types'
+import type {
+  ApiSalesData,
+  DynamicTableCol,
+  SortOrder,
+  SortTypes,
+} from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import { useApi } from 'useipa'
@@ -20,8 +25,6 @@ const TABLE_HEAD = [
   'Total Amount',
   'Action',
 ]
-
-type SortOrder = 'asc' | 'desc'
 
 function SalesList() {
   const [page, setPage] = useState(1)

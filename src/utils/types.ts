@@ -78,3 +78,4 @@ export type ApiSalesReturn = {
  * Sort types
  */
 export type SortTypes = 'id' | 'date' | 'price'
+export type SortOrder = 'asc' | 'desc'

@@ -2,7 +2,7 @@ import { IconProps } from '@/utils/types'
 
 function IconScan({ onclick, ...props }: IconProps) {
   return (
-    <div onClick={onclick}>
+    <div className="cursor-pointer" onClick={onclick}>
       <svg
         viewBox="0 0 24 24"
         fill="currentColor"

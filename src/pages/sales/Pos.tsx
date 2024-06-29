@@ -15,12 +15,14 @@ import { setQrData } from '@/redux/component'
 import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
 import { Button } from '@material-tailwind/react'
+import clsx from 'clsx'
 
 function Sales() {
   const [products, setProducts] = useState<ProductType[]>()
   const productRef = useRef<ProductType[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
   const [cam, setCam] = useState<boolean>(false)
+  const [sort, setSort] = useState({ option: 'most-saled' })
   const dispatch = useAppDispatch()
   const { qrData } = useAppSelector((state) => state.uiState)
   const { data, error, fetching, clearState, fetchData } = useApi<{
@@ -83,8 +85,8 @@ function Sales() {
   }, [qrData])
 
   useEffect(() => {
-    fetchData('/products')
-  }, [])
+    fetchData(clsx(`/products/${sort.option}`))
+  }, [sort])
 
   return (
     <>
@@ -92,9 +94,19 @@ function Sales() {
         <ItemContainer>
           <>
             <div className="flex w-full justify-between ">
-              <Button className="w-32  rounded-sm">Category</Button>
-              <Button className="w-32  rounded-sm">Recent</Button>
-              <Button className="w-32  rounded-sm">Most</Button>
+              <Button className="w-32 rounded-sm">Category</Button>
+              <Button
+                onClick={() => setSort({ option: '?recent=true' })}
+                className="w-32 hover:bg-blue-600 rounded-sm"
+              >
+                Recent
+              </Button>
+              <Button
+                onClick={() => setSort({ option: 'most-saled' })}
+                className="w-32  rounded-sm"
+              >
+                Most
+              </Button>
             </div>
             <div className="flex items-center mb-6 mt-5">
               <div className=" relative w-full ">

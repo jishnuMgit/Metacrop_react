@@ -21,6 +21,10 @@ function Invoice() {
   const discount = 0.5
   const grandTotal = totalAmount + taxAmount - discount
   const handleClick = async (): Promise<void> => {
+    if (orders.length === 0) {
+      return
+    }
+
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
     mutate('/sales/create', { items, totalAmount })
   }

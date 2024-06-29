@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ApiSalesReturn, DynamicTableCol, SortTypes } from '@/utils/types'
+import { ApiSalesReturn, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import { useApi } from 'useipa'
@@ -23,7 +23,7 @@ const TABLE_HEAD = [
 function SalesReturn() {
   const { fetchData, data } = useApi<{ data?: ApiSalesReturn[] }>()
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<SortTypes>('desc')
+  const [sort, setSort] = useState<SortOrder>('desc')
   const [limit, setLimit] = useState<number>(10)
   const [sortType, setSortType] = useState<SortTypes>('date')
   useEffect(() => {
