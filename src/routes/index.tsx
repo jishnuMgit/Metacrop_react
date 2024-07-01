@@ -11,7 +11,8 @@ import {
 } from '@/pages'
 import Layout from '../components/Layout'
 import { authLoader } from './loader'
-import { Sale } from '@/pages/sales'
+import { Sale, SaleIndex } from '@/pages/sales'
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
           { path: '/', Component: Home },
           {
             path: 'sales',
-            Component: Sale,
+            Component: SaleIndex,
             children: [
               {
                 path: 'list',
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
               },
               { path: 'pos', Component: Sales },
               { path: 'return', Component: SalesReturn },
+              { path: ':id', Component: Sale },
             ],
             ErrorBoundary: Error,
           },

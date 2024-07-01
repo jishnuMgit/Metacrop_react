@@ -7,15 +7,21 @@ import {
   Tooltip,
   Typography,
 } from '@material-tailwind/react'
+import { useNavigate } from 'react-router-dom'
 
 export type TableRowProps = {
   classes: string
+  action?: boolean
 } & DynamicTableCol
 
-function TableRow({ classes, ...props }: TableRowProps) {
+function TableRow({ classes, action, ...props }: TableRowProps) {
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate(`/sales/${props.col2}`)
+  }
   const paid = true
   return (
-    <tr className="hover:bg-blue-gray-50 cursor-pointer">
+    <tr onClick={handleClick} className="hover:bg-blue-gray-50 cursor-pointer">
       <td className={classes}>
         <div className="flex items-center gap-3">
           <Avatar
@@ -66,13 +72,15 @@ function TableRow({ classes, ...props }: TableRowProps) {
           {'$' + props.col5}
         </Typography>
       </td>
-      <td className={classes}>
-        <Tooltip content="Edit Sale">
-          <IconButton variant="text">
-            <PencilIcon className="h-4 w-4" />
-          </IconButton>
-        </Tooltip>
-      </td>
+      {action && (
+        <td className={classes}>
+          <Tooltip content="Edit Sale">
+            <IconButton variant="text">
+              <PencilIcon className="h-4 w-4" />
+            </IconButton>
+          </Tooltip>
+        </td>
+      )}
     </tr>
   )
 }

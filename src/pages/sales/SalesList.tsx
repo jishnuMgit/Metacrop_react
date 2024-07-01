@@ -79,7 +79,9 @@ function SalesList() {
                   col4: val.SoldItems.length,
                   col5: val.TotalAmount,
                 }
-                return <TableRow key={index} {...columns} classes={classes} />
+                return (
+                  <TableRow key={index} {...columns} classes={classes} action />
+                )
               })}
             </>
           </TableBody>

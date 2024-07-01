@@ -49,6 +49,42 @@ export type DynamicTableCol = {
   [key in ColumnKeys]?: string | number
 }
 
+type ApiItem = {
+  Class: string
+  CreatedBy: number
+  CreatedOn: '2024-02-24T12:53:58.000Z'
+  DelFlag: number
+  FKCmpID: number
+  FKGroupID: number
+  FKManufactureID: number
+  FKStoreID: number
+  FKUnitID: number
+  HSNCode: string
+  ItemCode: string
+  ItemName: string
+  Lcost: number
+  MaxLevel: number
+  ModifiedBy: number
+  ModifiedOn: number
+  PKItemID: number
+  Price: number
+  Qty: number
+  ReOrderLevel: number
+  RepFlag: number
+  TaxPer: number
+}
+
+type ApiSoldItem = {
+  CreatedOn: string
+  FKItemID: number
+  FKSaleID: number
+  Item: ApiItem
+  ModifiedOn: string
+  PKSoldItemID: number
+  Price: number
+  Qty: number
+  SubTotal: number
+}
 /**
  * sales response api data type
  */
@@ -57,7 +93,7 @@ export type ApiSalesData = {
   ModifiedOn: string
   PKSaleID: number | string
   TotalAmount: number | string
-  SoldItems: []
+  SoldItems: ApiSoldItem[]
 }
 
 /**

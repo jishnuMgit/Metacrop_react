@@ -1,10 +1,22 @@
-import { CardBody } from '@material-tailwind/react'
+import { CardBody, Typography } from '@material-tailwind/react'
 
-function SortableTable({ children }: { children: React.ReactNode }) {
+function SortableTable({
+  children,
+  heading,
+}: {
+  children: React.ReactNode
+  className?: string
+  heading?: string
+}) {
   return (
     <>
-      <CardBody className="overflow-scroll px-0">
-        <table className="mt-4 w-full min-w-max table-auto text-left">
+      <CardBody className=" px-0">
+        {heading && (
+          <Typography variant="h5" color="blue-gray">
+            {heading}
+          </Typography>
+        )}
+        <table className="mt-4 w-full min-w-max table-auto text-left border">
           {children}
         </table>
       </CardBody>
