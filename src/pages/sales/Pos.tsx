@@ -8,7 +8,6 @@ import {
 } from '@/components/ui'
 import { MicIcon, ScanIcon, SearchIcon } from '@/components/icons'
 import { Products, CurrentOrder, Invoice } from '@/components'
-import { ProductType } from '@/db'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
@@ -16,17 +15,18 @@ import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
 import { Button } from '@material-tailwind/react'
 import clsx from 'clsx'
+import { ApiItem } from '@/utils/types'
 
 function Sales() {
-  const [products, setProducts] = useState<ProductType[]>()
-  const productRef = useRef<ProductType[]>()
+  const [products, setProducts] = useState<ApiItem[]>()
+  const productRef = useRef<ApiItem[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
   const [cam, setCam] = useState<boolean>(false)
   const [sort, setSort] = useState({ option: 'most-saled' })
   const dispatch = useAppDispatch()
   const { qrData } = useAppSelector((state) => state.uiState)
   const { data, error, fetching, clearState, fetchData } = useApi<{
-    data: ProductType[]
+    data: ApiItem[]
   }>()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -1,6 +1,5 @@
 import { chartsConfig } from '@/config'
 import { color } from '@material-tailwind/react/types/components/alert'
-import { Props } from 'react-apexcharts'
 
 const websiteViewsChart = {
   type: 'bar',

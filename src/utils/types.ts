@@ -49,7 +49,7 @@ export type DynamicTableCol = {
   [key in ColumnKeys]?: string | number
 }
 
-type ApiItem = {
+export type ApiItem = {
   Class: string
   CreatedBy: number
   CreatedOn: '2024-02-24T12:53:58.000Z'
@@ -72,6 +72,7 @@ type ApiItem = {
   ReOrderLevel: number
   RepFlag: number
   TaxPer: number
+  qty: number
 }
 
 type ApiSoldItem = {

@@ -3,7 +3,7 @@ import { HeartIcon } from '@heroicons/react/24/solid'
 
 const defaultProps = {
   brandName: 'Abid',
-  brandLink: '',
+  brandLink: 'https://abidta.github.io',
   routes: [
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },

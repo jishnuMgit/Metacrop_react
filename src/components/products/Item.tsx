@@ -1,10 +1,10 @@
 import { baseImgUrl } from '@/config/constants'
 import { useAppDispatch } from '@/config/hooks'
-import { ProductType } from '@/db'
 import { addToOrders } from '@/redux/order'
+import { ApiItem } from '@/utils/types'
 
 type ItemProps = {
-  item: ProductType
+  item: ApiItem
 }
 
 function Item({ item }: ItemProps) {

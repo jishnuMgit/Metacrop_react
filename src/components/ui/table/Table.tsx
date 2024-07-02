@@ -10,7 +10,7 @@ function SortableTable({
 }) {
   return (
     <>
-      <CardBody className=" px-0">
+      <CardBody className="overflow-x-auto px-0">
         {heading && (
           <Typography variant="h5" color="blue-gray">
             {heading}

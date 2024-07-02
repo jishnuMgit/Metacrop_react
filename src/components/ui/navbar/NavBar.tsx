@@ -44,7 +44,7 @@ function NavBar() {
   return (
     <>
       <nav className="bg-white border-gray-200 sticky z-[8] top-0 shadow">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
+        <div className=" flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
           <Link to={'/'}>
             <Logo small />
           </Link>

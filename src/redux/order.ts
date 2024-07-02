@@ -1,7 +1,7 @@
+import { ApiItem } from '@/utils/types'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ProductType } from '../db'
 
-type InitialState = { orders: ProductType[]; totalAmount: number }
+type InitialState = { orders: ApiItem[]; totalAmount: number }
 const INITIAL_STATE: InitialState = {
   orders: [],
   totalAmount: 0,
@@ -11,7 +11,7 @@ const orderSlice = createSlice({
   name: 'order',
   initialState: INITIAL_STATE,
   reducers: {
-    addToOrders: (state, action: PayloadAction<ProductType>) => {
+    addToOrders: (state, action: PayloadAction<ApiItem>) => {
       const item = state.orders.find(
         (item) => item.PKItemID === action.payload.PKItemID
       )

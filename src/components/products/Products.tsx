@@ -1,8 +1,8 @@
-import { ProductType } from '@/db'
 import Item from './Item'
+import { ApiItem } from '@/utils/types'
 
 type ProductsProps = {
-  products: ProductType[]
+  products: ApiItem[]
 }
 
 function Products({ products }: ProductsProps) {
