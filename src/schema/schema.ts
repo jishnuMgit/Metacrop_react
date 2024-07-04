@@ -1,4 +1,4 @@
-import { ProductType } from '@/db'
+import { ApiItem, ApiSalesData } from '@/utils/types'
 import { array, number, object, string } from 'yup'
 
 /**
@@ -16,9 +16,25 @@ const BillGenerateObj = object({
 })
 
 /**
- * transform to api expecting data
+ * transform to api expecting data on create sale.
  */
 export const BillGenerate = array(BillGenerateObj).transform(
-  (_, original: ProductType[]) =>
-    original.map((val) => ({ ...val, Qty: val.qty }))
+  (_, original: ApiItem[]) => original.map((val) => ({ ...val, Qty: val.qty }))
 )
+
+export const UpdateItemObject = object({
+  PKSoldItemID: number().required(),
+  Qty: number().required(),
+  FKItemID: number().required(),
+  Price: number().required(),
+})
+
+/**
+ * transform to api expecting data on update sale.
+ */
+export const UpdateSale = object({
+  TotalAmount: number().required(),
+  sold_items: array(UpdateItemObject),
+}).transform((_, original: ApiSalesData) => {
+  return { ...original, sold_items: original.SoldItems }
+})

@@ -1,5 +1,6 @@
 import { ItemContainer, Button } from '@/components/ui'
 import OrderItem from './OrderItem'
+import { decrement, increment } from '@/redux/order'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { clearOrder } from '@/redux/order'
 
@@ -9,6 +10,12 @@ function CurrentOrder() {
 
   const handleClear = () => {
     dispatch(clearOrder())
+  }
+  const minusBtnHandler = (itemId: number) => {
+    dispatch(decrement(itemId))
+  }
+  const plusBtnHander = (itemId: number) => {
+    dispatch(increment(itemId))
   }
 
   return (
@@ -24,7 +31,12 @@ function CurrentOrder() {
           <hr className="h-[2px] my-3 bg-[#cec6b4] border-0 " />
           <div className="overflow-y-auto max-h-96 pe-3">
             {orders.map((val) => (
-              <OrderItem item={val} key={val.PKItemID} />
+              <OrderItem
+                minusBtn={minusBtnHandler}
+                plusBtn={plusBtnHander}
+                item={val}
+                key={val.PKItemID}
+              />
             ))}
           </div>
         </div>

@@ -7,21 +7,29 @@ import {
   Tooltip,
   Typography,
 } from '@material-tailwind/react'
+import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
 
 export type TableRowProps = {
   classes: string
   action?: boolean
+  click?: boolean
 } & DynamicTableCol
 
-function TableRow({ classes, action, ...props }: TableRowProps) {
+function TableRow({ classes, action, click = false, ...props }: TableRowProps) {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(`/sales/${props.col2}`)
+    if (click) {
+      navigate(`/sales/${props.col2}`)
+    }
+    return
   }
   const paid = true
   return (
-    <tr onClick={handleClick} className="hover:bg-blue-gray-50 cursor-pointer">
+    <tr
+      onClick={handleClick}
+      className={clsx(`hover:bg-blue-gray-50 `, { 'cursor-pointer': click })}
+    >
       <td className={classes}>
         <div className="flex items-center gap-3">
           <Avatar

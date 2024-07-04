@@ -1,6 +1,10 @@
+import EditSale from '@/components/sales/EditSale'
+import InvoiceList from '@/components/sales/InvoiceList'
 import { TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
-import { ApiSalesData, DynamicTableCol } from '@/utils/types'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
+import { fetchSale } from '@/redux/sale'
+import { DynamicTableCol } from '@/utils/types'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import {
   Button,
@@ -10,43 +14,25 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useApi } from 'useipa'
+import { useParams } from 'react-router-dom'
 
 const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Qty', 'Price', 'SubTotal']
-
-function InvoiceList({
-  name,
-  value,
-}: {
-  name: string
-  value?: string | number
-}) {
-  return (
-    <>
-      <div className="flex justify-between w-full">
-        <Typography color="blue-gray" className="w-5/12">
-          {name}
-        </Typography>
-        <Typography color="blue-gray" className="w-2/12">
-          :
-        </Typography>
-        <Typography color="blue-gray" className="w-5/12">
-          {value}
-        </Typography>
-      </div>
-    </>
-  )
-}
 
 function Sale() {
   const [edit, setEdit] = useState(false)
   const params = useParams()
-  const navigate = useNavigate()
-  const { fetchData, data, error, fetching } = useApi<{ data?: ApiSalesData }>()
+  // const { fetchData, data, error, fetching } = useApi<{ data?: ApiSalesData }>()
+  const dispatch = useAppDispatch()
+  const {
+    error,
+    fetching,
+    saleData: data,
+  } = useAppSelector((state) => state.sale)
   useEffect(() => {
-    fetchData(`/sales/${params.id}`)
+    // fetchData(`/sales/${params.id}`)
+    void dispatch(fetchSale(params.id!))
   }, [])
+  console.log(data)
 
   if (error) {
     return <>No sales Found on given id: {`${params.id}`}</>
@@ -70,12 +56,12 @@ function Sale() {
                 </div>
                 <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                   <Button
-                    onClick={() => setEdit(true)}
+                    onClick={() => setEdit(!edit)}
                     className="flex items-center gap-3"
                     size="sm"
                   >
                     <SquaresPlusIcon strokeWidth={2} className="h-4 w-4" />
-                    {`Edit Sale`}
+                    {!edit ? `Edit Sale` : `Cancel`}
                   </Button>
                 </div>
               </div>
@@ -91,27 +77,23 @@ function Sale() {
                   {[
                     {
                       name: 'Sale Date',
-                      value: new Date(
-                        data.data!.CreatedOn
-                      ).toLocaleDateString(),
+                      value: new Date(data?.CreatedOn).toLocaleDateString(),
                     },
                     {
                       name: 'Modified Date',
-                      value: new Date(
-                        data.data!.ModifiedOn
-                      ).toLocaleDateString(),
+                      value: new Date(data.ModifiedOn).toLocaleDateString(),
                     },
                     {
                       name: 'Sale Id',
-                      value: data.data!.PKSaleID,
+                      value: data.PKSaleID,
                     },
                     {
                       name: 'Total Items',
-                      value: data.data?.SoldItems.length,
+                      value: data.SoldItems.length,
                     },
                     {
                       name: 'Total Amount',
-                      value: `$` + data.data?.TotalAmount,
+                      value: `$` + data.TotalAmount,
                     },
                   ].map((val, index) => (
                     <InvoiceList
@@ -122,32 +104,39 @@ function Sale() {
                   ))}
                 </div>
               </div>
+              {!edit ? (
+                <TableComponent heading="Selected Items For Sales">
+                  <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
+                  <TableBody fetching={fetching}>
+                    <>
+                      {data.SoldItems.map((val, index) => {
+                        console.log(val)
 
-              <TableComponent heading="Selected Items For Sales">
-                <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
-                <TableBody fetching={fetching}>
-                  <>
-                    {data?.data?.SoldItems.map((val, index) => {
-                      console.log(val)
-
-                      const isLast = index === data?.data!.SoldItems.length - 1
-                      const classes: string = isLast
-                        ? 'p-4'
-                        : 'p-4 border-b border-blue-gray-50'
-                      const columns: DynamicTableCol = {
-                        col1: val.Item.ItemName,
-                        col2: val.FKItemID,
-                        col3: val.Qty,
-                        col4: val.Price,
-                        col5: val.SubTotal,
-                      }
-                      return (
-                        <TableRow key={index} {...columns} classes={classes} />
-                      )
-                    })}
-                  </>
-                </TableBody>
-              </TableComponent>
+                        const isLast = index === data.SoldItems.length - 1
+                        const classes: string = isLast
+                          ? 'p-4'
+                          : 'p-4 border-b border-blue-gray-50'
+                        const columns: DynamicTableCol = {
+                          col1: val.Item.ItemName,
+                          col2: val.FKItemID,
+                          col3: val.Qty,
+                          col4: val.Price,
+                          col5: val.SubTotal,
+                        }
+                        return (
+                          <TableRow
+                            key={index}
+                            {...columns}
+                            classes={classes}
+                          />
+                        )
+                      })}
+                    </>
+                  </TableBody>
+                </TableComponent>
+              ) : (
+                <>{<EditSale />}</>
+              )}
             </CardBody>
           </Card>
         </>

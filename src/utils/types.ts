@@ -75,7 +75,7 @@ export type ApiItem = {
   qty: number
 }
 
-type ApiSoldItem = {
+export type ApiSoldItem = {
   CreatedOn: string
   FKItemID: number
   FKSaleID: number

@@ -16,9 +16,9 @@ function Invoice() {
   const [isOpen, setisOpen] = useState(false)
   const { mutate, success, error, fetching, clearState } = useApi()
   const dispatch = useAppDispatch()
-  const tax = 5
+  const tax = 0
   const taxAmount = (tax / 100) * totalAmount
-  const discount = 0.5
+  const discount = 0
   const grandTotal = totalAmount + taxAmount - discount
   const handleClick = async (): Promise<void> => {
     if (orders.length === 0) {

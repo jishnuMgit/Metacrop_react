@@ -80,7 +80,13 @@ function SalesList() {
                   col5: val.TotalAmount,
                 }
                 return (
-                  <TableRow key={index} {...columns} classes={classes} action />
+                  <TableRow
+                    key={index}
+                    {...columns}
+                    classes={classes}
+                    click
+                    action
+                  />
                 )
               })}
             </>

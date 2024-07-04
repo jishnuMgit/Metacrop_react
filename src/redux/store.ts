@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import orderReducer from './order'
 import componentState from './component'
+import saleReducer from './sale'
 
 export const store = configureStore({
   reducer: {
     order: orderReducer,
     uiState: componentState,
+    sale: saleReducer,
   },
 })
 

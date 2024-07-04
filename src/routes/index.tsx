@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
               { path: 'return', Component: SalesReturn },
               { path: ':id', Component: Sale },
             ],
-            ErrorBoundary: Error,
+            errorElement: <Error />,
           },
           { path: '/settings', Component: Settings },
           { path: '/login', Component: Login, loader: authLoader },

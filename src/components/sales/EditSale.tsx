@@ -1,0 +1,129 @@
+import { Button, Typography } from '@material-tailwind/react'
+import OrderItem from '../products/OrderItem'
+import { SquaresPlusIcon } from '@heroicons/react/24/solid'
+import InvoiceList from './InvoiceList'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
+import { fetchSale, updateSaleData } from '@/redux/sale'
+import { useEffect, useMemo } from 'react'
+import { useApi } from 'useipa'
+import { UpdateSale } from '@/schema'
+
+function EditSale() {
+  const dispatch = useAppDispatch()
+  const data = useAppSelector((state) => state.sale.saleData)
+  const { mutate, error, fetching, success } = useApi()
+  const total = useMemo(
+    () => data?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
+    [data]
+  )
+  const minusBtnHandler = (id: number) => {
+    dispatch(updateSaleData({ PKSoldItemID: id, operation: 'DEC' }))
+    return
+  }
+  const plusBtnHandler = (id: number) => {
+    dispatch(updateSaleData({ PKSoldItemID: id, operation: 'INC' }))
+    return
+  }
+
+  const updateSale = async () => {
+    const parsedData = await UpdateSale.validate(
+      { ...data, TotalAmount: total },
+      { stripUnknown: true }
+    )
+    mutate(`/sales/${data?.PKSaleID}`, parsedData, { method: 'PUT' })
+  }
+
+  const wrapper = () => {
+    updateSale().catch((e) => console.log(e))
+  }
+
+  if (error) {
+    throw new Response(error.message, {
+      status: error?.status,
+      statusText: error.message,
+    })
+  }
+  useEffect(() => {
+    if (success) {
+      void dispatch(fetchSale(data?.PKSaleID as string))
+    }
+  }, [success])
+
+  return (
+    <>
+      {data && (
+        <div className="flex w-full border-solid border-t-8 pt-5">
+          <div className="flex w-1/2 flex-col ">
+            {data?.SoldItems?.map((val) => (
+              <>
+                {val.Qty !== 0 && (
+                  <div className="flex flex-col " key={val.PKSoldItemID}>
+                    <OrderItem
+                      minusBtn={() => minusBtnHandler(val.PKSoldItemID)}
+                      plusBtn={() => plusBtnHandler(val.PKSoldItemID)}
+                      item={{
+                        PKItemID: val.FKItemID,
+                        qty: val.Qty,
+                        ItemName: val.Item.ItemName,
+                        Price: val.Price,
+                      }}
+                    />
+                  </div>
+                )}
+              </>
+            ))}
+          </div>
+          <div className="w-1/2">
+            <div className=" flex flex-col w-1/2 ms-auto">
+              <Typography variant="h6" color="blue-gray">
+                {`Update Details`}
+              </Typography>
+
+              <div className="mb-5 flex flex-col ">
+                {[
+                  {
+                    name: 'Sale Date',
+                    value: new Date(data.CreatedOn).toLocaleDateString(),
+                  },
+                  {
+                    name: 'Modified Date',
+                    value: new Date().toLocaleDateString(),
+                  },
+                  {
+                    name: 'Sale Id',
+                    value: data.PKSaleID,
+                  },
+                  {
+                    name: 'Total Items',
+                    value: data?.SoldItems.length,
+                  },
+                  {
+                    name: 'Total Amount',
+                    value: `$` + total,
+                  },
+                ].map((val, index) => (
+                  <InvoiceList
+                    key={index}
+                    name={val.name}
+                    value={val.value}
+                  ></InvoiceList>
+                ))}
+              </div>
+            </div>
+            <Button
+              loading={fetching}
+              onClick={wrapper}
+              className="flex items-center gap-3 mt-5 ms-auto"
+              size="sm"
+            >
+              <SquaresPlusIcon strokeWidth={2} className="h-4 w-4" />
+              {`Update Sale`}
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+export default EditSale
