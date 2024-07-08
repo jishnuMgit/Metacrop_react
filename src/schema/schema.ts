@@ -33,8 +33,14 @@ export const UpdateItemObject = object({
  * transform to api expecting data on update sale.
  */
 export const UpdateSale = object({
-  TotalAmount: number().required(),
-  sold_items: array(UpdateItemObject),
+  subTotal: number().required(),
+  soldItems: array(UpdateItemObject),
 }).transform((_, original: ApiSalesData) => {
-  return { ...original, sold_items: original.SoldItems }
+  const updatedItems = original.SoldItems.filter(
+    (val) => val.Qty !== val.oldQty
+  )
+  return {
+    subTotal: updatedItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
+    soldItems: updatedItems,
+  }
 })

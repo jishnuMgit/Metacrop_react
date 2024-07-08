@@ -1,6 +1,6 @@
 import EditSale from '@/components/sales/EditSale'
 import InvoiceList from '@/components/sales/InvoiceList'
-import { TableComponent } from '@/components/ui'
+import { Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale } from '@/redux/sale'
@@ -41,7 +41,7 @@ function Sale() {
 
   return (
     <>
-      {data && (
+      {data ? (
         <>
           <Card className="h-full mx-5 mt-5 ">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -105,41 +105,82 @@ function Sale() {
                 </div>
               </div>
               {!edit ? (
-                <TableComponent heading="Selected Items For Sales">
-                  <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
-                  <TableBody fetching={fetching}>
-                    <>
-                      {data.SoldItems.map((val, index) => {
-                        console.log(val)
+                <>
+                  {' '}
+                  <TableComponent heading="Selected Items For Sales">
+                    <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
+                    <TableBody fetching={fetching}>
+                      <>
+                        {data.SoldItems.map((val, index) => {
+                          console.log(val)
 
-                        const isLast = index === data.SoldItems.length - 1
-                        const classes: string = isLast
-                          ? 'p-4'
-                          : 'p-4 border-b border-blue-gray-50'
-                        const columns: DynamicTableCol = {
-                          col1: val.Item.ItemName,
-                          col2: val.FKItemID,
-                          col3: val.Qty,
-                          col4: val.Price,
-                          col5: val.SubTotal,
-                        }
-                        return (
-                          <TableRow
-                            key={index}
-                            {...columns}
-                            classes={classes}
-                          />
-                        )
-                      })}
-                    </>
-                  </TableBody>
-                </TableComponent>
+                          const isLast = index === data.SoldItems.length - 1
+                          const classes: string = isLast
+                            ? 'p-4'
+                            : 'p-4 border-b border-blue-gray-50'
+                          const columns: DynamicTableCol = {
+                            col1: val?.Item?.ItemName,
+                            col2: val.FKItemID,
+                            col3: val?.oldQty,
+                            col4: val.Price,
+                            col5: val.SubTotal,
+                          }
+                          return (
+                            <TableRow
+                              key={index}
+                              status={{ text: 'paid', color: 'green' }}
+                              {...columns}
+                              classes={classes}
+                            />
+                          )
+                        })}
+                      </>
+                    </TableBody>
+                  </TableComponent>
+                  {data.SoldItemsReturn.length !== 0 && (
+                    <TableComponent heading="Returned Items For Sales">
+                      <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
+                      <TableBody fetching={fetching}>
+                        <>
+                          {data.SoldItemsReturn.map((val, index) => {
+                            console.log(val)
+
+                            const isLast = index === data.SoldItems.length - 1
+                            const classes: string = isLast
+                              ? 'p-4'
+                              : 'p-4 border-b border-blue-gray-50'
+                            const columns: DynamicTableCol = {
+                              col1: val.Item.ItemName,
+                              col2: val.FKItemID,
+                              col3: val.Qty,
+                              col4: val.Price,
+                              col5: val.SubTotal,
+                            }
+                            return (
+                              <TableRow
+                                status={{
+                                  text: 'returned',
+                                  color: 'blue-gray',
+                                }}
+                                key={index}
+                                {...columns}
+                                classes={classes}
+                              />
+                            )
+                          })}
+                        </>
+                      </TableBody>
+                    </TableComponent>
+                  )}
+                </>
               ) : (
                 <>{<EditSale />}</>
               )}
             </CardBody>
           </Card>
         </>
+      ) : (
+        <Spinner />
       )}
     </>
   )

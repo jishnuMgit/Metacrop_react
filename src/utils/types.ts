@@ -85,6 +85,8 @@ export type ApiSoldItem = {
   Price: number
   Qty: number
   SubTotal: number
+  //this for copy current qty
+  oldQty?: number
 }
 /**
  * sales response api data type
@@ -95,6 +97,7 @@ export type ApiSalesData = {
   PKSaleID: number | string
   TotalAmount: number | string
   SoldItems: ApiSoldItem[]
+  SoldItemsReturn: ApiSalesReturn[]
 }
 
 /**
@@ -108,7 +111,8 @@ export type ApiSalesReturn = {
   PKReturnID: number | string
   Qty: number
   SubTotal: number | string
-  item: { ItemName: number }
+  Price: number
+  Item: { ItemName: number }
 }
 
 /**

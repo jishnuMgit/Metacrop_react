@@ -6,19 +6,24 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ApiSalesReturn, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
+import {
+  ApiSalesReturn,
+  DynamicTableCol,
+  SortOrder,
+  SortTypes,
+} from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import { useApi } from 'useipa'
 
 const TABLE_HEAD = [
-  'Customer',
+  'Item',
   'Sales Return ID',
   'Status',
   'Date',
   'Total Items',
+  'Price',
   'Total Amount',
-  'Action',
 ]
 function SalesReturn() {
   const { fetchData, data } = useApi<{ data?: ApiSalesReturn[] }>()
@@ -30,6 +35,7 @@ function SalesReturn() {
     fetchData('/sales/returns')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, sortType, page, limit])
+  console.log(data)
 
   return (
     <>
@@ -45,13 +51,22 @@ function SalesReturn() {
                   ? 'p-4'
                   : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
-                  col1: 'unknown',
+                  col1: val.Item.ItemName,
                   col2: val.PKReturnID,
                   col3: new Date(val.CreatedOn).toLocaleDateString(),
                   col4: val.Qty,
-                  col5: val.SubTotal,
+                  col5: val.Price,
+                  col6: val.SubTotal,
                 }
-                return <TableRow key={index} {...columns} classes={classes} />
+
+                return (
+                  <TableRow
+                    status={{ text: 'returned', color: 'blue-gray' }}
+                    key={index}
+                    {...columns}
+                    classes={classes}
+                  />
+                )
               })}
             </>
           </TableBody>

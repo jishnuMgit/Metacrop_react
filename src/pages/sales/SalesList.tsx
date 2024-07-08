@@ -81,6 +81,7 @@ function SalesList() {
                 }
                 return (
                   <TableRow
+                    status={{ text: 'paid', color: 'green' }}
                     key={index}
                     {...columns}
                     classes={classes}

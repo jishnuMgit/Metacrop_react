@@ -7,6 +7,7 @@ import {
   Tooltip,
   Typography,
 } from '@material-tailwind/react'
+import { colors } from '@material-tailwind/react/types/generic'
 import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,9 +15,16 @@ export type TableRowProps = {
   classes: string
   action?: boolean
   click?: boolean
+  status?: { text: string; color: colors }
 } & DynamicTableCol
 
-function TableRow({ classes, action, click = false, ...props }: TableRowProps) {
+function TableRow({
+  classes,
+  action,
+  click = false,
+  status,
+  ...props
+}: TableRowProps) {
   const navigate = useNavigate()
   const handleClick = () => {
     if (click) {
@@ -24,7 +32,7 @@ function TableRow({ classes, action, click = false, ...props }: TableRowProps) {
     }
     return
   }
-  const paid = true
+
   return (
     <tr
       onClick={handleClick}
@@ -60,8 +68,8 @@ function TableRow({ classes, action, click = false, ...props }: TableRowProps) {
           <Chip
             variant="ghost"
             size="sm"
-            value={paid ? 'paid' : 'pending'}
-            color={paid ? 'green' : 'blue-gray'}
+            value={status?.text}
+            color={status?.color}
           />
         </div>
       </td>

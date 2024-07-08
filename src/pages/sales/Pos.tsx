@@ -94,9 +94,14 @@ function Sales() {
         <ItemContainer>
           <>
             <div className="flex w-full justify-between ">
-              <Button className="w-32 rounded-sm">Category</Button>
               <Button
-                onClick={() => setSort({ option: '?recent=true' })}
+                onClick={() => setSort({ option: '?sort=none' })}
+                className="w-32 rounded-sm"
+              >
+                All
+              </Button>
+              <Button
+                onClick={() => setSort({ option: '?sort=recent' })}
                 className="w-32 hover:bg-blue-600 rounded-sm"
               >
                 Recent

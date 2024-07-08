@@ -4,14 +4,16 @@ import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import InvoiceList from './InvoiceList'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale, updateSaleData } from '@/redux/sale'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
 import { UpdateSale } from '@/schema'
+import { AnimatedAlert } from '../ui/Alert'
 
 function EditSale() {
+  const [alertOpen, setAlertOpen] = useState(false)
   const dispatch = useAppDispatch()
   const data = useAppSelector((state) => state.sale.saleData)
-  const { mutate, error, fetching, success } = useApi()
+  const { mutate, error, fetching, data: apiData } = useApi<boolean>()
   const total = useMemo(
     () => data?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
     [data]
@@ -26,10 +28,9 @@ function EditSale() {
   }
 
   const updateSale = async () => {
-    const parsedData = await UpdateSale.validate(
-      { ...data, TotalAmount: total },
-      { stripUnknown: true }
-    )
+    const parsedData = await UpdateSale.validate(data, { stripUnknown: true })
+    console.log(parsedData, 'parseddata')
+
     mutate(`/sales/${data?.PKSaleID}`, parsedData, { method: 'PUT' })
   }
 
@@ -44,10 +45,11 @@ function EditSale() {
     })
   }
   useEffect(() => {
-    if (success) {
+    if (apiData) {
       void dispatch(fetchSale(data?.PKSaleID as string))
+      setAlertOpen(true)
     }
-  }, [success])
+  }, [apiData])
 
   return (
     <>
@@ -55,9 +57,9 @@ function EditSale() {
         <div className="flex w-full border-solid border-t-8 pt-5">
           <div className="flex w-1/2 flex-col ">
             {data?.SoldItems?.map((val) => (
-              <>
+              <div key={val.PKSoldItemID}>
                 {val.Qty !== 0 && (
-                  <div className="flex flex-col " key={val.PKSoldItemID}>
+                  <div className="flex flex-col ">
                     <OrderItem
                       minusBtn={() => minusBtnHandler(val.PKSoldItemID)}
                       plusBtn={() => plusBtnHandler(val.PKSoldItemID)}
@@ -70,7 +72,7 @@ function EditSale() {
                     />
                   </div>
                 )}
-              </>
+              </div>
             ))}
           </div>
           <div className="w-1/2">
@@ -113,7 +115,7 @@ function EditSale() {
             <Button
               loading={fetching}
               onClick={wrapper}
-              className="flex items-center gap-3 mt-5 ms-auto"
+              className="dark:bg-white flex items-center gap-3 mt-5 ms-auto"
               size="sm"
             >
               <SquaresPlusIcon strokeWidth={2} className="h-4 w-4" />
@@ -122,6 +124,9 @@ function EditSale() {
           </div>
         </div>
       )}
+      <AnimatedAlert open={alertOpen} onClose={() => setAlertOpen(false)}>
+        {'Sale Updated successfully'}
+      </AnimatedAlert>
     </>
   )
 }
