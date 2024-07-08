@@ -15,7 +15,7 @@ export type TableRowProps = {
   classes: string
   action?: boolean
   click?: boolean
-  status?: { text: string; color: colors }
+  status?: { text: string; color: colors; index?: number }
 } & DynamicTableCol
 
 function TableRow({
@@ -25,10 +25,12 @@ function TableRow({
   status,
   ...props
 }: TableRowProps) {
+  const { index: statusIndex = 3 } = status!
+
   const navigate = useNavigate()
   const handleClick = () => {
     if (click) {
-      navigate(`/sales/${props.col2}`)
+      navigate(`/sales/${props.col2?.value}`)
     }
     return
   }
@@ -38,56 +40,55 @@ function TableRow({
       onClick={handleClick}
       className={clsx(`hover:bg-blue-gray-50 `, { 'cursor-pointer': click })}
     >
-      <td className={classes}>
-        <div className="flex items-center gap-3">
-          <Avatar
-            src={`https://picsum.photos/id/${props.col2}/50/50`}
-            alt={'img'}
-            size="sm"
-          ></Avatar>
-          <div className="flex flex-col">
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
-              {props.col1}
-            </Typography>
-          </div>
-        </div>
-      </td>
-      <td className={classes}>
-        <div className="flex flex-col">
-          <Typography variant="small" color="blue-gray" className="font-normal">
-            {props.col2}
-          </Typography>
-        </div>
-      </td>
-      <td className={classes}>
-        <div className="w-max">
-          <Chip
-            variant="ghost"
-            size="sm"
-            value={status?.text}
-            color={status?.color}
-          />
-        </div>
-      </td>
-      <td className={classes}>
-        <Typography variant="small" color="blue-gray" className="font-normal">
-          {props.col3}
-        </Typography>
-      </td>
-      <td className={classes}>
-        <Typography variant="small" color="blue-gray" className="font-normal">
-          {props.col4}
-        </Typography>
-      </td>
-      <td className={classes}>
-        <Typography variant="small" color="blue-gray" className="font-normal">
-          {'$' + props.col5}
-        </Typography>
-      </td>
+      {Object.values(props).map((col, index) => {
+        return (
+          <>
+            {statusIndex === index + 1 && (
+              <td key={index} className={classes}>
+                <div key={index} className="w-max">
+                  <Chip
+                    variant="ghost"
+                    size="sm"
+                    value={status?.text}
+                    color={status?.color}
+                  />
+                </div>
+              </td>
+            )}
+            <td key={index} className={classes}>
+              {index === 0 ? (
+                <div className="flex items-center gap-3">
+                  <Avatar
+                    src={`https://picsum.photos/id/${props.col2?.value}/50/50`}
+                    alt={'img'}
+                    size="sm"
+                  ></Avatar>
+                  <div className="flex flex-col">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {clsx(col?.prefix, col?.value)}
+                    </Typography>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {clsx(col?.prefix, col?.value)}
+                  </Typography>
+                </div>
+              )}
+            </td>
+          </>
+        )
+      })}
+
       {action && (
         <td className={classes}>
           <Tooltip content="Edit Sale">

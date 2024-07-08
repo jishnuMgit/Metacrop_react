@@ -23,6 +23,7 @@ import {
   ordersOverviewData,
 } from '@/data'
 import { CheckCircleIcon, ClockIcon } from '@heroicons/react/24/solid'
+import { colors } from '@material-tailwind/react/types/generic'
 
 function Home() {
   return (
@@ -51,9 +52,11 @@ function Home() {
         )}
       </div>
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
-        {statisticsChartsData.map(({ title, footer, ...props }) => (
+        {statisticsChartsData.map(({ title, footer, color, ...props }) => (
           <StatisticsChart
             key={title}
+            title={title}
+            color={color as colors}
             {...props}
             footer={
               <Typography

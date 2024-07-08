@@ -107,10 +107,10 @@ const completedTasksChart = {
 
 export type ChartDataType = {
   color: color
-  title: string
+  title?: string
   description: string
   footer?: React.ReactNode | null
-  chart: any
+  chart: object
 }
 export const statisticsChartsData = [
   {

@@ -15,6 +15,7 @@ type Footer = {
 }
 export type StatisticsCardType = {
   color?: color
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
   icon: React.ReactNode | any // Assuming you're using React components for the icons
   title: string
   value: string

@@ -51,12 +51,12 @@ function SalesReturn() {
                   ? 'p-4'
                   : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
-                  col1: val.Item.ItemName,
-                  col2: val.PKReturnID,
-                  col3: new Date(val.CreatedOn).toLocaleDateString(),
-                  col4: val.Qty,
-                  col5: val.Price,
-                  col6: val.SubTotal,
+                  col1: { value: val.Item.ItemName },
+                  col2: { value: val.PKReturnID },
+                  col3: { value: new Date(val.CreatedOn).toLocaleDateString() },
+                  col4: { value: val.Qty },
+                  col5: { value: val.Price, prefix: '$' },
+                  col6: { value: val.SubTotal },
                 }
 
                 return (

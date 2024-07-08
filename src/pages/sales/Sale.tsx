@@ -119,11 +119,11 @@ function Sale() {
                             ? 'p-4'
                             : 'p-4 border-b border-blue-gray-50'
                           const columns: DynamicTableCol = {
-                            col1: val?.Item?.ItemName,
-                            col2: val.FKItemID,
-                            col3: val?.oldQty,
-                            col4: val.Price,
-                            col5: val.SubTotal,
+                            col1: { value: val?.Item?.ItemName },
+                            col2: { value: val.FKItemID },
+                            col3: { value: val?.oldQty ?? 'err' },
+                            col4: { value: val.Price, prefix: '$' },
+                            col5: { value: val.SubTotal },
                           }
                           return (
                             <TableRow
@@ -150,11 +150,11 @@ function Sale() {
                               ? 'p-4'
                               : 'p-4 border-b border-blue-gray-50'
                             const columns: DynamicTableCol = {
-                              col1: val.Item.ItemName,
-                              col2: val.FKItemID,
-                              col3: val.Qty,
-                              col4: val.Price,
-                              col5: val.SubTotal,
+                              col1: { value: val?.Item?.ItemName },
+                              col2: { value: val.FKItemID },
+                              col3: { value: val.Qty },
+                              col4: { value: val.Price, prefix: '$' },
+                              col5: { value: val.SubTotal },
                             }
                             return (
                               <TableRow

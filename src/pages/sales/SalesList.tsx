@@ -73,15 +73,15 @@ function SalesList() {
                   ? 'p-4'
                   : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
-                  col1: 'unknown',
-                  col2: val.PKSaleID,
-                  col3: new Date(val.CreatedOn).toLocaleDateString(),
-                  col4: val.SoldItems.length,
-                  col5: val.TotalAmount,
+                  col1: { value: 'unknown' },
+                  col2: { value: val.PKSaleID },
+                  col3: { value: new Date(val.CreatedOn).toLocaleDateString() },
+                  col4: { value: val.SoldItems.length },
+                  col5: { value: val.TotalAmount, prefix: '$' },
                 }
                 return (
                   <TableRow
-                    status={{ text: 'paid', color: 'green' }}
+                    status={{ text: 'paid', color: 'green', index: 3 }}
                     key={index}
                     {...columns}
                     classes={classes}

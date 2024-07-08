@@ -46,7 +46,7 @@ export type QrPluginProps = {
 
 type ColumnKeys = `col${number}`
 export type DynamicTableCol = {
-  [key in ColumnKeys]?: string | number
+  [key in ColumnKeys]?: { value: string | number; prefix?: string }
 }
 
 export type ApiItem = {
