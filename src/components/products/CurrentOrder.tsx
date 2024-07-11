@@ -1,8 +1,9 @@
-import { ItemContainer, Button } from '@/components/ui'
+import { ItemContainer } from '@/components/ui'
 import OrderItem from './OrderItem'
 import { decrement, increment } from '@/redux/order'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { clearOrder } from '@/redux/order'
+import { Button } from '@material-tailwind/react'
 
 function CurrentOrder() {
   const dispatch = useAppDispatch()
@@ -24,7 +25,11 @@ function CurrentOrder() {
         <div>
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold">Current Order</h1>
-            <Button type="button" classType="secondary" onClick={handleClear}>
+            <Button
+              disabled={orders.length === 0}
+              className="disabled:!cursor-not-allowed disabled:pointer-events-auto"
+              onClick={handleClear}
+            >
               Clear All
             </Button>
           </div>

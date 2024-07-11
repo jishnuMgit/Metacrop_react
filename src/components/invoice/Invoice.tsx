@@ -3,9 +3,10 @@ import InvoiceLi from './InvoiceLi'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { BillGenerate } from '@/schema'
 import { useApi } from 'useipa'
-import { Success, ItemContainer, Center, Button } from '../ui'
+import { Success, ItemContainer, Center } from '../ui'
 import { Modal } from '@/components/ui'
 import { clearOrder } from '@/redux/order'
+import { Button } from '@material-tailwind/react'
 
 function Invoice() {
   const orders = useAppSelector((state) => state.order.orders)
@@ -21,10 +22,6 @@ function Invoice() {
   const discount = 0
   const grandTotal = totalAmount + taxAmount - discount
   const handleClick = async (): Promise<void> => {
-    if (orders.length === 0) {
-      return
-    }
-
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
     mutate('/sales/create', { items, totalAmount })
   }
@@ -78,9 +75,9 @@ function Invoice() {
         <Center>
           <Button
             onClick={handleClickWrapper}
-            className="ms-3"
-            classType="secondary"
-            fetching={fetching}
+            disabled={orders.length === 0}
+            className="disabled:!cursor-not-allowed disabled:pointer-events-auto"
+            loading={fetching}
           >
             Generate Bill
           </Button>

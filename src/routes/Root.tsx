@@ -1,5 +1,4 @@
 import { Login } from '@/pages'
-import { Center } from '../components/ui'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { getCookie } from '@/utils/helpers'
@@ -13,17 +12,7 @@ function Root() {
     }
   }, [])
 
-  return (
-    <>
-      {isLoggedIn ? (
-        <Outlet />
-      ) : (
-        <Center className="h-screen">
-          <Login />
-        </Center>
-      )}
-    </>
-  )
+  return <>{isLoggedIn ? <Outlet /> : <Login />}</>
 }
 
 export default Root

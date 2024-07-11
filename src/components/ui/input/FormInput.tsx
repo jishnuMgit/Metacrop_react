@@ -1,4 +1,6 @@
 import { InputProps } from '@/utils/types'
+import { Input } from '@material-tailwind/react'
+import clsx from 'clsx'
 import { useField } from 'formik'
 
 type FInputProps = Omit<InputProps, 'onChange' | 'name'> & {
@@ -9,10 +11,18 @@ function FormInput({ label, className = '', ...props }: FInputProps) {
   return (
     <>
       {label && <label htmlFor={props.name}>{label}</label>}
-      <input
+      <Input
+        crossOrigin
         {...field}
         {...props}
-        className={`p-1 pl-2 input-shadow ${className}`}
+        size="lg"
+        className={clsx(
+          ' !border-t-blue-gray-200 focus:!border-t-gray-900 ',
+          className
+        )}
+        labelProps={{
+          className: 'before:content-none after:content-none',
+        }}
       />
       {meta.touched && meta.error && (
         <div className="text-red-400">{meta.error}</div>

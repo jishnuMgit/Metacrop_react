@@ -15,14 +15,14 @@ function Settings({
   handleClose: () => void
 }) {
   const navigate = useNavigate()
-  const { success, mutate } = useApi()
+  const { success, mutate, fetching } = useApi()
 
   const handleLogout = () => {
     mutate('/auth/logout')
+    removeCookie('logged_in')
   }
   useEffect(() => {
     if (success) {
-      removeCookie('logged_in')
       return navigate('/')
     }
   }, [success])
@@ -37,11 +37,12 @@ function Settings({
             onClick={handleLogout}
             className="flex items-center gap-3"
             size="sm"
+            loading={fetching}
           >
             <ArrowLeftStartOnRectangleIcon
               strokeWidth={2}
               className="h-4 w-4"
-            />{' '}
+            />
             Logout
           </Button>
         </div>

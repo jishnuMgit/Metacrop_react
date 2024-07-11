@@ -2,11 +2,7 @@ import { IconProps } from '@/utils/types'
 
 function IconEye({ onclick, ...props }: IconProps) {
   return (
-    <div
-      title="Show password"
-      onClick={onclick}
-      className="absolute cursor-pointer right-2 top-[5.3rem]"
-    >
+    <div title="Show password" onClick={onclick} className=" cursor-pointer">
       <svg
         viewBox="0 0 1024 1024"
         fill="currentColor"

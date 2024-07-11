@@ -2,6 +2,7 @@
 import withMt from '@material-tailwind/react/utils/withMT'
 
 export default withMt({
+  darkMode:'selector',
   content: [
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',

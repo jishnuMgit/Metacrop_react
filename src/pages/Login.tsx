@@ -1,12 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  Button,
-  Center,
-  ErrorText,
-  Form,
-  FormInput,
-  Logo,
-} from '@/components/ui'
+import { Form, FormInput, Logo } from '@/components/ui'
 import { EyeIcon, EyeOff } from '@/components/icons'
 import { Formik } from 'formik'
 import { LoginSchema } from '@/schema'
@@ -14,6 +7,7 @@ import { initialFormValues } from '@/config/constants'
 import { setCookie } from '@/utils/helpers'
 import { useNavigate } from 'react-router-dom'
 import { useFormApi } from 'useipa'
+import { Button, Typography } from '@material-tailwind/react'
 
 function Login() {
   const [show, setShow] = useState(false)
@@ -30,60 +24,112 @@ function Login() {
   }, [success])
 
   return (
-    <div className="w-full">
-      <Formik
-        initialValues={initialFormValues.login}
-        validationSchema={LoginSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values)
-          setSubmitting(false)
-          submitForm('/auth/login', values)
+    <Formik
+      initialValues={initialFormValues.login}
+      validationSchema={LoginSchema}
+      onSubmit={(values, { setSubmitting }) => {
+        console.log(values)
+        setSubmitting(false)
+        submitForm('/auth/login', values)
 
-          // resetForm()
-        }}
-      >
-        {(formik) => (
-          <Form onSubmit={formik.handleSubmit}>
-            <>
-              <Logo />
-              <h1 className="text-3xl text-center my-8">Welcome!</h1>
-              <Center>
-                <div className="w-11/12 my-5 relative">
-                  <FormInput
-                    type="email"
-                    label="Email"
-                    name="email"
-                    className="w-full border-slate-200 "
-                  />
-                  <FormInput
-                    type={`${show ? 'text' : 'password'}`}
-                    label="Password"
-                    name="password"
-                    className="w-full border-slate-200 "
-                  />
-                  {!show ? (
-                    <EyeIcon onclick={togglePassword} />
-                  ) : (
-                    <EyeOff onclick={togglePassword} />
+        // resetForm()
+      }}
+    >
+      {(formik) => (
+        <Form onSubmit={formik.handleSubmit}>
+          <>
+            <section className="m-8 flex gap-4">
+              <div className="w-full lg:w-3/5 mt-24">
+                <div className="text-center">
+                  <Typography variant="h2" className="font-bold mb-4">
+                    Sign In
+                  </Typography>
+                  <Typography
+                    variant="paragraph"
+                    color="blue-gray"
+                    className="text-lg font-normal"
+                  >
+                    Enter your email and password to Sign In.
+                  </Typography>
+                </div>
+                <div className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
+                  <div className="mb-1 flex flex-col gap-6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="-mb-3 font-medium"
+                    >
+                      Your email
+                    </Typography>
+                    <FormInput
+                      name="email"
+                      type="email"
+                      placeholder="you@mail.com"
+                    ></FormInput>
+
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="-mb-3 font-medium"
+                    >
+                      Password
+                    </Typography>
+                    <div className="relative">
+                      <FormInput
+                        name="password"
+                        type={show ? 'text' : 'password'}
+                        placeholder="Enter your password"
+                      ></FormInput>
+                      <div className="absolute right-[4px] top-[0.7rem]">
+                        {!show ? (
+                          <EyeIcon onclick={togglePassword} />
+                        ) : (
+                          <EyeOff onclick={togglePassword} />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {error && (
+                    <Typography color="red">{error.message}</Typography>
                   )}
 
-                  {error && <ErrorText message={error.message} />}
-                  <div className="flex justify-center ">
-                    <Button
-                      fetching={fetching}
-                      type="submit"
-                      className="mt-3 w-5/12"
+                  <Button
+                    loading={fetching}
+                    className="mt-6"
+                    fullWidth
+                    type="submit"
+                  >
+                    Sign In
+                  </Button>
+
+                  <div className="flex items-center justify-between gap-2 mt-6">
+                    <Typography
+                      variant="small"
+                      className="font-medium text-gray-900"
                     >
-                      Login
-                    </Button>
+                      <a href="#">Forgot Password?</a>
+                    </Typography>
                   </div>
                 </div>
-              </Center>
-            </>
-          </Form>
-        )}
-      </Formik>
-    </div>
+              </div>
+              <div className="w-2/5 h-full hidden lg:block relative">
+                <div className="absolute">
+                  <Logo
+                    noIcon
+                    textColor="bg-gradient-to-r from-[#191b1c] to-[#f7f7f7]"
+                  />
+                </div>
+
+                <img
+                  src="img/pattern.png"
+                  className="h-full w-full object-cover rounded-3xl"
+                />
+              </div>
+            </section>
+          </>
+        </Form>
+      )}
+    </Formik>
   )
 }
 
