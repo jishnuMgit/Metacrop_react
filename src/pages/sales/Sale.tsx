@@ -14,15 +14,19 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Qty', 'Price', 'SubTotal']
 
 function Sale() {
   const [edit, setEdit] = useState(false)
   const params = useParams()
+  const { search } = useLocation()
   // const { fetchData, data, error, fetching } = useApi<{ data?: ApiSalesData }>()
   const dispatch = useAppDispatch()
+  const query = new URLSearchParams(search).get('action')
+  console.log(query, 'actionnnnnnnnn')
+
   const {
     error,
     fetching,
@@ -37,7 +41,6 @@ function Sale() {
   if (error) {
     return <>No sales Found on given id: {`${params.id}`}</>
   }
-  console.log(data)
 
   return (
     <>
@@ -61,7 +64,7 @@ function Sale() {
                     size="sm"
                   >
                     <SquaresPlusIcon strokeWidth={2} className="h-4 w-4" />
-                    {!edit ? `Edit Sale` : `Cancel`}
+                    {!edit && query !== 'edit' ? `Edit Sale` : `Cancel`}
                   </Button>
                 </div>
               </div>
@@ -74,7 +77,7 @@ function Sale() {
                   </Typography>
                 </div>
                 <div className="mb-5 flex flex-col ">
-                  {[
+                  {Array.from([
                     {
                       name: 'Sale Date',
                       value: new Date(data?.CreatedOn).toLocaleDateString(),
@@ -95,7 +98,7 @@ function Sale() {
                       name: 'Total Amount',
                       value: `$` + data.TotalAmount,
                     },
-                  ].map((val, index) => (
+                  ]).map((val, index) => (
                     <InvoiceList
                       key={index}
                       name={val.name}
@@ -104,9 +107,8 @@ function Sale() {
                   ))}
                 </div>
               </div>
-              {!edit ? (
+              {!edit && query !== 'edit' ? (
                 <>
-                  {' '}
                   <TableComponent heading="Selected Items For Sales">
                     <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
                     <TableBody fetching={fetching}>

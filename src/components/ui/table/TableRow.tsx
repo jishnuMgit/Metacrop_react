@@ -9,6 +9,7 @@ import {
 } from '@material-tailwind/react'
 import { colors } from '@material-tailwind/react/types/generic'
 import clsx from 'clsx'
+import { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export type TableRowProps = {
@@ -42,9 +43,9 @@ function TableRow({
     >
       {Object.values(props).map((col, index) => {
         return (
-          <>
+          <Fragment key={index}>
             {statusIndex === index + 1 && (
-              <td key={index} className={classes}>
+              <td className={classes}>
                 <div key={index} className="w-max">
                   <Chip
                     variant="ghost"
@@ -55,7 +56,7 @@ function TableRow({
                 </div>
               </td>
             )}
-            <td key={index} className={classes}>
+            <td className={classes}>
               {index === 0 ? (
                 <div className="flex items-center gap-3">
                   <Avatar
@@ -85,7 +86,7 @@ function TableRow({
                 </div>
               )}
             </td>
-          </>
+          </Fragment>
         )
       })}
 

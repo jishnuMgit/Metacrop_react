@@ -1,23 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Root from './Root'
-import {
-  Sales,
-  Home,
-  Error,
-  Login,
-  Settings,
-  SalesList,
-  SalesReturn,
-} from '@/pages'
+import { Sales, Home, Error, Login, SalesList, SalesReturn } from '@/pages'
 import Layout from '../components/Layout'
-import { authLoader } from './loader'
+import { authLoader, rootLoader } from './loader'
 import { Sale, SaleIndex } from '@/pages/sales'
 
 export const router = createBrowserRouter([
   {
-    path: '/',
     element: <Root />,
     errorElement: <Error />,
+    loader: rootLoader,
     children: [
       {
         path: '/',
@@ -38,10 +30,9 @@ export const router = createBrowserRouter([
             ],
             errorElement: <Error />,
           },
-          { path: '/settings', Component: Settings },
-          { path: '/login', Component: Login, loader: authLoader },
         ],
       },
     ],
   },
+  { path: 'login', Component: Login, loader: authLoader },
 ])

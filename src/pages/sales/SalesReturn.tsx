@@ -26,10 +26,10 @@ const TABLE_HEAD = [
   'Total Amount',
 ]
 function SalesReturn() {
-  const { fetchData, data } = useApi<{ data?: ApiSalesReturn[] }>()
+  const { fetchData, data, fetching } = useApi<{ data?: ApiSalesReturn[] }>()
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<SortOrder>('desc')
-  const [limit, setLimit] = useState<number>(10)
+  const [sort] = useState<SortOrder>('desc')
+  const [limit] = useState<number>(10)
   const [sortType, setSortType] = useState<SortTypes>('date')
   useEffect(() => {
     fetchData('/sales/returns')
@@ -43,7 +43,7 @@ function SalesReturn() {
         <Header setSortType={setSortType} name="Sales Return" />
         <TableComponent>
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
-          <TableBody>
+          <TableBody fetching={fetching}>
             <>
               {data?.data?.map((val, index) => {
                 const isLast = index === data?.data!.length - 1
@@ -71,7 +71,11 @@ function SalesReturn() {
             </>
           </TableBody>
         </TableComponent>
-        <TableFooter setPage={setPage} page={page}></TableFooter>
+        <TableFooter
+          fetching={fetching}
+          setPage={setPage}
+          page={page}
+        ></TableFooter>
       </Card>
     </>
   )

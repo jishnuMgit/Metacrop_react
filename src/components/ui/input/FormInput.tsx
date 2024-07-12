@@ -12,7 +12,7 @@ function FormInput({ label, className = '', ...props }: FInputProps) {
     <>
       {label && <label htmlFor={props.name}>{label}</label>}
       <Input
-        crossOrigin
+        crossOrigin={undefined}
         {...field}
         {...props}
         size="lg"

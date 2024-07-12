@@ -8,3 +8,11 @@ export const authLoader = () => {
   }
   return true
 }
+
+export const rootLoader = () => {
+  const isLoggedIn = getCookie('logged_in')
+  if (!isLoggedIn) {
+    return redirect('/login')
+  }
+  return true
+}

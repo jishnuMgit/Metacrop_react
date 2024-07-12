@@ -18,12 +18,12 @@ function Settings({
   const { success, mutate, fetching } = useApi()
 
   const handleLogout = () => {
-    mutate('/auth/logout')
     removeCookie('logged_in')
+    mutate('/auth/logout')
   }
   useEffect(() => {
     if (success) {
-      return navigate('/')
+      return navigate('/login')
     }
   }, [success])
 

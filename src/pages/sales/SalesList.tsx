@@ -28,7 +28,7 @@ const TABLE_HEAD = [
 
 function SalesList() {
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<SortOrder>('desc')
+  const [sort] = useState<SortOrder>('desc')
   const [sortType, setSortType] = useState<SortTypes>('date')
   const [btnName, setbtnName] = useState('view all')
   const { fetchData, data, fetching } = useApi<{ data?: ApiSalesData[] }>()
@@ -95,6 +95,7 @@ function SalesList() {
         </TableComponent>
         {limit !== -1 && (
           <TableFooter
+            fetching={fetching}
             page={page}
             setPage={setPage}
             isLast={data?.data?.length !== limit}

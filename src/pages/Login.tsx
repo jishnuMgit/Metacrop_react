@@ -28,7 +28,6 @@ function Login() {
       initialValues={initialFormValues.login}
       validationSchema={LoginSchema}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values)
         setSubmitting(false)
         submitForm('/auth/login', values)
 
