@@ -53,7 +53,12 @@ function Header({
           </Typography>
         </div>
         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-          <Button onClick={viewAll} variant="outlined" size="sm">
+          <Button
+            className="hover:bg-gray-900 hover:opacity-100 hover:text-white"
+            onClick={viewAll}
+            variant="outlined"
+            size="sm"
+          >
             {btnName}
           </Button>
           <Button

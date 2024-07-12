@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
 import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
-import { Button } from '@material-tailwind/react'
+import { Button, ButtonGroup } from '@material-tailwind/react'
 import clsx from 'clsx'
 import { ApiItem } from '@/utils/types'
 
@@ -102,7 +102,7 @@ function Sales() {
               </Button>
               <Button
                 onClick={() => setSort({ option: '?sort=recent' })}
-                className="w-32 hover:bg-blue-600 rounded-sm"
+                className="w-32 rounded-sm"
               >
                 Recent
               </Button>
@@ -128,7 +128,6 @@ function Sales() {
               </div>
               <div className="flex p-1">
                 <ScanIcon onClick={handleScanner} />
-
                 <Modal isOpen={cam} handleClose={handleClose}>
                   <Cam />
                 </Modal>

@@ -62,6 +62,13 @@ const saleSlice = createSlice({
         }
       })
     },
+    removeSoldItem: (state, action) => {
+      state.saleData?.SoldItems.forEach((val) => {
+        if (val.FKItemID === action.payload) {
+          val.Qty = 0
+        }
+      })
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -80,6 +87,6 @@ const saleSlice = createSlice({
   },
 })
 
-export const { updateSaleData } = saleSlice.actions
+export const { updateSaleData, removeSoldItem } = saleSlice.actions
 export { fetchSale }
 export default saleSlice.reducer

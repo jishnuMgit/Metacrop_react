@@ -3,7 +3,7 @@ import OrderItem from '../products/OrderItem'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import InvoiceList from './InvoiceList'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
-import { fetchSale, updateSaleData } from '@/redux/sale'
+import { fetchSale, removeSoldItem, updateSaleData } from '@/redux/sale'
 import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
 import { UpdateSale } from '@/schema'
@@ -27,8 +27,8 @@ function EditSale() {
     return
   }
 
-  const removeItem = () => {
-    return
+  const removeItem = (id: string | number) => {
+    dispatch(removeSoldItem(id))
   }
   const updateSale = async () => {
     const parsedData = await UpdateSale.validate(data, { stripUnknown: true })
