@@ -27,6 +27,9 @@ function EditSale() {
     return
   }
 
+  const removeItem = () => {
+    return
+  }
   const updateSale = async () => {
     const parsedData = await UpdateSale.validate(data, { stripUnknown: true })
     console.log(parsedData, 'parseddata')
@@ -61,6 +64,7 @@ function EditSale() {
                 {val.Qty !== 0 && (
                   <div className="flex flex-col ">
                     <OrderItem
+                      delBtnHandler={removeItem}
                       minusBtn={() => minusBtnHandler(val.PKSoldItemID)}
                       plusBtn={() => plusBtnHandler(val.PKSoldItemID)}
                       item={{

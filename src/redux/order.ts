@@ -24,6 +24,11 @@ const orderSlice = createSlice({
       }
       state.orders.push({ ...action.payload, qty: 1 })
     },
+    removeFrmOrders: (state, action: PayloadAction<string | number>) => {
+      state.orders = state.orders.filter(
+        (val) => val.PKItemID !== action.payload
+      )
+    },
     increment: (state, action) => {
       state.orders.forEach((item) => {
         if (item.PKItemID === action.payload) {
@@ -47,6 +52,11 @@ const orderSlice = createSlice({
     },
   },
 })
-export const { addToOrders, decrement, increment, clearOrder } =
-  orderSlice.actions
+export const {
+  addToOrders,
+  decrement,
+  increment,
+  clearOrder,
+  removeFrmOrders,
+} = orderSlice.actions
 export default orderSlice.reducer

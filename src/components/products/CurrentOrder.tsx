@@ -1,6 +1,6 @@
 import { ItemContainer } from '@/components/ui'
 import OrderItem from './OrderItem'
-import { decrement, increment } from '@/redux/order'
+import { decrement, increment, removeFrmOrders } from '@/redux/order'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { clearOrder } from '@/redux/order'
 import { Button } from '@material-tailwind/react'
@@ -8,7 +8,9 @@ import { Button } from '@material-tailwind/react'
 function CurrentOrder() {
   const dispatch = useAppDispatch()
   const orders = useAppSelector((state) => state.order.orders)
-
+  const handleDelItem = (id: string | number) => {
+    dispatch(removeFrmOrders(id))
+  }
   const handleClear = () => {
     dispatch(clearOrder())
   }
@@ -37,6 +39,7 @@ function CurrentOrder() {
           <div className="overflow-y-auto max-h-96 pe-3">
             {orders.map((val) => (
               <OrderItem
+                delBtnHandler={handleDelItem}
                 minusBtn={minusBtnHandler}
                 plusBtn={plusBtnHander}
                 item={val}
