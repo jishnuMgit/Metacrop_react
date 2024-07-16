@@ -10,6 +10,8 @@ type OrderItemProps = {
   minusBtn: (id: number) => void
   plusBtn: (id: number) => void
   delBtnHandler: (id: string | number) => void
+  fetching?: boolean
+  btn?: boolean
 }
 
 function OrderItem({ item, minusBtn, plusBtn, delBtnHandler }: OrderItemProps) {

@@ -12,24 +12,26 @@ export function AnimatedAlert({
   timeout?: number
 }) {
   useEffect(() => {
-    const timer = setTimeout(() => onClose(), timeout ?? 10000)
+    const timer = setTimeout(() => onClose(), timeout ?? 3000)
     return () => {
       clearTimeout(timer)
     }
-  }, [])
+  }, [open])
 
   return (
     <>
-      <Alert
-        open={open}
-        onClose={onClose}
-        animate={{
-          mount: { y: 0 },
-          unmount: { y: 100 },
-        }}
-      >
-        {children}
-      </Alert>
+      <div className="fixed bottom-1 w-11/12">
+        <Alert
+          open={open}
+          onClose={onClose}
+          animate={{
+            mount: { y: 0 },
+            unmount: { y: 100 },
+          }}
+        >
+          {children}
+        </Alert>
+      </div>
     </>
   )
 }

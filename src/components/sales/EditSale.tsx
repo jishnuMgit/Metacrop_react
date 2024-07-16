@@ -6,8 +6,9 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale, removeSoldItem, updateSaleData } from '@/redux/sale'
 import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
-import { UpdateSale } from '@/schema'
+import { ReturnItem, UpdateSale } from '@/schema'
 import { AnimatedAlert } from '../ui/Alert'
+import { Spinner } from '../ui'
 
 function EditSale() {
   const [alertOpen, setAlertOpen] = useState(false)
@@ -37,10 +38,20 @@ function EditSale() {
     mutate(`/sales/${data?.PKSaleID}`, parsedData, { method: 'PUT' })
   }
 
-  const wrapper = () => {
+  const wrapperUpdateSale = () => {
     updateSale().catch((e) => console.log(e))
   }
 
+  const returnHandler = async (id: number, qty: number) => {
+    const returnItemData = await ReturnItem.validate({
+      PKSoldItemID: id,
+      returnQty: qty,
+    })
+    mutate(`/sales/return-item/${data?.PKSaleID}`, returnItemData)
+  }
+  const wrapperReturnitem = (id: number, qty: number) => {
+    returnHandler(id, qty).catch((e) => console.log(e))
+  }
   if (error) {
     throw new Response(error.message, {
       status: error?.status,
@@ -58,26 +69,41 @@ function EditSale() {
     <>
       {data && (
         <div className="flex w-full border-solid border-t-8 pt-5">
-          <div className="flex w-1/2 flex-col ">
-            {data?.SoldItems?.map((val) => (
-              <div key={val.PKSoldItemID}>
-                {val.Qty !== 0 && (
-                  <div className="flex flex-col ">
-                    <OrderItem
-                      delBtnHandler={removeItem}
-                      minusBtn={() => minusBtnHandler(val.PKSoldItemID)}
-                      plusBtn={() => plusBtnHandler(val.PKSoldItemID)}
-                      item={{
-                        PKItemID: val.FKItemID,
-                        qty: val.Qty,
-                        ItemName: val.Item.ItemName,
-                        Price: val.Price,
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
+          <div className="flex w-3/4 flex-col ">
+            {!fetching ? (
+              data.SoldItems?.map((val) => (
+                <div key={val.PKSoldItemID}>
+                  {val.Qty !== 0 && (
+                    <div className="flex ">
+                      <div className="flex flex-col w-11/12">
+                        <OrderItem
+                          delBtnHandler={removeItem}
+                          minusBtn={() => minusBtnHandler(val.PKSoldItemID)}
+                          plusBtn={() => plusBtnHandler(val.PKSoldItemID)}
+                          item={{
+                            PKItemID: val.FKItemID,
+                            qty: val.Qty,
+                            ItemName: val.Item.ItemName,
+                            Price: val.Price,
+                          }}
+                        />
+                      </div>
+                      <Button
+                        onClick={() =>
+                          wrapperReturnitem(val.PKSoldItemID, val.Qty)
+                        }
+                        size="sm"
+                        className="h-10 ml-5"
+                      >
+                        Return
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <Spinner />
+            )}
           </div>
           <div className="w-1/2">
             <div className=" flex flex-col w-1/2 ms-auto">
@@ -118,7 +144,7 @@ function EditSale() {
             </div>
             <Button
               loading={fetching}
-              onClick={wrapper}
+              onClick={wrapperUpdateSale}
               className="dark:bg-white flex items-center gap-3 mt-5 ms-auto"
               size="sm"
             >

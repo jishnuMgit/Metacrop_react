@@ -4,7 +4,7 @@ import { QrcodeSuccessCallback } from 'html5-qrcode'
 import { useAppDispatch } from '@/config/hooks'
 import { hideModal, setQrData } from '@/redux/component'
 
-function Cam() {
+function Cam({ handleClose }: { handleClose: () => void }) {
   const dispatch = useAppDispatch()
   const successCallback: QrcodeSuccessCallback = (
     decodedText,
@@ -12,6 +12,7 @@ function Cam() {
   ) => {
     dispatch(setQrData(decodedText))
     dispatch(hideModal())
+    handleClose()
     console.log(decodedResult)
   }
   useEffect(() => {

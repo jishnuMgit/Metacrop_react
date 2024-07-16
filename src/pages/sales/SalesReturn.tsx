@@ -21,7 +21,7 @@ const TABLE_HEAD = [
   'Sales Return ID',
   'Status',
   'Date',
-  'Total Items',
+  'Quantity',
   'Price',
   'Total Amount',
 ]

@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
 import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
-import { Button, ButtonGroup } from '@material-tailwind/react'
+import { Button } from '@material-tailwind/react'
 import clsx from 'clsx'
 import { ApiItem } from '@/utils/types'
 
@@ -129,7 +129,7 @@ function Sales() {
               <div className="flex p-1">
                 <ScanIcon onClick={handleScanner} />
                 <Modal isOpen={cam} handleClose={handleClose}>
-                  <Cam />
+                  <Cam handleClose={handleClose} />
                 </Modal>
 
                 <MicIcon />
