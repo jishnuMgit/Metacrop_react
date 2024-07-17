@@ -8,15 +8,16 @@ type InitialState = {
   saleData?: ApiSalesData
   fetching: boolean
   error: Error | null | object
-  updateData?: { sold_items: []; TotalAmount: number }
+  touched: boolean // this for any qty changed update data. if changed touched is true.
 }
 const INITIAL_STATE: InitialState = {
   saleData: undefined,
   totalAmount: 0,
   fetching: false,
   error: null,
-  updateData: undefined,
+  touched: false,
 }
+
 const fetchSale = createAsyncThunk(
   'sale/fetchsale',
   async (id: string, { rejectWithValue }) => {
@@ -47,12 +48,10 @@ const saleSlice = createSlice({
   reducers: {
     updateSaleData: (
       state,
-      action: PayloadAction<
-        { PKSoldItemID: number } & { operation: 'INC' | 'DEC' }
-      >
+      action: PayloadAction<{ id: number } & { operation: 'INC' | 'DEC' }>
     ) => {
       state.saleData?.SoldItems.forEach((val) => {
-        if (val.PKSoldItemID === action.payload.PKSoldItemID) {
+        if (val.PKSoldItemID === action.payload.id) {
           if (action.payload.operation === 'INC') {
             val.Qty++
           }
@@ -61,11 +60,15 @@ const saleSlice = createSlice({
           }
         }
       })
+      state.touched = !!state.saleData?.SoldItems.find(
+        (val) => val.oldQty !== val.Qty
+      )
     },
     removeSoldItem: (state, action) => {
       state.saleData?.SoldItems.forEach((val) => {
         if (val.FKItemID === action.payload) {
           val.Qty = 0
+          state.touched = true
         }
       })
     },
@@ -76,6 +79,7 @@ const saleSlice = createSlice({
         console.log(action.payload, 'payload')
         state.fetching = false
         state.saleData = action.payload
+        state.touched = false
       })
       .addCase(fetchSale.pending, (state) => {
         state.fetching = true

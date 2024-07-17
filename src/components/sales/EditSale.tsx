@@ -13,18 +13,19 @@ import { Spinner } from '../ui'
 function EditSale() {
   const [alertOpen, setAlertOpen] = useState(false)
   const dispatch = useAppDispatch()
-  const data = useAppSelector((state) => state.sale.saleData)
+  const { saleData, touched } = useAppSelector((state) => state.sale)
   const { mutate, error, fetching, data: apiData } = useApi<boolean>()
   const total = useMemo(
-    () => data?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
-    [data]
+    () =>
+      saleData?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
+    [saleData]
   )
   const minusBtnHandler = (id: number) => {
-    dispatch(updateSaleData({ PKSoldItemID: id, operation: 'DEC' }))
+    dispatch(updateSaleData({ id, operation: 'DEC' }))
     return
   }
   const plusBtnHandler = (id: number) => {
-    dispatch(updateSaleData({ PKSoldItemID: id, operation: 'INC' }))
+    dispatch(updateSaleData({ id, operation: 'INC' }))
     return
   }
 
@@ -32,10 +33,12 @@ function EditSale() {
     dispatch(removeSoldItem(id))
   }
   const updateSale = async () => {
-    const parsedData = await UpdateSale.validate(data, { stripUnknown: true })
+    const parsedData = await UpdateSale.validate(saleData, {
+      stripUnknown: true,
+    })
     console.log(parsedData, 'parseddata')
 
-    mutate(`/sales/${data?.PKSaleID}`, parsedData, { method: 'PUT' })
+    mutate(`/sales/${saleData?.PKSaleID}`, parsedData, { method: 'PUT' })
   }
 
   const wrapperUpdateSale = () => {
@@ -47,7 +50,7 @@ function EditSale() {
       PKSoldItemID: id,
       returnQty: qty,
     })
-    mutate(`/sales/return-item/${data?.PKSaleID}`, returnItemData)
+    mutate(`/sales/return-item/${saleData?.PKSaleID}`, returnItemData)
   }
   const wrapperReturnitem = (id: number, qty: number) => {
     returnHandler(id, qty).catch((e) => console.log(e))
@@ -60,18 +63,18 @@ function EditSale() {
   }
   useEffect(() => {
     if (apiData) {
-      void dispatch(fetchSale(data?.PKSaleID as string))
+      void dispatch(fetchSale(saleData?.PKSaleID as string))
       setAlertOpen(true)
     }
   }, [apiData])
 
   return (
     <>
-      {data && (
+      {saleData && (
         <div className="flex w-full border-solid border-t-8 pt-5">
           <div className="flex w-3/4 flex-col ">
             {!fetching ? (
-              data.SoldItems?.map((val) => (
+              saleData.SoldItems?.map((val) => (
                 <div key={val.PKSoldItemID}>
                   {val.Qty !== 0 && (
                     <div className="flex ">
@@ -115,7 +118,7 @@ function EditSale() {
                 {[
                   {
                     name: 'Sale Date',
-                    value: new Date(data.CreatedOn).toLocaleDateString(),
+                    value: new Date(saleData.CreatedOn).toLocaleDateString(),
                   },
                   {
                     name: 'Modified Date',
@@ -123,11 +126,11 @@ function EditSale() {
                   },
                   {
                     name: 'Sale Id',
-                    value: data.PKSaleID,
+                    value: saleData.PKSaleID,
                   },
                   {
                     name: 'Total Items',
-                    value: data?.SoldItems.length,
+                    value: saleData?.SoldItems.length,
                   },
                   {
                     name: 'Total Amount',
@@ -143,6 +146,7 @@ function EditSale() {
               </div>
             </div>
             <Button
+              disabled={!touched}
               loading={fetching}
               onClick={wrapperUpdateSale}
               className="dark:bg-white flex items-center gap-3 mt-5 ms-auto"
