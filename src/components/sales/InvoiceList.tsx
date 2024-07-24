@@ -10,13 +10,13 @@ function InvoiceList({
   return (
     <>
       <div className="flex justify-between w-full">
-        <Typography color="blue-gray" className="w-5/12">
+        <Typography color="blue-gray" className="w-5/12 dark:text-white">
           {name}
         </Typography>
-        <Typography color="blue-gray" className="w-2/12">
+        <Typography color="blue-gray" className="w-2/12 dark:text-white">
           :
         </Typography>
-        <Typography color="blue-gray" className="w-5/12">
+        <Typography color="blue-gray" className="w-5/12 dark:text-white">
           {value}
         </Typography>
       </div>

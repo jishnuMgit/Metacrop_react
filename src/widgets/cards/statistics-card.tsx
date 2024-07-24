@@ -16,26 +16,29 @@ export function StatisticsCard({
   footer = null,
 }: StatisticsCardType) {
   return (
-    <Card className="border border-blue-gray-100 shadow-sm">
+    <Card className="border border-blue-gray-100 shadow-sm dark:bg-dark-primary-bg dark:border-none">
       <CardHeader
-        variant="gradient"
+        variant="filled"
         color={color}
         floated={false}
         shadow={false}
-        className="absolute grid h-12 w-12 place-items-center"
+        className="absolute grid h-12 w-12 place-items-center dark:!bg-dark-btn-color"
       >
         {icon}
       </CardHeader>
       <CardBody className="p-4 text-right">
-        <Typography variant="small" className="font-normal text-blue-gray-600">
+        <Typography
+          variant="small"
+          className="font-normal text-blue-gray-600 dark:text-dark-text-color"
+        >
           {title}
         </Typography>
-        <Typography variant="h4" color="blue-gray">
+        <Typography variant="h4" color="blue-gray" className="dark:text-white">
           {value}
         </Typography>
       </CardBody>
       {footer && (
-        <CardFooter className="border-t border-blue-gray-50 p-4">
+        <CardFooter className="border-t dark:border-black border-blue-gray-50 p-4">
           {footer}
         </CardFooter>
       )}

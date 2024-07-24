@@ -1,7 +1,3 @@
-#root {
-  color: #1e1b16;
-  font-family: 'Montserrat';
-}
 input:focus-visible {
   outline-color: #00abe4;
 }

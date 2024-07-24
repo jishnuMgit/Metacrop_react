@@ -1,7 +1,11 @@
 import { chartsConfig } from '@/config'
+import { isDarkMode } from '@/utils/helpers'
 import { color } from '@material-tailwind/react/types/components/alert'
+import { Props } from 'react-apexcharts'
 
-const websiteViewsChart = {
+type ChartProps = Props
+
+const websiteViewsChart: ChartProps = {
   type: 'bar',
   height: 220,
   series: [
@@ -12,7 +16,7 @@ const websiteViewsChart = {
   ],
   options: {
     ...chartsConfig,
-    colors: '#388e3c',
+    colors: isDarkMode() ? ['#EB1616'] : ['#388e3c'],
     plotOptions: {
       bar: {
         columnWidth: '16%',
@@ -26,7 +30,7 @@ const websiteViewsChart = {
   },
 }
 
-const dailySalesChart = {
+const dailySalesChart: ChartProps = {
   type: 'line',
   height: 220,
   series: [
@@ -61,7 +65,7 @@ const dailySalesChart = {
   },
 }
 
-const completedTaskChart = {
+const completedTaskChart: ChartProps = {
   type: 'line',
   height: 220,
   series: [
@@ -109,29 +113,29 @@ export type ChartDataType = {
   color: color
   title?: string
   description: string
-  footer?: React.ReactNode | null
-  chart: object
+  footerElement?: React.ReactNode | null
+  chart: Props
 }
 export const statisticsChartsData = [
   {
     color: 'white',
     title: 'Website View',
     description: 'Last Campaign Performance',
-    footer: 'campaign sent 2 days ago',
+    footerText: 'campaign sent 2 days ago',
     chart: websiteViewsChart,
   },
   {
     color: 'white',
     title: 'Daily Sales',
     description: '15% increase in today sales',
-    footer: 'updated 4 min ago',
+    footerText: 'updated 4 min ago',
     chart: dailySalesChart,
   },
   {
     color: 'white',
     title: 'Completed Tasks',
     description: 'Last Campaign Performance',
-    footer: 'just updated',
+    footerText: 'just updated',
     chart: completedTasksChart,
   },
 ]

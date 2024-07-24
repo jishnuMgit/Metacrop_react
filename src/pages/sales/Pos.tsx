@@ -1,4 +1,5 @@
 import {
+  Button,
   Cam,
   ErrorText,
   Input,
@@ -13,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { setQrData } from '@/redux/component'
 import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
-import { Button } from '@material-tailwind/react'
+// import { Button } from '@material-tailwind/react'
 import clsx from 'clsx'
 import { ApiItem } from '@/utils/types'
 
@@ -119,7 +120,7 @@ function Sales() {
                   name="search"
                   onChange={handleChange}
                   onKeyUp={handleEnter}
-                  className="indent-7 mb-0 w-full h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0]"
+                  className=" indent-7 mb-0 w-full h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none"
                   type="text"
                   value={searchInputVal}
                   placeholder="Product Name"

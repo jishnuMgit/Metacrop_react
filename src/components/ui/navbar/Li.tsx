@@ -30,11 +30,13 @@ function Li({
   }
   const liClass = clsx(
     !className &&
-      `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`,
+      `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:hover:text-blue-200 md:p-0`,
     !active && 'text-lg text-[#747474]',
-    active && 'text-black text text-xl',
+    active && 'text-black text text-xl  dark:text-blue-200',
     !!className && className,
-    dropdown && location.split('/')[2] === path && 'bg-gray-100'
+    dropdown &&
+      location.split('/')[2] === path &&
+      'bg-gray-100 dark:bg-dark-primary-bg'
   )
 
   return (

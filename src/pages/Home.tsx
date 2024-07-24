@@ -37,10 +37,10 @@ function Home() {
               {...rest}
               title={title}
               icon={React.createElement(icon, {
-                className: 'w-6 h-6 text-white',
+                className: 'w-6 h-6 text-white ',
               })}
               footer={
-                <Typography className="font-normal text-blue-gray-600">
+                <Typography className="font-normal text-blue-gray-600 ">
                   <strong className={footerProps?.color}>
                     {footerProps?.value}
                   </strong>
@@ -52,13 +52,12 @@ function Home() {
         )}
       </div>
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
-        {statisticsChartsData.map(({ title, footer, color, ...props }) => (
+        {statisticsChartsData.map(({ title, footerText, color, ...props }) => (
           <StatisticsChart
             key={title}
-            title={title}
             color={color as colors}
             {...props}
-            footer={
+            footerElement={
               <Typography
                 variant="small"
                 className="flex items-center font-normal text-blue-gray-600"
@@ -67,14 +66,14 @@ function Home() {
                   strokeWidth={2}
                   className="h-4 w-4 text-blue-gray-400"
                 />
-                &nbsp;{footer}
+                &nbsp;{footerText}
               </Typography>
             }
           />
         ))}
       </div>
       <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
-        <Card className="overflow-hidden xl:col-span-2 border border-blue-gray-100 shadow-sm">
+        <Card className="overflow-hidden xl:col-span-2 border border-blue-gray-100 dark:border-none shadow-sm dark:bg-dark-primary-bg">
           <CardHeader
             floated={false}
             shadow={false}
@@ -140,7 +139,7 @@ function Home() {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
                         ? ''
-                        : 'border-b border-blue-gray-50'
+                        : 'border-b border-blue-gray-50 dark:border-black'
                     }`
 
                     return (
@@ -204,7 +203,7 @@ function Home() {
             </table>
           </CardBody>
         </Card>
-        <Card className="border border-blue-gray-100 shadow-sm">
+        <Card className="border border-blue-gray-100 dark:border-none shadow-sm dark:bg-dark-primary-bg ">
           <CardHeader
             floated={false}
             shadow={false}

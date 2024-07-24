@@ -2,7 +2,7 @@
 import withMt from '@material-tailwind/react/utils/withMT'
 
 export default withMt({
-  darkMode:'selector',
+  darkMode: 'selector',
   content: [
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',
@@ -10,7 +10,14 @@ export default withMt({
     'node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'dark-primary-bg': '#191C24',
+        'dark-text-color': '#6c7293',
+        'dark-btn-color': '#eb1616',
+        'dark-btn-hover': '#c81313',
+      },
+    },
   },
   plugins: [],
 })

@@ -1,4 +1,5 @@
-import { Button, CardFooter, Typography } from '@material-tailwind/react'
+import { CardFooter, Typography } from '@material-tailwind/react'
+import { Button } from '../button'
 
 type TableFooterProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>
@@ -8,8 +9,12 @@ type TableFooterProps = {
 }
 function TableFooter({ setPage, page, isLast }: TableFooterProps) {
   return (
-    <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-      <Typography variant="small" color="blue-gray" className="font-normal">
+    <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 dark:border-black p-4">
+      <Typography
+        variant="small"
+        color={'blue-gray'}
+        className="font-normal dark:text-dark-text-color"
+      >
         {`Page ${page} of 10`}
       </Typography>
       <div className="flex gap-2">

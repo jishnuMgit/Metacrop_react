@@ -19,6 +19,7 @@ import { useApi } from 'useipa'
 const TABLE_HEAD = [
   'Item',
   'Sales Return ID',
+  'Sale ID',
   'Status',
   'Date',
   'Quantity',
@@ -39,7 +40,7 @@ function SalesReturn() {
 
   return (
     <>
-      <Card className="h-full w-full">
+      <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">
         <Header setSortType={setSortType} name="Sales Return" />
         <TableComponent>
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
@@ -53,15 +54,21 @@ function SalesReturn() {
                 const columns: DynamicTableCol = {
                   col1: { value: val.Item.ItemName },
                   col2: { value: val.PKReturnID },
-                  col3: { value: new Date(val.CreatedOn).toLocaleDateString() },
-                  col4: { value: val.Qty },
-                  col5: { value: val.Price, prefix: '$' },
-                  col6: { value: val.SubTotal },
+                  col3: { value: val.FKSaleID },
+                  col4: { value: new Date(val.CreatedOn).toLocaleDateString() },
+                  col5: { value: val.Qty },
+                  col6: { value: val.Price, prefix: '$' },
+                  col7: { value: val.SubTotal, prefix: '$' },
                 }
 
                 return (
                   <TableRow
-                    status={{ text: 'returned', color: 'blue-gray' }}
+                    status={{
+                      text: 'returned',
+                      color: 'blue-gray',
+                      index: 4,
+                      classes: 'dark:text-[rgb(136,193,221)]',
+                    }}
                     key={index}
                     {...columns}
                     classes={classes}

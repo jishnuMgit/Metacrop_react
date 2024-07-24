@@ -1,4 +1,4 @@
-import { Button, Typography } from '@material-tailwind/react'
+import { Typography } from '@material-tailwind/react'
 import OrderItem from '../products/OrderItem'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import InvoiceList from './InvoiceList'
@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
 import { ReturnItem, UpdateSale } from '@/schema'
 import { AnimatedAlert } from '../ui/Alert'
-import { Spinner } from '../ui'
+import { Button, Spinner } from '../ui'
 
 function EditSale() {
   const [alertOpen, setAlertOpen] = useState(false)
@@ -109,12 +109,16 @@ function EditSale() {
             )}
           </div>
           <div className="w-1/2">
-            <div className=" flex flex-col w-1/2 ms-auto">
-              <Typography variant="h6" color="blue-gray">
+            <div className=" flex flex-col w-8/12 ms-auto">
+              <Typography
+                variant="h6"
+                color="blue-gray"
+                className="dark:text-blue-200"
+              >
                 {`Update Details`}
               </Typography>
 
-              <div className="mb-5 flex flex-col ">
+              <div className="mb-5 flex flex-col">
                 {[
                   {
                     name: 'Sale Date',
@@ -149,7 +153,7 @@ function EditSale() {
               disabled={!touched}
               loading={fetching}
               onClick={wrapperUpdateSale}
-              className="dark:bg-white flex items-center gap-3 mt-5 ms-auto"
+              className="flex items-center gap-3 mt-5 ms-auto"
               size="sm"
             >
               <SquaresPlusIcon strokeWidth={2} className="h-4 w-4" />

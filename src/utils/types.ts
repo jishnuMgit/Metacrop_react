@@ -106,8 +106,8 @@ export type ApiSalesData = {
 export type ApiSalesReturn = {
   CreatedOn: string
   FKItemID: number | string
-  FKSaledItemID: number | string
-  FKSalesID: number | string
+  FKSoldItemID: number | string
+  FKSaleID: number | string
   PKReturnID: number | string
   Qty: number
   SubTotal: number | string

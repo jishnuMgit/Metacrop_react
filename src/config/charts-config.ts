@@ -1,11 +1,14 @@
-export const chartsConfig = {
+import { Props } from 'react-apexcharts'
+
+type ChartConfig = NonNullable<Props['options']>
+export const chartsConfig: ChartConfig = {
   chart: {
     toolbar: {
       show: false,
     },
   },
   title: {
-    show: '',
+    // show: '',
   },
   dataLabels: {
     enabled: false,

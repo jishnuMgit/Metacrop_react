@@ -38,3 +38,11 @@ export const dateParser = (dateString: string): string => {
   }
   return date.toLocaleDateString()
 }
+
+export const isDarkMode = () => {
+  return !!localStorage.getItem('darkMode')
+}
+
+export const setDarkMode = (dark: boolean) => {
+  localStorage.setItem('darkMode', dark + '')
+}

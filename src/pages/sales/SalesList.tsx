@@ -56,7 +56,7 @@ function SalesList() {
 
   return (
     <>
-      <Card className="h-full w-full">
+      <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">
         <Header
           setSortType={sortHandler}
           viewAll={viewAll}
@@ -81,7 +81,12 @@ function SalesList() {
                 }
                 return (
                   <TableRow
-                    status={{ text: 'paid', color: 'green', index: 3 }}
+                    status={{
+                      text: 'paid',
+                      color: 'green',
+                      index: 3,
+                      classes: 'dark:text-[rgb(33,234,48)]',
+                    }}
                     key={index}
                     {...columns}
                     classes={classes}

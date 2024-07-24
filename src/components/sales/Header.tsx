@@ -1,7 +1,6 @@
 import { SortTypes } from '@/utils/types'
 import { MagnifyingGlassIcon, SquaresPlusIcon } from '@heroicons/react/24/solid'
 import {
-  Button,
   CardHeader,
   Input,
   Tab,
@@ -10,6 +9,7 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../ui'
 
 type HeaderProps = {
   name: string
@@ -42,10 +42,18 @@ function Header({
 }: HeaderProps) {
   const navigate = useNavigate()
   return (
-    <CardHeader floated={false} shadow={false} className="rounded-none">
+    <CardHeader
+      floated={false}
+      shadow={false}
+      className="rounded-none dark:bg-dark-primary-bg"
+    >
       <div className="mb-8 flex items-center justify-between gap-8">
         <div>
-          <Typography variant="h5" color="blue-gray">
+          <Typography
+            variant="h5"
+            className="dark:text-white"
+            color="blue-gray"
+          >
             {`${name} list`}
           </Typography>
           <Typography color="gray" className="mt-1 font-normal">
@@ -73,7 +81,7 @@ function Header({
       </div>
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         <Tabs value="date" className="w-full z-0 md:w-max">
-          <TabsHeader>
+          <TabsHeader className="dark:bg-black">
             {TABS.map(({ label, value }) => (
               <Tab
                 onClick={() => setSortType(value as SortTypes)}
@@ -88,7 +96,9 @@ function Header({
         <div className="w-full md:w-72">
           <Input
             crossOrigin={''}
+            className="dark:bg-black "
             label="Search"
+            labelProps={{ className: 'dark:peer-focus:!text-white' }}
             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
           />
         </div>

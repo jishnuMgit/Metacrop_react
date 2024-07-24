@@ -1,13 +1,12 @@
 import EditSale from '@/components/sales/EditSale'
 import InvoiceList from '@/components/sales/InvoiceList'
-import { Spinner, TableComponent } from '@/components/ui'
+import { Button, Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale } from '@/redux/sale'
 import { DynamicTableCol } from '@/utils/types'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import {
-  Button,
   Card,
   CardBody,
   CardHeader,
@@ -46,11 +45,19 @@ function Sale() {
     <>
       {data ? (
         <>
-          <Card className="h-full mx-5 mt-5 ">
-            <CardHeader floated={false} shadow={false} className="rounded-none">
+          <Card className="h-full mx-5 mt-5 dark:bg-dark-primary-bg">
+            <CardHeader
+              floated={false}
+              shadow={false}
+              className="rounded-none dark:bg-dark-primary-bg"
+            >
               <div className="mb-8 flex items-center justify-between gap-8">
                 <div>
-                  <Typography variant="h4" color="blue-gray">
+                  <Typography
+                    variant="h4"
+                    color="blue-gray"
+                    className="dark:text-white"
+                  >
                     {`Sale Deatails`}
                   </Typography>
                   <Typography color="gray" className="mt-1 font-normal">
@@ -69,10 +76,14 @@ function Sale() {
                 </div>
               </div>
             </CardHeader>
-            <CardBody>
-              <div className="w-3/12">
+            <CardBody className="p-0">
+              <div className="w-4/12 p-6">
                 <div>
-                  <Typography variant="h6" color="blue-gray">
+                  <Typography
+                    variant="h6"
+                    color="blue-gray"
+                    className="dark:text-blue-200"
+                  >
                     {`Invoice Details`}
                   </Typography>
                 </div>
@@ -125,12 +136,16 @@ function Sale() {
                             col2: { value: val.FKItemID },
                             col3: { value: val?.oldQty ?? 'err' },
                             col4: { value: val.Price, prefix: '$' },
-                            col5: { value: val.SubTotal },
+                            col5: { value: val.SubTotal, prefix: '$' },
                           }
                           return (
                             <TableRow
                               key={index}
-                              status={{ text: 'paid', color: 'green' }}
+                              status={{
+                                text: 'paid',
+                                color: 'green',
+                                classes: 'dark:text-[rgb(33,234,48)]',
+                              }}
                               {...columns}
                               classes={classes}
                             />
@@ -156,13 +171,14 @@ function Sale() {
                               col2: { value: val.FKItemID },
                               col3: { value: val.Qty },
                               col4: { value: val.Price, prefix: '$' },
-                              col5: { value: val.SubTotal },
+                              col5: { value: val.SubTotal, prefix: '$' },
                             }
                             return (
                               <TableRow
                                 status={{
                                   text: 'returned',
                                   color: 'blue-gray',
+                                  classes: 'dark:text-[rgb(136,193,221)]',
                                 }}
                                 key={index}
                                 {...columns}

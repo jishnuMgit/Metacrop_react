@@ -43,7 +43,7 @@ function NavBar() {
 
   return (
     <>
-      <nav className="bg-white border-gray-200 sticky z-[8] top-0 shadow">
+      <nav className="bg-white border-gray-200 sticky z-[8] top-0 shadow dark:bg-dark-primary-bg">
         <div className=" flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
           <Link to={'/'}>
             <Logo small />
@@ -115,16 +115,17 @@ function NavBar() {
                   ref={refs.setFloating}
                   {...getFloatingProps()}
                   style={floatingStyles}
+                  className=""
                 >
                   <div
-                    className="bg-white border border-solid min-w-32 shadow"
+                    className="bg-white dark:bg-black dark:border-none border border-solid min-w-32 shadow"
                     style={{ ...styles }}
                   >
                     <List>
                       <Li
                         dropdown
                         path="pos"
-                        className="hover:bg-gray-100  px-4 py-2 w-full flex"
+                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
                         link="/sales/pos"
                       >
                         Pos
@@ -132,7 +133,7 @@ function NavBar() {
                       <Li
                         dropdown
                         path="list"
-                        className="hover:bg-gray-100  px-4 py-2 w-full flex "
+                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex "
                         link="/sales/list"
                       >
                         Sales List
@@ -141,7 +142,7 @@ function NavBar() {
                         dropdown
                         path="return"
                         link="/sales/return"
-                        className="hover:bg-gray-100  px-4 py-2 w-full flex"
+                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
                       >
                         Sales Return
                       </Li>
