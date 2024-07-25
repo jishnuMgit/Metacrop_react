@@ -16,6 +16,8 @@ type HeaderProps = {
   viewAll?: () => void
   setSortType: (val: SortTypes) => void
   btnName?: string
+  handleEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  handleQuery: (value: string) => void
 }
 
 const TABS = [
@@ -39,8 +41,11 @@ function Header({
   viewAll,
   setSortType,
   btnName = 'view all',
+  handleEnter,
+  handleQuery,
 }: HeaderProps) {
   const navigate = useNavigate()
+
   return (
     <CardHeader
       floated={false}
@@ -97,7 +102,9 @@ function Header({
           <Input
             crossOrigin={''}
             className="dark:bg-black "
-            label="Search"
+            label="Search by id"
+            onChange={(e) => handleQuery(e.target.value)}
+            onKeyUp={handleEnter}
             labelProps={{ className: 'dark:peer-focus:!text-white' }}
             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
           />

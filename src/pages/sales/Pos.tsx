@@ -91,7 +91,7 @@ function Sales() {
 
   return (
     <>
-      <div className="flex md:px-1 md:flex-row flex-col transition-all">
+      <div className="flex md:p-6 md:flex-row flex-col transition-all">
         <ItemContainer>
           <>
             <div className="flex w-full justify-between ">
@@ -120,7 +120,7 @@ function Sales() {
                   name="search"
                   onChange={handleChange}
                   onKeyUp={handleEnter}
-                  className=" indent-7 mb-0 w-full h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none"
+                  className=" indent-7 mb-0 w-full h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
                   type="text"
                   value={searchInputVal}
                   placeholder="Product Name"
@@ -143,7 +143,7 @@ function Sales() {
             </div>
           </>
         </ItemContainer>
-        <div className="flex flex-col md:w-1/2 mx-3 items-center ">
+        <div className="flex flex-col md:w-1/2 ms-3 items-center ">
           <CurrentOrder />
           <Invoice />
         </div>

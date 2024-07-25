@@ -23,7 +23,7 @@ function CurrentOrder() {
 
   return (
     <>
-      <ItemContainer className="w-full">
+      <ItemContainer className="w-full mb-3">
         <div>
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold">Current Order</h1>

@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useSearch } from '@/hooks'
 import {
   ApiSalesReturn,
   DynamicTableCol,
@@ -32,22 +33,45 @@ function SalesReturn() {
   const [sort] = useState<SortOrder>('desc')
   const [limit] = useState<number>(10)
   const [sortType, setSortType] = useState<SortTypes>('date')
+  const [saleData, setSaleData] = useState<ApiSalesReturn[] | undefined>()
+  const { handleEnter, handleQuery, searchData, resetState } = useSearch<
+    ApiSalesReturn | undefined
+  >('', 'sales/returns/')
+
   useEffect(() => {
     fetchData('/sales/returns')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, sortType, page, limit])
   console.log(data)
+  useEffect(() => {
+    if (searchData) {
+      setSaleData(searchData)
+      resetState()
+    }
+  }, [searchData, data])
+
+  useEffect(() => {
+    if (data) {
+      setSaleData(data.data)
+      return
+    }
+  }, [data])
 
   return (
     <>
       <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">
-        <Header setSortType={setSortType} name="Sales Return" />
+        <Header
+          setSortType={setSortType}
+          name="Sales Return"
+          handleEnter={handleEnter}
+          handleQuery={handleQuery}
+        />
         <TableComponent>
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
           <TableBody fetching={fetching}>
             <>
-              {data?.data?.map((val, index) => {
-                const isLast = index === data?.data!.length - 1
+              {saleData?.map((val, index) => {
+                const isLast = index === saleData.length - 1
                 const classes: string = isLast
                   ? 'p-4'
                   : 'p-4 border-b border-blue-gray-50'

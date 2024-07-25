@@ -6,6 +6,7 @@ import {
   TableFooter,
   TableRow,
 } from '@/components/ui/table'
+import { useSearch } from '@/hooks'
 import type {
   ApiSalesData,
   DynamicTableCol,
@@ -31,8 +32,15 @@ function SalesList() {
   const [sort] = useState<SortOrder>('desc')
   const [sortType, setSortType] = useState<SortTypes>('date')
   const [btnName, setbtnName] = useState('view all')
-  const { fetchData, data, fetching } = useApi<{ data?: ApiSalesData[] }>()
+  const { fetchData, data, fetching, error } = useApi<{
+    data?: ApiSalesData[]
+  }>()
   const [limit, setLimit] = useState<number>(10)
+  const [saleData, setSaleData] = useState<ApiSalesData[] | undefined>()
+
+  const { searchData, handleEnter, handleQuery, resetState } =
+    useSearch<ApiSalesData>('', 'sales/')
+  console.log(error, 'err')
 
   const viewAll = () => {
     if (limit == -1) {
@@ -52,12 +60,23 @@ function SalesList() {
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, limit, sortType, sort])
-  console.log(data)
 
+  useEffect(() => {
+    if (searchData) {
+      setSaleData(searchData)
+      resetState()
+    }
+  }, [searchData])
+
+  useEffect(() => {
+    setSaleData(data?.data)
+  }, [data])
   return (
     <>
       <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">
         <Header
+          handleEnter={handleEnter}
+          handleQuery={handleQuery}
           setSortType={sortHandler}
           viewAll={viewAll}
           name="Sales"
@@ -67,8 +86,10 @@ function SalesList() {
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
           <TableBody fetching={fetching}>
             <>
-              {data?.data?.map((val, index) => {
-                const isLast = index === data?.data!.length - 1
+              {saleData?.map((val, index) => {
+                // console.log(val, index, 'vaaaaaaaaaaa')
+
+                const isLast = index === saleData.length - 1
                 const classes: string = isLast
                   ? 'p-4'
                   : 'p-4 border-b border-blue-gray-50'
