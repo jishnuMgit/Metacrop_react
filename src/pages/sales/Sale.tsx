@@ -4,6 +4,7 @@ import { Button, Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale } from '@/redux/sale'
+import { createInvoiceList } from '@/utils/helpers'
 import { DynamicTableCol } from '@/utils/types'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import {
@@ -88,28 +89,7 @@ function Sale() {
                   </Typography>
                 </div>
                 <div className="mb-5 flex flex-col ">
-                  {Array.from([
-                    {
-                      name: 'Sale Date',
-                      value: new Date(data?.CreatedOn).toLocaleDateString(),
-                    },
-                    {
-                      name: 'Modified Date',
-                      value: new Date(data.ModifiedOn).toLocaleDateString(),
-                    },
-                    {
-                      name: 'Sale Id',
-                      value: data.PKSaleID,
-                    },
-                    {
-                      name: 'Total Items',
-                      value: data.SoldItems.length,
-                    },
-                    {
-                      name: 'Total Amount',
-                      value: `$` + data.TotalAmount,
-                    },
-                  ]).map((val, index) => (
+                  {createInvoiceList(data).map((val, index) => (
                     <InvoiceList
                       key={index}
                       name={val.name}

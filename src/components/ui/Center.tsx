@@ -3,10 +3,16 @@ import { clsx } from 'clsx/lite'
 type CenterProps = {
   children: React.JSX.Element
   className?: string
+  start?: boolean
 }
-function Center({ children, className }: CenterProps) {
+function Center({ children, className, start }: CenterProps) {
   return (
-    <div className={clsx(`flex items-center justify-center`, className)}>
+    <div
+      className={clsx(
+        `flex items-center ${start ? 'justify-start' : 'justify-center'}`,
+        className
+      )}
+    >
       {children}
     </div>
   )

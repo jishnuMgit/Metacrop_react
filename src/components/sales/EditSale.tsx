@@ -9,6 +9,7 @@ import { useApi } from 'useipa'
 import { ReturnItem, UpdateSale } from '@/schema'
 import { AnimatedAlert } from '../ui/Alert'
 import { Button, Spinner } from '../ui'
+import { createInvoiceList } from '@/utils/helpers'
 
 function EditSale() {
   const [alertOpen, setAlertOpen] = useState(false)
@@ -119,34 +120,15 @@ function EditSale() {
               </Typography>
 
               <div className="mb-5 flex flex-col">
-                {[
-                  {
-                    name: 'Sale Date',
-                    value: new Date(saleData.CreatedOn).toLocaleDateString(),
-                  },
-                  {
-                    name: 'Modified Date',
-                    value: new Date().toLocaleDateString(),
-                  },
-                  {
-                    name: 'Sale Id',
-                    value: saleData.PKSaleID,
-                  },
-                  {
-                    name: 'Total Items',
-                    value: saleData?.SoldItems.length,
-                  },
-                  {
-                    name: 'Total Amount',
-                    value: `$` + total,
-                  },
-                ].map((val, index) => (
-                  <InvoiceList
-                    key={index}
-                    name={val.name}
-                    value={val.value}
-                  ></InvoiceList>
-                ))}
+                {createInvoiceList({ ...saleData, TotalAmount: total! }).map(
+                  (val, index) => (
+                    <InvoiceList
+                      key={index}
+                      name={val.name}
+                      value={val.value}
+                    ></InvoiceList>
+                  )
+                )}
               </div>
             </div>
             <Button

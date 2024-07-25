@@ -1,6 +1,7 @@
 import { COOKIE_TTL } from '@/config/constants'
 import Fuse, { IFuseOptions } from 'fuse.js'
 import Cookies from 'js-cookie'
+import { ApiSalesData } from './types'
 
 export const fuzzySearch = <T>(list: T[], query: string): T[] => {
   const fuseOptions: IFuseOptions<T> = {
@@ -45,4 +46,32 @@ export const isDarkMode = () => {
 
 export const setDarkMode = (dark: boolean) => {
   localStorage.setItem('darkMode', dark + '')
+}
+
+export const createInvoiceList = (data?: ApiSalesData) => {
+  if (data) {
+    return [
+      {
+        name: 'Sale Date',
+        value: new Date(data?.CreatedOn).toLocaleDateString(),
+      },
+      {
+        name: 'Modified Date',
+        value: new Date(data.ModifiedOn).toLocaleDateString(),
+      },
+      {
+        name: 'Sale Id',
+        value: data.PKSaleID,
+      },
+      {
+        name: 'Total Items',
+        value: data.SoldItems.length,
+      },
+      {
+        name: 'Total Amount',
+        value: `$` + data.TotalAmount,
+      },
+    ]
+  }
+  return []
 }

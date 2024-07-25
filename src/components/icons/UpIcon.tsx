@@ -16,7 +16,7 @@ function UpIcon() {
           <div className="fixed right-1 bottom-1 z-50 rounded-full bg-contain">
             <ArrowUpCircleIcon
               strokeWidth={0}
-              className="h-10 w-10 dark:text-dark-btn-color text-white"
+              className="h-10 w-10 dark:text-dark-btn-color"
             />
           </div>
           <div className="fixed right-3 bottom-3 bg-white h-5 w-5 rounded-full"></div>

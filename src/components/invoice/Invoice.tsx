@@ -7,6 +7,7 @@ import { Success, ItemContainer, Center } from '../ui'
 import { Modal } from '@/components/ui'
 import { clearOrder } from '@/redux/order'
 import { Button } from '@material-tailwind/react'
+import { ApiSalesData } from '@/utils/types'
 
 function Invoice() {
   const orders = useAppSelector((state) => state.order.orders)
@@ -15,7 +16,9 @@ function Invoice() {
     [orders]
   )
   const [isOpen, setisOpen] = useState(false)
-  const { mutate, success, error, fetching, clearState } = useApi()
+  const { mutate, success, error, fetching, data, clearState } = useApi<{
+    data?: ApiSalesData
+  }>()
   const dispatch = useAppDispatch()
   const tax = 0
   const taxAmount = (tax / 100) * totalAmount
@@ -56,7 +59,7 @@ function Invoice() {
   return (
     <>
       <Modal handleClose={handleClose} center isOpen={isOpen}>
-        <Success />
+        <Success data={data?.data} />
       </Modal>
 
       <>
@@ -72,7 +75,7 @@ function Invoice() {
             <InvoiceLi start="Total:" end={`$ ` + grandTotal.toFixed(2)} bold />
           </div>
         </ItemContainer>
-        <Center>
+        <Center className="mt-4">
           <Button
             onClick={handleClickWrapper}
             disabled={orders.length === 0}
