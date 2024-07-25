@@ -91,7 +91,7 @@ function Sales() {
 
   return (
     <>
-      <div className="flex md:p-6 md:flex-row flex-col transition-all">
+      <div className="flex md:p-5 md:flex-row flex-col transition-all">
         <ItemContainer>
           <>
             <div className="flex w-full justify-between ">
@@ -143,7 +143,7 @@ function Sales() {
             </div>
           </>
         </ItemContainer>
-        <div className="flex flex-col md:w-1/2 ms-3 items-center ">
+        <div className="flex flex-col md:w-1/2 ms-4 items-center ">
           <CurrentOrder />
           <Invoice />
         </div>
