@@ -66,7 +66,7 @@ function SalesReturn() {
           handleEnter={handleEnter}
           handleQuery={handleQuery}
         />
-        <TableComponent>
+        <TableComponent className="dark:px-6">
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
           <TableBody fetching={fetching}>
             <>

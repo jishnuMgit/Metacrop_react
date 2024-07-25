@@ -1,8 +1,10 @@
 import { CardBody, Typography } from '@material-tailwind/react'
+import clsx from 'clsx'
 
 function SortableTable({
   children,
   heading,
+  className,
 }: {
   children: React.ReactNode
   className?: string
@@ -10,7 +12,12 @@ function SortableTable({
 }) {
   return (
     <>
-      <CardBody className="overflow-x-auto px-0 dark:bg-dark-primary-bg dark:px-6">
+      <CardBody
+        className={clsx(
+          'overflow-x-auto px-0 dark:bg-dark-primary-bg',
+          className
+        )}
+      >
         {heading && (
           <Typography
             variant="h5"

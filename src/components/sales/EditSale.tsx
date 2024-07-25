@@ -72,7 +72,7 @@ function EditSale() {
   return (
     <>
       {saleData && (
-        <div className="flex w-full border-solid border-t-8 pt-5">
+        <div className="flex w-full border-solid border-t-8 pt-5 ">
           <div className="flex w-3/4 flex-col ">
             {!fetching ? (
               saleData.SoldItems?.map((val) => (

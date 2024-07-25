@@ -77,8 +77,8 @@ function Sale() {
                 </div>
               </div>
             </CardHeader>
-            <CardBody className="p-0">
-              <div className="w-4/12 p-6">
+            <CardBody className="p-6">
+              <div className="w-4/12">
                 <div>
                   <Typography
                     variant="h6"
