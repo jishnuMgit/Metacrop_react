@@ -3,10 +3,9 @@ import InvoiceLi from './InvoiceLi'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { BillGenerate } from '@/schema'
 import { useApi } from 'useipa'
-import { Success, ItemContainer, Center } from '../ui'
+import { Success, ItemContainer, Center, Button } from '../ui'
 import { Modal } from '@/components/ui'
 import { clearOrder } from '@/redux/order'
-import { Button } from '@material-tailwind/react'
 import { ApiSalesData } from '@/utils/types'
 
 function Invoice() {

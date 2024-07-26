@@ -1,9 +1,8 @@
-import { ItemContainer } from '@/components/ui'
+import { Button, ItemContainer } from '@/components/ui'
 import OrderItem from './OrderItem'
 import { decrement, increment, removeFrmOrders } from '@/redux/order'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { clearOrder } from '@/redux/order'
-import { Button } from '@material-tailwind/react'
 
 function CurrentOrder() {
   const dispatch = useAppDispatch()

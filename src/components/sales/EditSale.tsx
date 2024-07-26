@@ -72,8 +72,8 @@ function EditSale() {
   return (
     <>
       {saleData && (
-        <div className="flex w-full border-solid border-t-8 pt-5 ">
-          <div className="flex w-3/4 flex-col ">
+        <div className="flex flex-col md:flex-row w-full border-solid border-t-8 pt-5 ">
+          <div className="flex w-full overflow-auto md:w-3/4 flex-col ">
             {!fetching ? (
               saleData.SoldItems?.map((val) => (
                 <div key={val.PKSoldItemID}>
@@ -109,8 +109,8 @@ function EditSale() {
               <Spinner />
             )}
           </div>
-          <div className="w-1/2">
-            <div className=" flex flex-col w-8/12 ms-auto">
+          <div className="w-full md:w-1/2">
+            <div className=" flex flex-col md:w-8/12 ms-auto">
               <Typography
                 variant="h6"
                 color="blue-gray"

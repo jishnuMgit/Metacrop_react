@@ -91,25 +91,25 @@ function Sales() {
 
   return (
     <>
-      <div className="flex md:p-5 md:flex-row flex-col transition-all">
+      <div className="flex md:p-5 lg:flex-row flex-col transition-all">
         <ItemContainer>
           <>
             <div className="flex w-full justify-between ">
               <Button
                 onClick={() => setSort({ option: '?sort=none' })}
-                className="w-32 rounded-sm"
+                className="md:w-32 rounded-sm"
               >
                 All
               </Button>
               <Button
                 onClick={() => setSort({ option: '?sort=recent' })}
-                className="w-32 rounded-sm"
+                className="md:w-32 rounded-sm"
               >
                 Recent
               </Button>
               <Button
                 onClick={() => setSort({ option: 'most-saled' })}
-                className="w-32  rounded-sm"
+                className="md:w-32  rounded-sm"
               >
                 Most
               </Button>
@@ -143,7 +143,7 @@ function Sales() {
             </div>
           </>
         </ItemContainer>
-        <div className="flex flex-col md:w-1/2 ms-4 items-center ">
+        <div className="flex flex-col mt-3 lg:mt-0 lg:w-1/2 lg:ms-4 items-center ">
           <CurrentOrder />
           <Invoice />
         </div>

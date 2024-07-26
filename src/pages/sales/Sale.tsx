@@ -78,7 +78,7 @@ function Sale() {
               </div>
             </CardHeader>
             <CardBody className="p-6">
-              <div className="w-4/12">
+              <div className="md:w-4/12 w-full ">
                 <div>
                   <Typography
                     variant="h6"
@@ -88,7 +88,7 @@ function Sale() {
                     {`Invoice Details`}
                   </Typography>
                 </div>
-                <div className="mb-5 flex flex-col ">
+                <div className="mb-5 flex flex-col  ">
                   {createInvoiceList(data).map((val, index) => (
                     <InvoiceList
                       key={index}

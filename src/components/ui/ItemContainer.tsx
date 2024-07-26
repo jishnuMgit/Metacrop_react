@@ -10,9 +10,9 @@ function ItemContainer({ children, className }: ItemContainerProps) {
   return (
     <div
       className={clsx(
-        `flex flex-col bg-white rounded-sm p-5 md:px-7 h-min max-h-[30rem] dark:bg-dark-primary-bg`,
+        `flex flex-col bg-white rounded-sm p-5 lg:px-7 h-min max-h-[30rem] dark:bg-dark-primary-bg`,
         className,
-        { 'md:w-1/2': !className },
+        { 'lg:w-1/2': !className },
         'sm:w-full'
       )}
     >
