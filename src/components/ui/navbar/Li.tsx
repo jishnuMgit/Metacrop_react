@@ -31,8 +31,8 @@ function Li({
   const liClass = clsx(
     !className &&
       `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:hover:text-blue-200 md:p-0`,
-    !active && 'text-lg text-[#747474]',
-    active && 'text-black text text-xl  dark:text-blue-200',
+    !active && 'text-md text-[#747474]',
+    active && 'text-black text text-md font-semibold  dark:text-blue-200',
     !!className && className,
     dropdown &&
       location.split('/')[2] === path &&
@@ -41,15 +41,13 @@ function Li({
 
   return (
     <>
-      <div>
-        {link ? (
-          <Link to={link} className={liClass}>
-            {children}
-          </Link>
-        ) : (
-          <li className={liClass}>{children}</li>
-        )}
-      </div>
+      {link ? (
+        <Link to={link} className={liClass}>
+          {children}
+        </Link>
+      ) : (
+        <li className={liClass}>{children}</li>
+      )}
     </>
   )
 }

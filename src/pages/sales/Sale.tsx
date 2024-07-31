@@ -33,13 +33,14 @@ function Sale() {
     saleData: data,
   } = useAppSelector((state) => state.sale)
   useEffect(() => {
-    // fetchData(`/sales/${params.id}`)
     void dispatch(fetchSale(params.id!))
   }, [])
-  console.log(data)
 
   if (error) {
-    return <>No sales Found on given id: {`${params.id}`}</>
+    throw new Response('NO sale found', {
+      status: 400,
+      statusText: 'No sales found given id',
+    })
   }
 
   return (

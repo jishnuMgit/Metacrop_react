@@ -8,9 +8,8 @@ type ErrorType = {
   message?: string
 }
 function Error() {
-  const err = useRouteError()
-  const error = err as ErrorType
-  console.log(error)
+  const err = useRouteError() as ErrorType
+  const error = err
 
   return (
     <Center className="h-screen flex-col">

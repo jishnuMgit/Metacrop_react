@@ -105,13 +105,14 @@ function NavBar() {
               <Li>Finance</Li>
               <Li>Inventory</Li>
               <Li>Analytics</Li>
-              <Li>
+              <Li className="flex items-center">
                 <GearIcon onClick={handleClick} />
               </Li>
 
               {/* drop down for sales */}
               {isMounted && (
                 <div
+                  onClick={() => setDropdown(false)}
                   ref={refs.setFloating}
                   {...getFloatingProps()}
                   style={floatingStyles}
