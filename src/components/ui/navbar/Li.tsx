@@ -1,11 +1,11 @@
-import { paths } from '@/config/constants'
+import { links } from '@/config/constants'
 import { clsx } from 'clsx'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 type LiProps = {
   children: React.JSX.Element | string
-  link?: (typeof paths)[keyof typeof paths]
+  link?: (typeof links)[keyof typeof links]
   active?: boolean
   className?: string
   path?: string

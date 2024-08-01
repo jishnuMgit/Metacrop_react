@@ -13,6 +13,7 @@ import {
 } from '@floating-ui/react'
 import { List } from '@material-tailwind/react'
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
+import { links } from '@/config/constants'
 
 function NavBar() {
   const [show, setShow] = useState(false)
@@ -81,7 +82,7 @@ function NavBar() {
             id="navbar-default"
           >
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
-              <Li link="/">Home</Li>
+              <Li link={links.HOME}>Home</Li>
               <Li path="sales">
                 <>
                   <div
@@ -127,7 +128,7 @@ function NavBar() {
                         dropdown
                         path="pos"
                         className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
-                        link="/sales/pos"
+                        link={links.POS}
                       >
                         Pos
                       </Li>
@@ -135,17 +136,25 @@ function NavBar() {
                         dropdown
                         path="list"
                         className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex "
-                        link="/sales/list"
+                        link={links.SALES_LIST}
                       >
                         Sales List
                       </Li>
                       <Li
                         dropdown
                         path="return"
-                        link="/sales/return"
+                        link={links.SALES_RETURN_LIST}
                         className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
                       >
                         Sales Return
+                      </Li>
+                      <Li
+                        dropdown
+                        path="add-return"
+                        link={links.ADD_SALES_RETURN}
+                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
+                      >
+                        Add Sales Return
                       </Li>
                     </List>
                   </div>

@@ -1,2 +1,2 @@
-export { default as Products } from './Products'
+export { default as ProductContainer } from './ProductContainer'
 export { default as CurrentOrder } from './CurrentOrder'

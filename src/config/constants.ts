@@ -14,11 +14,18 @@ export const initialFormValues = {
   },
 }
 
-export const paths = {
-  home: '/',
-  pos: '/sales/pos',
-  salesList: '/sales/list',
-  salesReturn: '/sales/return',
-  settings: '/settings',
-  test: '#link',
+export const links = {
+  HOME: '/',
+  POS: '/sales/pos',
+  SALES_LIST: '/sales/list',
+  SALES_RETURN_LIST: '/sales/return',
+  ADD_SALES_RETURN: '/sales/add-return',
+  SETTINGS: '/settings',
+  TEST: '#link',
+} as const
+
+export const sortOptions = {
+  NONE: 'none',
+  MOST_SALED: 'most-saled',
+  RECENT: 'recent',
 } as const

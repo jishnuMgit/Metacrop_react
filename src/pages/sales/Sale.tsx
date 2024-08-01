@@ -60,7 +60,7 @@ function Sale() {
                     color="blue-gray"
                     className="dark:text-white"
                   >
-                    {`Sale Deatails`}
+                    {`Sale Details`}
                   </Typography>
                   <Typography color="gray" className="mt-1 font-normal">
                     {`See information about this sale`}

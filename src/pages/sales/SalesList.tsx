@@ -6,6 +6,7 @@ import {
   TableFooter,
   TableRow,
 } from '@/components/ui/table'
+import { links } from '@/config/constants'
 import { useSearch } from '@/hooks'
 import type {
   ApiSalesData,
@@ -15,6 +16,7 @@ import type {
 } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useApi } from 'useipa'
 
 const TABLE_HEAD = [
@@ -37,7 +39,7 @@ function SalesList() {
   }>()
   const [limit, setLimit] = useState<number>(10)
   const [saleData, setSaleData] = useState<ApiSalesData[] | undefined>()
-
+  const navigate = useNavigate()
   const { searchData, handleEnter, handleQuery, resetState } =
     useSearch<ApiSalesData>('', 'sales/')
   console.log(error, 'err')
@@ -75,6 +77,7 @@ function SalesList() {
     <>
       <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">
         <Header
+          btnClick={() => navigate(links.POS)}
           handleEnter={handleEnter}
           handleQuery={handleQuery}
           setSortType={sortHandler}

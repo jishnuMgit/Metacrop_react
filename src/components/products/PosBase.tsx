@@ -1,0 +1,124 @@
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { Cam, ErrorText, Input, ItemContainer, Modal, Spinner } from '../ui'
+import { MicIcon, ScanIcon, SearchIcon } from '../icons'
+import ProductContainer from './ProductContainer'
+import { ApiItem, SortOption } from '@/utils/types'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
+import { useApi } from 'useipa'
+import { fuzzySearch } from '@/utils/helpers'
+import { setQrData } from '@/redux/component'
+import clsx from 'clsx'
+
+type PosBaseProps = {
+  children?: React.JSX.Element | React.JSX.Element[]
+  sort: SortOption
+}
+function PosBase({ children, sort }: PosBaseProps) {
+  const [products, setProducts] = useState<ApiItem[]>()
+  const productRef = useRef<ApiItem[]>()
+  const [searchInputVal, setSearchInputVal] = useState('')
+  const [cam, setCam] = useState<boolean>(false)
+
+  const dispatch = useAppDispatch()
+  const { qrData } = useAppSelector((state) => state.uiState)
+  const { data, error, fetching, clearState, fetchData } = useApi<{
+    data: ApiItem[]
+  }>()
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (error) {
+      clearState()
+    }
+    console.log('change')
+    setSearchInputVal(e.target.value)
+    if (e.target.value !== '') {
+      return setProducts(fuzzySearch(productRef.current!, e.target.value))
+    }
+    setProducts(productRef.current)
+  }
+  // when Enter key press in search input.
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchInputVal !== '') {
+      const isString = isNaN(Number(searchInputVal))
+      console.log(isString)
+
+      fetchData(`/products/?${isString ? 'q' : 'id'}=${searchInputVal}`)
+    }
+  }
+  const handleClose = () => {
+    setCam(false)
+  }
+
+  useEffect(() => {
+    if (data) {
+      if (!Array.isArray(data.data)) {
+        data.data = [data.data]
+      }
+      console.log(data.data)
+      if (!productRef.current) {
+        productRef.current = data.data
+      }
+      setProducts(data.data)
+    }
+  }, [data])
+
+  //when scanner icon click
+  const handleScanner = () => {
+    setCam(true)
+    // dispatch(showModal())
+  }
+
+  useEffect(() => {
+    if (qrData !== '') {
+      setSearchInputVal(qrData)
+      setProducts(fuzzySearch(products!, qrData))
+    }
+    return () => {
+      //unmount home clear qrdata.
+      dispatch(setQrData(''))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [qrData])
+
+  useEffect(() => {
+    fetchData(clsx(`/products/${sort.option}`))
+  }, [sort])
+  return (
+    <ItemContainer>
+      <div className="flex w-full justify-between ">{children}</div>
+      <div className="flex items-center mb-6 mt-5">
+        <div className=" relative w-full ">
+          <Input
+            name="search"
+            onChange={handleChange}
+            onKeyUp={handleEnter}
+            className=" indent-7 mb-0 w-full h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
+            type="text"
+            value={searchInputVal}
+            placeholder="Product Name"
+          />
+          <SearchIcon />
+        </div>
+        <div className="flex p-1">
+          <ScanIcon onClick={handleScanner} />
+          <Modal isOpen={cam} handleClose={handleClose}>
+            <Cam handleClose={handleClose} />
+          </Modal>
+
+          <MicIcon />
+        </div>
+      </div>
+      <>
+        {fetching && <Spinner />}
+        {error && (
+          <ErrorText
+            message={error.message.substring(0, 60).concat(' ...', `'`)}
+          />
+        )}
+      </>
+      <ProductContainer products={products!} />
+    </ItemContainer>
+  )
+}
+
+export default PosBase

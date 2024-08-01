@@ -8,7 +8,6 @@ import {
   TabsHeader,
   Typography,
 } from '@material-tailwind/react'
-import { useNavigate } from 'react-router-dom'
 import { Button } from '../ui'
 
 type HeaderProps = {
@@ -18,6 +17,7 @@ type HeaderProps = {
   btnName?: string
   handleEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void
   handleQuery: (value: string) => void
+  btnClick: () => void
 }
 
 const TABS = [
@@ -43,9 +43,8 @@ function Header({
   btnName = 'view all',
   handleEnter,
   handleQuery,
+  btnClick,
 }: HeaderProps) {
-  const navigate = useNavigate()
-
   return (
     <CardHeader
       floated={false}
@@ -75,7 +74,7 @@ function Header({
             {btnName}
           </Button>
           <Button
-            onClick={() => navigate('/sales/pos')}
+            onClick={btnClick}
             className="flex items-center gap-3"
             size="sm"
           >

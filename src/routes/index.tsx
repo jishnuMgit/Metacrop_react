@@ -1,9 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Root from './Root'
-import { Sales, Home, Error, Login, SalesList, SalesReturn } from '@/pages'
+import { Sales, Home, Error, Login } from '@/pages'
 import Layout from '../components/Layout'
 import { authLoader, rootLoader } from './loader'
-import { Sale, SaleIndex } from '@/pages/sales'
+import { Sale, SaleIndex, SalesList, SalesReturnList } from '@/pages/sales'
+import SalesReturn from '@/pages/sales/SalesReturn'
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +26,8 @@ export const router = createBrowserRouter([
                 Component: SalesList,
               },
               { path: 'pos', Component: Sales },
-              { path: 'return', Component: SalesReturn },
+              { path: 'return', Component: SalesReturnList },
+              { path: 'add-return', Component: SalesReturn },
               { path: ':id', Component: Sale },
             ],
             errorElement: <Error />,

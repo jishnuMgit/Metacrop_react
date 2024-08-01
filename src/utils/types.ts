@@ -1,3 +1,4 @@
+import { sortOptions } from '@/config/constants'
 import { QrcodeErrorCallback, QrcodeSuccessCallback } from 'html5-qrcode'
 import { Html5QrcodeScannerConfig } from 'html5-qrcode/esm/html5-qrcode-scanner'
 import { ChangeEvent } from 'react'
@@ -120,3 +121,8 @@ export type ApiSalesReturn = {
  */
 export type SortTypes = 'id' | 'date' | 'price'
 export type SortOrder = 'asc' | 'desc'
+export type SortOption = {
+  option:
+    | `?sort=${(typeof sortOptions)[keyof typeof sortOptions]}`
+    | 'most-saled'
+}

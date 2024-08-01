@@ -1,114 +1,23 @@
-import { Header } from '@/components/sales'
-import { TableComponent } from '@/components/ui'
-import {
-  TableBody,
-  TableFooter,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { useSearch } from '@/hooks'
-import {
-  ApiSalesReturn,
-  DynamicTableCol,
-  SortOrder,
-  SortTypes,
-} from '@/utils/types'
-import { Card } from '@material-tailwind/react'
-import { useEffect, useState } from 'react'
-import { useApi } from 'useipa'
+import PosBase from '@/components/products/PosBase'
+import { Input } from '@/components/ui'
+import { Typography } from '@material-tailwind/react'
 
-const TABLE_HEAD = [
-  'Item',
-  'Sales Return ID',
-  'Sale ID',
-  'Status',
-  'Date',
-  'Quantity',
-  'Price',
-  'Total Amount',
-]
 function SalesReturn() {
-  const { fetchData, data, fetching } = useApi<{ data?: ApiSalesReturn[] }>()
-  const [page, setPage] = useState(1)
-  const [sort] = useState<SortOrder>('desc')
-  const [limit] = useState<number>(10)
-  const [sortType, setSortType] = useState<SortTypes>('date')
-  const [saleData, setSaleData] = useState<ApiSalesReturn[] | undefined>()
-  const { handleEnter, handleQuery, searchData, resetState } = useSearch<
-    ApiSalesReturn | undefined
-  >('', 'sales/returns/')
-
-  useEffect(() => {
-    fetchData('/sales/returns')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort, sortType, page, limit])
-  console.log(data)
-  useEffect(() => {
-    if (searchData) {
-      setSaleData(searchData)
-      resetState()
-    }
-  }, [searchData, data])
-
-  useEffect(() => {
-    if (data) {
-      setSaleData(data.data)
-      return
-    }
-  }, [data])
-
   return (
-    <>
-      <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">
-        <Header
-          setSortType={setSortType}
-          name="Sales Return"
-          handleEnter={handleEnter}
-          handleQuery={handleQuery}
-        />
-        <TableComponent className="dark:px-6">
-          <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
-          <TableBody fetching={fetching}>
-            <>
-              {saleData?.map((val, index) => {
-                const isLast = index === saleData.length - 1
-                const classes: string = isLast
-                  ? 'p-4'
-                  : 'p-4 border-b border-blue-gray-50'
-                const columns: DynamicTableCol = {
-                  col1: { value: val.Item.ItemName },
-                  col2: { value: val.PKReturnID },
-                  col3: { value: val.FKSaleID },
-                  col4: { value: new Date(val.CreatedOn).toLocaleDateString() },
-                  col5: { value: val.Qty },
-                  col6: { value: val.Price, prefix: '$' },
-                  col7: { value: val.SubTotal, prefix: '$' },
-                }
-
-                return (
-                  <TableRow
-                    status={{
-                      text: 'returned',
-                      color: 'blue-gray',
-                      index: 4,
-                      classes: 'dark:text-[rgb(136,193,221)]',
-                    }}
-                    key={index}
-                    {...columns}
-                    classes={classes}
-                  />
-                )
-              })}
-            </>
-          </TableBody>
-        </TableComponent>
-        <TableFooter
-          fetching={fetching}
-          setPage={setPage}
-          page={page}
-        ></TableFooter>
-      </Card>
-    </>
+    <div className="flex md:p-5 lg:flex-row flex-col transition-all">
+      <PosBase sort={{ option: '?sort=none' }}>
+        <div className="flex flex-col w-full">
+          <Typography variant="h3" className="mb-3">
+            Add Sales Return
+          </Typography>
+          <Input
+            placeholder="Search Invoice"
+            type="text"
+            className=" indent-7 mb-0 w-6/12 h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
+          />
+        </div>
+      </PosBase>
+    </div>
   )
 }
 

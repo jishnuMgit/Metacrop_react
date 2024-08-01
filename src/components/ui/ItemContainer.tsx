@@ -2,7 +2,7 @@ import { clsx } from 'clsx'
 import React from 'react'
 
 type ItemContainerProps = {
-  children: React.JSX.Element
+  children: React.JSX.Element | React.JSX.Element[]
   className?: string
 }
 

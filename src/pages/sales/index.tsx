@@ -1,8 +1,9 @@
+import { links } from '@/config/constants'
 import { useMatch, Navigate, Outlet } from 'react-router-dom'
 
 export { default as Sales } from './Pos'
 export { default as SalesList } from './SalesList'
-export { default as SalesReturn } from './SalesReturn'
+export { default as SalesReturnList } from './SalesReturnList'
 export { default as Sale } from './Sale'
 
 export function SaleIndex() {
@@ -11,7 +12,7 @@ export function SaleIndex() {
   if (useMatch('/sales')) {
     return (
       <>
-        <Navigate to={'/sales/pos'} />
+        <Navigate to={links.POS} />
       </>
     )
   }
