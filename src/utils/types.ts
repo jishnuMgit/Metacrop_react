@@ -73,7 +73,9 @@ export type ApiItem = {
   ReOrderLevel: number
   RepFlag: number
   TaxPer: number
+  //
   qty: number
+  id: number
 }
 
 export type ApiSoldItem = {

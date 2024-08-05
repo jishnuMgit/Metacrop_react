@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, memo, useEffect, useRef, useState } from 'react'
 import { Cam, ErrorText, Input, ItemContainer, Modal, Spinner } from '../ui'
 import { MicIcon, ScanIcon, SearchIcon } from '../icons'
 import ProductContainer from './ProductContainer'
@@ -8,12 +8,15 @@ import { useApi } from 'useipa'
 import { fuzzySearch } from '@/utils/helpers'
 import { setQrData } from '@/redux/component'
 import clsx from 'clsx'
+import Item from './Item'
+import { addToOrders } from '@/redux/order'
 
 type PosBaseProps = {
   children?: React.JSX.Element | React.JSX.Element[]
-  sort: SortOption
+  sort?: SortOption
+  className?: string
 }
-function PosBase({ children, sort }: PosBaseProps) {
+function PosBase({ children, sort, className }: PosBaseProps) {
   const [products, setProducts] = useState<ApiItem[]>()
   const productRef = useRef<ApiItem[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
@@ -81,11 +84,11 @@ function PosBase({ children, sort }: PosBaseProps) {
   }, [qrData])
 
   useEffect(() => {
-    fetchData(clsx(`/products/${sort.option}`))
+    fetchData(clsx(`/products/${sort?.option ?? '?sort=none'}`))
   }, [sort])
   return (
-    <ItemContainer>
-      <div className="flex w-full justify-between ">{children}</div>
+    <ItemContainer className={className + ' lg:w-1/2'}>
+      <> {children}</>
       <div className="flex items-center mb-6 mt-5">
         <div className=" relative w-full ">
           <Input
@@ -116,9 +119,21 @@ function PosBase({ children, sort }: PosBaseProps) {
           />
         )}
       </>
-      <ProductContainer products={products!} />
+      <ProductContainer>
+        <>
+          <>
+            {products?.map((val, i) => (
+              <Item
+                onClick={() => dispatch(addToOrders(val))}
+                item={val}
+                key={i}
+              />
+            ))}
+          </>
+        </>
+      </ProductContainer>
     </ItemContainer>
   )
 }
 
-export default PosBase
+export const PosBaseMemo = memo(PosBase)

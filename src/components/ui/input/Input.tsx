@@ -12,7 +12,7 @@ function Input({
 }: InputProps) {
   return (
     <>
-      <label>{label}</label>
+      {label && <label>{label}</label>}
       <input
         onChange={onChange}
         onKeyUp={onKeyUp}

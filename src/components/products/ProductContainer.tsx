@@ -1,10 +1,21 @@
-import { ApiItem } from '@/utils/types'
-import Item from './Item'
+import clsx from 'clsx'
+import React from 'react'
 
-function ProductContainer({ products }: { products: ApiItem[] }) {
+type ProductContainerProps = {
+  className?: string
+  onClick?: () => void
+  children: React.JSX.Element
+}
+
+function ProductContainer({ className, children }: ProductContainerProps) {
   return (
-    <div className="grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center overflow-y-auto max-h-[22.5rem] pe-3 ">
-      <>{products?.map((val, i) => <Item item={val} key={i} />)}</>
+    <div
+      className={clsx(
+        'grid grid-flow-row lg:grid-cols-4 grid-cols-3 justify-items-center items-center overflow-y-auto max-h-[22.5rem] pe-3 ',
+        className
+      )}
+    >
+      <>{children}</>
     </div>
   )
 }

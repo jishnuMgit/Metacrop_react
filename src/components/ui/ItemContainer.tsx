@@ -12,7 +12,7 @@ function ItemContainer({ children, className }: ItemContainerProps) {
       className={clsx(
         `flex flex-col bg-white rounded-sm p-5 lg:px-7 h-min max-h-[30rem] dark:bg-dark-primary-bg`,
         className,
-        { 'lg:w-1/2': !className },
+        // { 'lg:w-1/2': !className },
         'sm:w-full'
       )}
     >

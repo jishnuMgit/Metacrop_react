@@ -41,7 +41,7 @@ function CurrentOrder() {
                 delBtnHandler={handleDelItem}
                 minusBtn={minusBtnHandler}
                 plusBtn={plusBtnHander}
-                item={val}
+                item={{ ...val, id: val.PKItemID }}
                 key={val.PKItemID}
               />
             ))}

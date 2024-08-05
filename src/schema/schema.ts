@@ -50,6 +50,6 @@ export const UpdateSale = object({
  */
 
 export const ReturnItem = object({
-  PKSoldItemID: number(),
+  PKSoldItemID: number().required(),
   returnQty: number(),
 }).required()
