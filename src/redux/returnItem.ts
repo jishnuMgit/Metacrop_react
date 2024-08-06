@@ -52,12 +52,13 @@ const returnItemSlice = createSlice({
     decrementReturn: (state, action: PayloadAction<number>) => {
       state.sales.forEach((sale) => {
         sale.items.forEach((item, index, arr) => {
-          if (item.returnQty === 1) {
-            arr.splice(index, 1)
+          if (item.PKSoldItemID === action.payload) {
+            if (item.returnQty! > 1) {
+              item.returnQty!--
+            } else {
+              arr.splice(index, 1)
+            }
             return
-          }
-          if (item.PKSoldItemID === action.payload && item.returnQty! > 1) {
-            item.returnQty!--
           }
         })
       })

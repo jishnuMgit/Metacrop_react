@@ -1,4 +1,5 @@
 import Env from '@/config/env'
+import { ErrorType } from '@/pages/Error'
 import { ApiSalesData } from '@/utils/types'
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { asyncApi } from 'useipa'
@@ -7,7 +8,7 @@ type InitialState = {
   totalAmount: number
   saleData?: ApiSalesData
   fetching: boolean
-  error: Error | null | object
+  error: ErrorType | null
   touched: boolean // this for any qty changed update data. if changed touched is true.
 }
 const INITIAL_STATE: InitialState = {
@@ -37,7 +38,7 @@ const fetchSale = createAsyncThunk(
         return data
       }
     } catch (error) {
-      return rejectWithValue('failed to fetch')
+      return rejectWithValue((error as { data: ErrorType }).data)
     }
   }
 )
@@ -86,7 +87,9 @@ const saleSlice = createSlice({
         state.error = null
       })
       .addCase(fetchSale.rejected, (state, action) => {
-        state.error = action.payload as Error
+        console.log(action.payload, 'fetch error sale')
+
+        state.error = action.payload as ErrorType
       })
   },
 })

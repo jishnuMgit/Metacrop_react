@@ -106,8 +106,6 @@ function Sale() {
                     <TableBody fetching={fetching}>
                       <>
                         {data.SoldItems.map((val, index) => {
-                          console.log(val)
-
                           const isLast = index === data.SoldItems.length - 1
                           const classes: string = isLast
                             ? 'p-4'
@@ -141,8 +139,6 @@ function Sale() {
                       <TableBody fetching={fetching}>
                         <>
                           {data.SoldItemsReturn.map((val, index) => {
-                            console.log(val)
-
                             const isLast = index === data.SoldItems.length - 1
                             const classes: string = isLast
                               ? 'p-4'

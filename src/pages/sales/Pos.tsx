@@ -1,14 +1,63 @@
-import { Button } from '@/components/ui'
+import { Button, Modal, Success } from '@/components/ui'
 import { CurrentOrder, Invoice } from '@/components'
-
 import { PosBaseMemo } from '@/components/products/PosBase'
-import { useState } from 'react'
-import { SortOption } from '@/utils/types'
+import { useEffect, useMemo, useState } from 'react'
+import { ApiSalesData, SortOption } from '@/utils/types'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
+import { useApi } from 'useipa'
+import { BillGenerate } from '@/schema'
+import { clearOrder } from '@/redux/order'
 
 function Sales() {
   const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
+  const orders = useAppSelector((state) => state.order.orders)
+  const totalAmount = useMemo(
+    () => orders.reduce((prev, val) => prev + val.qty * val.Price, 0),
+    [orders]
+  )
+  const [isOpen, setisOpen] = useState(false)
+  const { mutate, success, error, fetching, data, clearState } = useApi<{
+    data?: ApiSalesData
+  }>()
+  const dispatch = useAppDispatch()
+
+  const handleClick = async (): Promise<void> => {
+    const items = await BillGenerate.validate(orders, { stripUnknown: true })
+    mutate('/sales/create', { items, totalAmount })
+  }
+  const handleClickWrapper = () => {
+    handleClick().catch(
+      () =>
+        new Response('Validation Error', {
+          status: 400,
+          statusText: 'Validation Error',
+        })
+    )
+  }
+  if (error) {
+    console.log(error)
+
+    throw new Response(error.message, {
+      status: error?.status,
+      statusText: error.message,
+    })
+  }
+  const handleClose = () => {
+    setisOpen(false)
+    clearState()
+    dispatch(clearOrder())
+  }
+  useEffect(() => {
+    if (success) {
+      setisOpen(true)
+    }
+  }, [success])
+
   return (
     <>
+      <Modal handleClose={handleClose} center isOpen={isOpen}>
+        <Success data={data?.data} />
+      </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
         <PosBaseMemo sort={sort}>
           <div className="flex w-full justify-between ">
@@ -34,7 +83,15 @@ function Sales() {
         </PosBaseMemo>
         <div className="flex flex-col mt-3 lg:mt-0 lg:w-1/2 lg:ms-4 items-center ">
           <CurrentOrder />
-          <Invoice />
+          <Invoice
+            btnProps={{
+              btnname: 'Generate Bill',
+              handleClick: handleClickWrapper,
+              disabled: orders.length === 0,
+            }}
+            fetching={fetching}
+            totalAmount={totalAmount}
+          />
         </div>
       </div>
     </>

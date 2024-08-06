@@ -2,7 +2,7 @@ import { Invoice, ProductContainer } from '@/components'
 import Item from '@/components/products/Item'
 import OrderItem from '@/components/products/OrderItem'
 import { PosBaseMemo } from '@/components/products/PosBase'
-import { Button, Input, ItemContainer } from '@/components/ui'
+import { Button, ErrorText, Input, ItemContainer } from '@/components/ui'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import {
   addToReturn,
@@ -14,12 +14,23 @@ import {
 } from '@/redux/returnItem'
 import { fetchSale } from '@/redux/sale'
 import { Typography } from '@material-tailwind/react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 function SalesReturn() {
   const dispatch = useAppDispatch()
   const returnItems = useAppSelector((state) => state.returnItem.sales)
   const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
+  const saleError = useAppSelector((state) => state.sale.error)
+  const totalAmount = useMemo(
+    () =>
+      returnItems.reduce(
+        (acc, sale) =>
+          acc + sale.items.reduce((a, i) => a + i.returnQty! * i.item.Price, 0),
+        0
+      ),
+    [returnItems]
+  )
+  console.log(totalAmount)
 
   const [inputVal, setInputVal] = useState('')
   const handleClick = () => {
@@ -67,6 +78,7 @@ function SalesReturn() {
             </Button>
           </div>
         </div>
+        <> {saleError && <ErrorText message={saleError.message} />}</>
         <>
           {soldItems && (
             <ProductContainer>
@@ -123,7 +135,10 @@ function SalesReturn() {
             </div>
           </div>
         </ItemContainer>
-        <Invoice />
+        <Invoice
+          btnProps={{ btnname: 'Return Sales' }}
+          totalAmount={totalAmount}
+        />
       </div>
     </div>
   )

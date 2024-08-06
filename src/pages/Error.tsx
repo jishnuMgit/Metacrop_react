@@ -1,7 +1,7 @@
 import { Center } from '@/components/ui'
 import { useRouteError } from 'react-router-dom'
 
-type ErrorType = {
+export type ErrorType = {
   status?: number
   statusText?: string
   data?: string

@@ -128,3 +128,4 @@ export type SortOption = {
     | `?sort=${(typeof sortOptions)[keyof typeof sortOptions]}`
     | 'most-saled'
 }
+
