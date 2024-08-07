@@ -49,7 +49,14 @@ export const UpdateSale = object({
  * transform to api expecting data on return item with qty.
  */
 
-export const ReturnItem = object({
+export const ReturnItemObject = object({
   PKSoldItemID: number().required(),
   returnQty: number(),
 }).required()
+
+export const ReturnItemSchema = array(
+  object({
+    saleId: number().required(),
+    items: array(ReturnItemObject).required(),
+  })
+)

@@ -1,9 +1,9 @@
-import { ReturnItem } from '@/schema'
+import { ReturnItemObject } from '@/schema'
 import { ApiItem, ApiSoldItem } from '@/utils/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { InferType } from 'yup'
 
-export type ReturnItemType = InferType<typeof ReturnItem> & {
+export type ReturnItemType = InferType<typeof ReturnItemObject> & {
   saleId: number | string
   item: ApiSoldItem & { ItemName: ApiItem['ItemName'] }
 }

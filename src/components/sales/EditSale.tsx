@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale, removeSoldItem, updateSaleData } from '@/redux/sale'
 import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
-import { ReturnItem, UpdateSale } from '@/schema'
+import { ReturnItemSchema, UpdateSale } from '@/schema'
 import { AnimatedAlert } from '../ui/Alert'
 import { Button, Spinner } from '../ui'
 import { createInvoiceList } from '@/utils/helpers'
@@ -47,11 +47,13 @@ function EditSale() {
   }
 
   const returnHandler = async (id: number, qty: number) => {
-    const returnItemData = await ReturnItem.validate({
-      PKSoldItemID: id,
-      returnQty: qty,
-    })
-    mutate(`/sales/return-item/${saleData?.PKSaleID}`, returnItemData)
+    const returnItemData = await ReturnItemSchema.validate([
+      {
+        saleId: saleData?.PKSaleID,
+        items: [{ PKSoldItemID: id, returnQty: qty }],
+      },
+    ])
+    mutate(`/sales/return-items`, returnItemData)
   }
   const wrapperReturnitem = (id: number, qty: number) => {
     returnHandler(id, qty).catch((e) => console.log(e))

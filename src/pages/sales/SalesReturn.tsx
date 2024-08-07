@@ -13,10 +13,13 @@ import {
   ReturnItemType,
 } from '@/redux/returnItem'
 import { fetchSale } from '@/redux/sale'
+import { ReturnItemSchema } from '@/schema'
 import { Typography } from '@material-tailwind/react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useApi } from 'useipa'
 
 function SalesReturn() {
+  const { mutate, fetching, success } = useApi()
   const dispatch = useAppDispatch()
   const returnItems = useAppSelector((state) => state.returnItem.sales)
   const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
@@ -33,6 +36,15 @@ function SalesReturn() {
   console.log(totalAmount)
 
   const [inputVal, setInputVal] = useState('')
+  const handleSubmit = () => {
+    ;(async () => {
+      const returnData = await ReturnItemSchema.validate(returnItems, {
+        stripUnknown: true,
+      })
+      mutate('/sales/return-items', returnData)
+      console.table(returnData)
+    })().catch((err) => console.log(err))
+  }
   const handleClick = () => {
     if (inputVal !== '') {
       void dispatch(fetchSale(inputVal))
@@ -57,6 +69,11 @@ function SalesReturn() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value)
   }
+  useEffect(() => {
+    if (success) {
+      dispatch(clearReturn())
+    }
+  }, [success])
 
   return (
     <div className="flex md:p-5 lg:flex-row flex-col transition-all">
@@ -136,7 +153,8 @@ function SalesReturn() {
           </div>
         </ItemContainer>
         <Invoice
-          btnProps={{ btnname: 'Return Sales' }}
+          btnProps={{ btnname: 'Return Sales', handleClick: handleSubmit }}
+          fetching={fetching}
           totalAmount={totalAmount}
         />
       </div>
