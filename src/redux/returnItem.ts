@@ -11,7 +11,7 @@ type ReturnSales = {
   saleId: string | number
   items: Omit<ReturnItemType, 'saleId'>[]
 }
-
+export type PayloadIDs = { soldItemId: number; saleId: number }
 const INITIAL_STATE: { sales: ReturnSales[] } = {
   sales: [],
 }
@@ -37,38 +37,50 @@ const returnItemSlice = createSlice({
         return
       }
     },
-    incrementReturn: (state, action: PayloadAction<number>) => {
-      state.sales.forEach((sale) => {
-        sale.items.forEach((item) => {
+    incrementReturn: (state, action: PayloadAction<PayloadIDs>) => {
+      const { saleId, soldItemId } = action.payload
+      const sale = state.sales.find((s) => s.saleId === saleId)
+      if (sale) {
+        for (const item of sale.items) {
           if (
-            item.PKSoldItemID === action.payload &&
+            item.PKSoldItemID === soldItemId &&
             item.item.Qty > item.returnQty!
           ) {
             item.returnQty!++
+            break
           }
-        })
-      })
+        }
+      }
     },
-    decrementReturn: (state, action: PayloadAction<number>) => {
-      state.sales.forEach((sale) => {
-        sale.items.forEach((item, index, arr) => {
-          if (item.PKSoldItemID === action.payload) {
+    decrementReturn: (state, action: PayloadAction<PayloadIDs>) => {
+      const { saleId, soldItemId } = action.payload
+      const sale = state.sales.find((s) => s.saleId)
+      if (sale) {
+        for (const item of sale.items) {
+          if (item.PKSoldItemID === soldItemId) {
             if (item.returnQty! > 1) {
               item.returnQty!--
             } else {
-              arr.splice(index, 1)
+              sale.items = sale.items.filter(
+                (i) => i.PKSoldItemID !== soldItemId
+              )
+              if (sale.items.length === 0) {
+                state.sales = state.sales.filter((s) => s.saleId !== saleId)
+              }
             }
-            return
+            break
           }
-        })
-      })
+        }
+      }
     },
-    removeFromReturns: (state, action: PayloadAction<number>) => {
-      state.sales.forEach((sale) => {
+    removeFromReturns: (state, action: PayloadAction<PayloadIDs>) => {
+      const { saleId, soldItemId } = action.payload
+      const sale = state.sales.find((s) => s.saleId === saleId)
+      if (sale) {
         sale.items = sale.items.filter(
-          (item) => item.PKSoldItemID !== action.payload
+          (item) => item.PKSoldItemID !== soldItemId
         )
-      })
+      }
     },
     clearReturn: (state) => {
       state.sales = []

@@ -30,8 +30,8 @@ function EditSale() {
     return
   }
 
-  const removeItem = (id: string | number) => {
-    dispatch(removeSoldItem(id))
+  const removeItem = (id: unknown) => {
+    dispatch(removeSoldItem(id as number))
   }
   const updateSale = async () => {
     const parsedData = await UpdateSale.validate(saleData, {

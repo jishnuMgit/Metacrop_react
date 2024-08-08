@@ -2,23 +2,33 @@ import { Invoice, ProductContainer } from '@/components'
 import Item from '@/components/products/Item'
 import OrderItem from '@/components/products/OrderItem'
 import { PosBaseMemo } from '@/components/products/PosBase'
-import { Button, ErrorText, Input, ItemContainer } from '@/components/ui'
+import {
+  Button,
+  ErrorText,
+  Input,
+  ItemContainer,
+  Modal,
+  Success,
+} from '@/components/ui'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import {
   addToReturn,
   clearReturn,
   decrementReturn,
   incrementReturn,
+  PayloadIDs,
   removeFromReturns,
   ReturnItemType,
 } from '@/redux/returnItem'
-import { fetchSale } from '@/redux/sale'
+import { clearSaleState, fetchSale } from '@/redux/sale'
 import { ReturnItemSchema } from '@/schema'
 import { Typography } from '@material-tailwind/react'
 import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
 
 function SalesReturn() {
+  const [inputVal, setInputVal] = useState('')
+  const [modal, setModal] = useState(false)
   const { mutate, fetching, success } = useApi()
   const dispatch = useAppDispatch()
   const returnItems = useAppSelector((state) => state.returnItem.sales)
@@ -33,9 +43,7 @@ function SalesReturn() {
       ),
     [returnItems]
   )
-  console.log(totalAmount)
 
-  const [inputVal, setInputVal] = useState('')
   const handleSubmit = () => {
     ;(async () => {
       const returnData = await ReturnItemSchema.validate(returnItems, {
@@ -45,7 +53,7 @@ function SalesReturn() {
       console.table(returnData)
     })().catch((err) => console.log(err))
   }
-  const handleClick = () => {
+  const handleSearch = () => {
     if (inputVal !== '') {
       void dispatch(fetchSale(inputVal))
     }
@@ -54,17 +62,17 @@ function SalesReturn() {
   const handleAddToReturn = (payload: ReturnItemType) => {
     dispatch(addToReturn(payload))
   }
-  const handleDelItem = (id: string | number) => {
-    dispatch(removeFromReturns(id as number))
+  const handleDelItem = (id: unknown) => {
+    dispatch(removeFromReturns(id as PayloadIDs))
   }
   const handleClear = () => {
     dispatch(clearReturn())
   }
-  const minusBtnHandler = (itemId: number) => {
-    dispatch(decrementReturn(itemId))
+  const minusBtnHandler = (ids: unknown) => {
+    dispatch(decrementReturn(ids as PayloadIDs))
   }
-  const plusBtnHander = (soldId: number) => {
-    dispatch(incrementReturn(soldId))
+  const plusBtnHander = (ids: unknown) => {
+    dispatch(incrementReturn(ids as PayloadIDs))
   }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value)
@@ -72,11 +80,17 @@ function SalesReturn() {
   useEffect(() => {
     if (success) {
       dispatch(clearReturn())
+      dispatch(clearSaleState())
+      setModal(true)
+      setInputVal('')
     }
   }, [success])
 
   return (
     <div className="flex md:p-5 lg:flex-row flex-col transition-all">
+      <Modal isOpen={modal} handleClose={() => setModal(false)}>
+        <Success></Success>
+      </Modal>
       <PosBaseMemo className="max-h-none">
         <div className="flex flex-col w-full mb-5">
           <Typography variant="h3" className="mb-3">
@@ -90,7 +104,7 @@ function SalesReturn() {
               className=" indent-7 mb-0 w-8/12 h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
               onChange={handleChange}
             />
-            <Button className="w-3/12 ms-auto" onClick={handleClick}>
+            <Button className="w-3/12 ms-auto" onClick={handleSearch}>
               Search
             </Button>
           </div>
@@ -144,7 +158,15 @@ function SalesReturn() {
                     delBtnHandler={handleDelItem}
                     minusBtn={minusBtnHandler}
                     plusBtn={plusBtnHander}
-                    item={{ ...v.item, qty: v.returnQty, id: v.PKSoldItemID }}
+                    item={{
+                      Price: v.item.Price,
+                      ItemName: v.item.ItemName,
+                      qty: v.returnQty,
+                      id: {
+                        soldItemId: v.PKSoldItemID,
+                        saleId: v.item.FKSaleID,
+                      },
+                    }}
                     key={v.PKSoldItemID}
                   />
                 ))
@@ -153,7 +175,11 @@ function SalesReturn() {
           </div>
         </ItemContainer>
         <Invoice
-          btnProps={{ btnname: 'Return Sales', handleClick: handleSubmit }}
+          btnProps={{
+            btnname: 'Return Sales',
+            handleClick: handleSubmit,
+            disabled: returnItems.length === 0,
+          }}
           fetching={fetching}
           totalAmount={totalAmount}
         />

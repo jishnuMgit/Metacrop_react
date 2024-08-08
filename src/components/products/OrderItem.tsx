@@ -7,9 +7,9 @@ import { MinusCircleIcon } from '@heroicons/react/24/outline'
 
 type OrderItemProps = {
   item: Partial<ApiItem>
-  minusBtn: (id: number) => void
-  plusBtn: (id: number) => void
-  delBtnHandler: (id: string | number) => void
+  minusBtn: (id: unknown) => void
+  plusBtn: (id: unknown) => void
+  delBtnHandler: (id: unknown) => void
   fetching?: boolean
   btn?: boolean
 }
@@ -37,11 +37,11 @@ function OrderItem({ item, minusBtn, plusBtn, delBtnHandler }: OrderItemProps) {
       </div>
       <div className="flex items-center md:justify-center w-1/2">
         <div className="flex items-center justify-items-center">
-          <SmallBtn className="p-2 px-3" onClick={() => minusBtn(item.id!)}>
+          <SmallBtn className="p-2 px-3" onClick={() => minusBtn(item.id)}>
             <MinusIcon strokeWidth={4} className="h-5 w-5" />
           </SmallBtn>
           <p className="mx-3 w-4 "> {item.qty}</p>
-          <SmallBtn className=" p-2 px-3" onClick={() => plusBtn(item.id!)}>
+          <SmallBtn className=" p-2 px-3" onClick={() => plusBtn(item.id)}>
             <PlusIcon strokeWidth={4} className="h-5 w-5" />
           </SmallBtn>
         </div>
@@ -52,7 +52,7 @@ function OrderItem({ item, minusBtn, plusBtn, delBtnHandler }: OrderItemProps) {
             className="w-1/3 flex justify-end items-center "
           >
             <MinusCircleIcon
-              onClick={() => delBtnHandler(item.id!)}
+              onClick={() => delBtnHandler(item.id)}
               className="cursor-pointer hover:fill-red-400 hover:stroke-white"
               color="red"
               width={24}

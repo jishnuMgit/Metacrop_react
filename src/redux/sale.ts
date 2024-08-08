@@ -73,6 +73,9 @@ const saleSlice = createSlice({
         }
       })
     },
+    clearSaleState: (state) => {
+      state.saleData = INITIAL_STATE.saleData
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -94,6 +97,7 @@ const saleSlice = createSlice({
   },
 })
 
-export const { updateSaleData, removeSoldItem } = saleSlice.actions
+export const { updateSaleData, removeSoldItem, clearSaleState } =
+  saleSlice.actions
 export { fetchSale }
 export default saleSlice.reducer

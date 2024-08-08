@@ -75,7 +75,7 @@ export type ApiItem = {
   TaxPer: number
   //
   qty: number
-  id: number
+  id: unknown
 }
 
 export type ApiSoldItem = {
@@ -128,4 +128,3 @@ export type SortOption = {
     | `?sort=${(typeof sortOptions)[keyof typeof sortOptions]}`
     | 'most-saled'
 }
-
