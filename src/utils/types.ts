@@ -124,7 +124,5 @@ export type ApiSalesReturn = {
 export type SortTypes = 'id' | 'date' | 'price'
 export type SortOrder = 'asc' | 'desc'
 export type SortOption = {
-  option:
-    | `?sort=${(typeof sortOptions)[keyof typeof sortOptions]}`
-    | 'most-saled'
+  option: `?sort=${(typeof sortOptions)[keyof typeof sortOptions]}` | 'most-saled'
 }

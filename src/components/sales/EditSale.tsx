@@ -17,8 +17,7 @@ function EditSale() {
   const { saleData, touched } = useAppSelector((state) => state.sale)
   const { mutate, error, fetching, data: apiData } = useApi<boolean>()
   const total = useMemo(
-    () =>
-      saleData?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
+    () => saleData?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
     [saleData]
   )
   const minusBtnHandler = (id: number) => {
@@ -95,9 +94,7 @@ function EditSale() {
                         />
                       </div>
                       <Button
-                        onClick={() =>
-                          wrapperReturnitem(val.PKSoldItemID, val.Qty)
-                        }
+                        onClick={() => wrapperReturnitem(val.PKSoldItemID, val.Qty)}
                         size="sm"
                         className="h-10 ml-5"
                       >
@@ -113,24 +110,14 @@ function EditSale() {
           </div>
           <div className="w-full md:w-1/2">
             <div className=" flex flex-col md:w-8/12 ms-auto">
-              <Typography
-                variant="h6"
-                color="blue-gray"
-                className="dark:text-blue-200"
-              >
+              <Typography variant="h6" color="blue-gray" className="dark:text-blue-200">
                 {`Update Details`}
               </Typography>
 
               <div className="mb-5 flex flex-col">
-                {createInvoiceList({ ...saleData, TotalAmount: total! }).map(
-                  (val, index) => (
-                    <InvoiceList
-                      key={index}
-                      name={val.name}
-                      value={val.value}
-                    ></InvoiceList>
-                  )
-                )}
+                {createInvoiceList({ ...saleData, TotalAmount: total! }).map((val, index) => (
+                  <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
+                ))}
               </div>
             </div>
             <Button

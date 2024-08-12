@@ -27,15 +27,10 @@ const returnItemSlice = createSlice({
   name: 'return_item',
   initialState: INITIAL_STATE,
   reducers: {
-    addToReturn: (
-      state,
-      action: PayloadAction<Partial<ReturnItemType> & { item?: ApiItem }>
-    ) => {
+    addToReturn: (state, action: PayloadAction<Partial<ReturnItemType> & { item?: ApiItem }>) => {
       const { saleId, ...rest } = action.payload
       if (!saleId) {
-        const item = state.customReturn.find(
-          (val) => val.item?.PKItemID === rest.item?.PKItemID
-        )
+        const item = state.customReturn.find((val) => val.item?.PKItemID === rest.item?.PKItemID)
         if (item) {
           item.returnQty++
           return
@@ -43,9 +38,7 @@ const returnItemSlice = createSlice({
         state.customReturn.push({ item: rest.item, returnQty: 1 })
         return
       }
-      const sale = state.sales.find(
-        (val) => val.saleId === action.payload.saleId
-      )
+      const sale = state.sales.find((val) => val.saleId === action.payload.saleId)
       const itemInitial = { ...rest, returnQty: 1 }
       if (!sale) {
         state.sales.push({
@@ -54,9 +47,7 @@ const returnItemSlice = createSlice({
         })
         return
       }
-      const soldItem = sale.items.find(
-        (val) => val.PKSoldItemID === action.payload.PKSoldItemID
-      )
+      const soldItem = sale.items.find((val) => val.PKSoldItemID === action.payload.PKSoldItemID)
       if (!soldItem) {
         sale.items.push(itemInitial as ReturnItemType)
         return
@@ -103,9 +94,7 @@ const returnItemSlice = createSlice({
             if (item.returnQty! > 1) {
               item.returnQty!--
             } else {
-              sale.items = sale.items.filter(
-                (i) => i.PKSoldItemID !== soldItemId
-              )
+              sale.items = sale.items.filter((i) => i.PKSoldItemID !== soldItemId)
               if (sale.items.length === 0) {
                 state.sales = state.sales.filter((s) => s.saleId !== saleId)
               }
@@ -118,17 +107,13 @@ const returnItemSlice = createSlice({
     removeFromReturns: (state, action: PayloadAction<PayloadIDs>) => {
       const { saleId, soldItemId } = action.payload
       if (!saleId) {
-        const itemIndex = state.customReturn.findIndex(
-          (val) => val.item?.PKItemID === soldItemId
-        )
+        const itemIndex = state.customReturn.findIndex((val) => val.item?.PKItemID === soldItemId)
         state.customReturn.splice(itemIndex, 1)
         return
       }
       const sale = state.sales.find((s) => s.saleId === saleId)
       if (sale) {
-        sale.items = sale.items.filter(
-          (item) => item.PKSoldItemID !== soldItemId
-        )
+        sale.items = sale.items.filter((item) => item.PKSoldItemID !== soldItemId)
       }
     },
     clearReturn: (state) => {
@@ -138,11 +123,6 @@ const returnItemSlice = createSlice({
   },
 })
 
-export const {
-  addToReturn,
-  incrementReturn,
-  decrementReturn,
-  clearReturn,
-  removeFromReturns,
-} = returnItemSlice.actions
+export const { addToReturn, incrementReturn, decrementReturn, clearReturn, removeFromReturns } =
+  returnItemSlice.actions
 export default returnItemSlice.reducer

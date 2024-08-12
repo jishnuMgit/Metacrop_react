@@ -85,18 +85,12 @@ function NavBar() {
               <Li link={links.HOME}>Home</Li>
               <Li path="sales">
                 <>
-                  <div
-                    className="flex flex-row"
-                    ref={refs.setReference}
-                    {...getReferenceProps()}
-                  >
+                  <div className="flex flex-row" ref={refs.setReference} {...getReferenceProps()}>
                     Sales
                     <span className="flex items-center">
                       <ChevronDownIcon
                         strokeWidth={4}
-                        className={`h-4 w-5 transition-transform ${
-                          dropdown ? 'rotate-180' : ''
-                        }`}
+                        className={`h-4 w-5 transition-transform ${dropdown ? 'rotate-180' : ''}`}
                       />
                     </span>
                   </div>

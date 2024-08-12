@@ -9,12 +9,7 @@ type SidebarProps = {
 }
 function Sidebar({ side, handleClose, children, open }: SidebarProps) {
   return (
-    <Drawer
-      placement={side}
-      open={open}
-      onClose={handleClose}
-      className="p-4 m-0 dark:bg-black"
-    >
+    <Drawer placement={side} open={open} onClose={handleClose} className="p-4 m-0 dark:bg-black">
       <div className="mb-6 flex items-center justify-between">
         <Typography variant="h5" color="blue-gray" className="dark:text-white">
           Metacorp
@@ -28,11 +23,7 @@ function Sidebar({ side, handleClose, children, open }: SidebarProps) {
             stroke="currentColor"
             className="h-5 w-5"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </IconButton>
       </div>

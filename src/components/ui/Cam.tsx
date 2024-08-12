@@ -6,10 +6,7 @@ import { hideModal, setQrData } from '@/redux/component'
 
 function Cam({ handleClose }: { handleClose: () => void }) {
   const dispatch = useAppDispatch()
-  const successCallback: QrcodeSuccessCallback = (
-    decodedText,
-    decodedResult
-  ) => {
+  const successCallback: QrcodeSuccessCallback = (decodedText, decodedResult) => {
     dispatch(setQrData(decodedText))
     dispatch(hideModal())
     handleClose()

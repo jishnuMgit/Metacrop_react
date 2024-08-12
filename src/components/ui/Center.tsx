@@ -8,10 +8,7 @@ type CenterProps = {
 function Center({ children, className, start }: CenterProps) {
   return (
     <div
-      className={clsx(
-        `flex items-center ${start ? 'justify-start' : 'justify-center'}`,
-        className
-      )}
+      className={clsx(`flex items-center ${start ? 'justify-start' : 'justify-center'}`, className)}
     >
       {children}
     </div>

@@ -12,18 +12,9 @@ function SortableTable({
 }) {
   return (
     <>
-      <CardBody
-        className={clsx(
-          'overflow-x-auto px-0 dark:bg-dark-primary-bg',
-          className
-        )}
-      >
+      <CardBody className={clsx('overflow-x-auto px-0 dark:bg-dark-primary-bg', className)}>
         {heading && (
-          <Typography
-            variant="h5"
-            color="blue-gray"
-            className="dark:text-white"
-          >
+          <Typography variant="h5" color="blue-gray" className="dark:text-white">
             {heading}
           </Typography>
         )}

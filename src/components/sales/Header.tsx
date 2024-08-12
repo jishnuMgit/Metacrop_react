@@ -1,13 +1,6 @@
 import { SortTypes } from '@/utils/types'
 import { MagnifyingGlassIcon, SquaresPlusIcon } from '@heroicons/react/24/solid'
-import {
-  CardHeader,
-  Input,
-  Tab,
-  Tabs,
-  TabsHeader,
-  Typography,
-} from '@material-tailwind/react'
+import { CardHeader, Input, Tab, Tabs, TabsHeader, Typography } from '@material-tailwind/react'
 import { Button } from '../ui'
 
 type HeaderProps = {
@@ -46,18 +39,10 @@ function Header({
   btnClick,
 }: HeaderProps) {
   return (
-    <CardHeader
-      floated={false}
-      shadow={false}
-      className="rounded-none dark:bg-dark-primary-bg"
-    >
+    <CardHeader floated={false} shadow={false} className="rounded-none dark:bg-dark-primary-bg">
       <div className="mb-8 flex items-center justify-between gap-8">
         <div>
-          <Typography
-            variant="h5"
-            className="dark:text-white"
-            color="blue-gray"
-          >
+          <Typography variant="h5" className="dark:text-white" color="blue-gray">
             {`${name} list`}
           </Typography>
           <Typography color="gray" className="mt-1 font-normal">
@@ -73,11 +58,7 @@ function Header({
           >
             {btnName}
           </Button>
-          <Button
-            onClick={btnClick}
-            className="flex items-center gap-3"
-            size="sm"
-          >
+          <Button onClick={btnClick} className="flex items-center gap-3" size="sm">
             <SquaresPlusIcon strokeWidth={2} className="h-4 w-4" />
             {`Add ${name}`}
           </Button>
@@ -87,11 +68,7 @@ function Header({
         <Tabs value="date" className="w-full z-0 md:w-max">
           <TabsHeader className="dark:bg-black">
             {TABS.map(({ label, value }) => (
-              <Tab
-                onClick={() => setSortType(value as SortTypes)}
-                key={value}
-                value={value}
-              >
+              <Tab onClick={() => setSortType(value as SortTypes)} key={value} value={value}>
                 &nbsp;&nbsp;{label}&nbsp;&nbsp;
               </Tab>
             ))}

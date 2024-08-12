@@ -16,17 +16,12 @@ function FormInput({ label, className = '', ...props }: FInputProps) {
         {...field}
         {...props}
         size="lg"
-        className={clsx(
-          ' !border-t-blue-gray-200 focus:!border-t-gray-900 ',
-          className
-        )}
+        className={clsx(' !border-t-blue-gray-200 focus:!border-t-gray-900 ', className)}
         labelProps={{
           className: 'before:content-none after:content-none',
         }}
       />
-      {meta.touched && meta.error && (
-        <div className="text-red-400">{meta.error}</div>
-      )}
+      {meta.touched && meta.error && <div className="text-red-400">{meta.error}</div>}
     </>
   )
 }

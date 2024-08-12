@@ -15,12 +15,7 @@ module.exports = {
       version: 'detect',
     },
   },
-  ignorePatterns: [
-    'dist',
-    '.eslintrc.cjs',
-    'tailwind.config.js',
-    'postcss.config.js',
-  ],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'tailwind.config.js', 'postcss.config.js'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -31,10 +26,7 @@ module.exports = {
   plugins: ['react-refresh', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
   },
 }

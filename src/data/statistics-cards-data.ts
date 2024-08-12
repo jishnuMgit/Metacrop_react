@@ -1,9 +1,4 @@
-import {
-  BanknotesIcon,
-  UserPlusIcon,
-  UsersIcon,
-  ChartBarIcon,
-} from '@heroicons/react/24/solid'
+import { BanknotesIcon, UserPlusIcon, UsersIcon, ChartBarIcon } from '@heroicons/react/24/solid'
 import { color } from '@material-tailwind/react/types/components/card'
 import React from 'react'
 

@@ -9,10 +9,7 @@ function Button({
 }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
   return (
     <MatetialButton
-      className={clsx(
-        'dark:bg-dark-btn-color dark:hover:bg-dark-btn-hover',
-        className
-      )}
+      className={clsx('dark:bg-dark-btn-color dark:hover:bg-dark-btn-hover', className)}
       ref={ref}
       {...props}
     >

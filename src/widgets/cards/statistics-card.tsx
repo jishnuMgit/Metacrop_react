@@ -1,11 +1,5 @@
 import { StatisticsCardType } from '@/data'
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-} from '@material-tailwind/react'
+import { Card, CardHeader, CardBody, CardFooter, Typography } from '@material-tailwind/react'
 import PropTypes from 'prop-types'
 
 export function StatisticsCard({

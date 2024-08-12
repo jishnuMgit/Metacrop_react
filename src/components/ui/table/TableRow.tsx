@@ -1,12 +1,6 @@
 import { DynamicTableCol } from '@/utils/types'
 import { PencilIcon } from '@heroicons/react/24/solid'
-import {
-  Avatar,
-  Chip,
-  IconButton,
-  Tooltip,
-  Typography,
-} from '@material-tailwind/react'
+import { Avatar, Chip, IconButton, Tooltip, Typography } from '@material-tailwind/react'
 import { colors } from '@material-tailwind/react/types/generic'
 import clsx from 'clsx'
 import { Fragment } from 'react'
@@ -19,13 +13,7 @@ export type TableRowProps = {
   status?: { text: string; color: colors; index?: number; classes?: string }
 } & DynamicTableCol
 
-function TableRow({
-  classes,
-  action,
-  click = false,
-  status,
-  ...props
-}: TableRowProps) {
+function TableRow({ classes, action, click = false, status, ...props }: TableRowProps) {
   const { index: statusIndex = 3 } = status!
 
   const navigate = useNavigate()

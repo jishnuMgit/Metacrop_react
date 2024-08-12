@@ -42,11 +42,7 @@ function Success({ data }: { data?: ApiSalesData }) {
           className={`${small ? 'opacity-1' : 'opacity-0'} w-64 mt-10 transition-opacity duration-1000`}
         >
           {createInvoiceList(data).map((val, index) => (
-            <InvoiceList
-              key={index}
-              name={val.name}
-              value={val.value}
-            ></InvoiceList>
+            <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
           ))}
         </div>
       </>

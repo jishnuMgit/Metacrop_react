@@ -7,13 +7,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApi } from 'useipa'
 
-function Settings({
-  isOpen,
-  handleClose,
-}: {
-  isOpen: boolean
-  handleClose: () => void
-}) {
+function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () => void }) {
   const [dark, setDark] = useState(true)
   const navigate = useNavigate()
   const { success, mutate, fetching } = useApi()
@@ -64,10 +58,7 @@ function Settings({
             size="sm"
             loading={fetching}
           >
-            <ArrowLeftStartOnRectangleIcon
-              strokeWidth={2}
-              className="h-4 w-4"
-            />
+            <ArrowLeftStartOnRectangleIcon strokeWidth={2} className="h-4 w-4" />
             Logout
           </Button>
         </div>

@@ -10,9 +10,7 @@ type LogoProps = {
 
 function Logo({ small, textColor, iconColor, noIcon }: LogoProps) {
   return (
-    <div
-      className={`flex flex-col ${small ? 'h-14' : 'h-24'} justify-center items-center p-2`}
-    >
+    <div className={`flex flex-col ${small ? 'h-14' : 'h-24'} justify-center items-center p-2`}>
       {/* <img className={small ? `h-7` : `h-14`} src="/meta-icon.svg" alt="" />
        */}
       {!noIcon && (

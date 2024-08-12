@@ -2,20 +2,10 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header } from '@/components/sales'
 import { TableComponent } from '@/components/ui'
-import {
-  TableBody,
-  TableFooter,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { TableBody, TableFooter, TableHeader, TableRow } from '@/components/ui/table'
 import { links } from '@/config/constants'
 import { useSearch } from '@/hooks'
-import {
-  ApiSalesReturn,
-  DynamicTableCol,
-  SortOrder,
-  SortTypes,
-} from '@/utils/types'
+import { ApiSalesReturn, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useApi } from 'useipa'
 
@@ -47,9 +37,7 @@ function SalesReturnList() {
 
   const navigate = useNavigate()
   useEffect(() => {
-    fetchData(
-      `/sales/returns/?sort=${sort}&sortType=${sortType}&page=${page}&limit=${limit}`
-    )
+    fetchData(`/sales/returns/?sort=${sort}&sortType=${sortType}&page=${page}&limit=${limit}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, sortType, page, limit])
   console.log(data)
@@ -83,9 +71,7 @@ function SalesReturnList() {
             <>
               {saleData?.map((val, index) => {
                 const isLast = index === saleData.length - 1
-                const classes: string = isLast
-                  ? 'p-4'
-                  : 'p-4 border-b border-blue-gray-50'
+                const classes: string = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
                   col1: { value: val.Item.ItemName },
                   col2: { value: val.PKReturnID },

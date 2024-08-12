@@ -8,12 +8,7 @@ import { fetchSale } from '@/redux/sale'
 import { createInvoiceList } from '@/utils/helpers'
 import { DynamicTableCol } from '@/utils/types'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Typography,
-} from '@material-tailwind/react'
+import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
 
 const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Qty', 'Price', 'SubTotal']
 
@@ -26,11 +21,7 @@ function Sale() {
   const query = new URLSearchParams(search).get('action')
   console.log(query, 'actionnnnnnnnn')
 
-  const {
-    error,
-    fetching,
-    saleData: data,
-  } = useAppSelector((state) => state.sale)
+  const { error, fetching, saleData: data } = useAppSelector((state) => state.sale)
   useEffect(() => {
     void dispatch(fetchSale(params.id!))
   }, [])
@@ -54,11 +45,7 @@ function Sale() {
             >
               <div className="mb-8 flex items-center justify-between gap-8">
                 <div>
-                  <Typography
-                    variant="h4"
-                    color="blue-gray"
-                    className="dark:text-white"
-                  >
+                  <Typography variant="h4" color="blue-gray" className="dark:text-white">
                     {`Sale Details`}
                   </Typography>
                   <Typography color="gray" className="mt-1 font-normal">
@@ -80,21 +67,13 @@ function Sale() {
             <CardBody className="p-6">
               <div className="md:w-4/12 w-full ">
                 <div>
-                  <Typography
-                    variant="h6"
-                    color="blue-gray"
-                    className="dark:text-blue-200"
-                  >
+                  <Typography variant="h6" color="blue-gray" className="dark:text-blue-200">
                     {`Invoice Details`}
                   </Typography>
                 </div>
                 <div className="mb-5 flex flex-col  ">
                   {createInvoiceList(data).map((val, index) => (
-                    <InvoiceList
-                      key={index}
-                      name={val.name}
-                      value={val.value}
-                    ></InvoiceList>
+                    <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
                   ))}
                 </div>
               </div>

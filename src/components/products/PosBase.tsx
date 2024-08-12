@@ -16,12 +16,7 @@ type PosBaseProps = {
   className?: string
   itemClickHandler: (item: ApiItem) => void
 }
-function PosBase({
-  children,
-  sort,
-  className,
-  itemClickHandler,
-}: PosBaseProps) {
+function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) {
   const [products, setProducts] = useState<ApiItem[]>()
   const productRef = useRef<ApiItem[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
@@ -118,11 +113,7 @@ function PosBase({
       </div>
       <>
         {fetching && <Spinner />}
-        {error && (
-          <ErrorText
-            message={error.message.substring(0, 60).concat(' ...', `'`)}
-          />
-        )}
+        {error && <ErrorText message={error.message.substring(0, 60).concat(' ...', `'`)} />}
       </>
       <ProductContainer>
         <>

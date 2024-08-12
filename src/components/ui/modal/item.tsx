@@ -6,11 +6,7 @@ function item() {
     <div>
       <div className="flex flex-col items-center mb-4 ">
         <div className="">
-          <img
-            className="h-36 my-4"
-            src="src/assets/images/orange.jpg"
-            alt=""
-          />
+          <img className="h-36 my-4" src="src/assets/images/orange.jpg" alt="" />
           <p className="text-center font-semibold text-4xl">Orange</p>
         </div>
       </div>

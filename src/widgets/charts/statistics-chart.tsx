@@ -1,11 +1,5 @@
 import { ChartDataType } from '@/data'
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-} from '@material-tailwind/react'
+import { Card, CardHeader, CardBody, CardFooter, Typography } from '@material-tailwind/react'
 import PropTypes from 'prop-types'
 import Chart from 'react-apexcharts'
 

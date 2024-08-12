@@ -19,29 +19,26 @@ const INITIAL_STATE: InitialState = {
   touched: false,
 }
 
-const fetchSale = createAsyncThunk(
-  'sale/fetchsale',
-  async (id: string, { rejectWithValue }) => {
-    try {
-      const { data } = await asyncApi<{ data?: ApiSalesData }>(
-        `${Env.VITE_BASE_URL}/sales/${id}`,
-        'GET',
-        {
-          withCredentials: true,
-        }
-      )
-      if (data) {
-        data.SoldItems = data.SoldItems.map((val) => ({
-          ...val,
-          oldQty: val.Qty,
-        }))
-        return data
+const fetchSale = createAsyncThunk('sale/fetchsale', async (id: string, { rejectWithValue }) => {
+  try {
+    const { data } = await asyncApi<{ data?: ApiSalesData }>(
+      `${Env.VITE_BASE_URL}/sales/${id}`,
+      'GET',
+      {
+        withCredentials: true,
       }
-    } catch (error) {
-      return rejectWithValue((error as { data: ErrorType }).data)
+    )
+    if (data) {
+      data.SoldItems = data.SoldItems.map((val) => ({
+        ...val,
+        oldQty: val.Qty,
+      }))
+      return data
     }
+  } catch (error) {
+    return rejectWithValue((error as { data: ErrorType }).data)
   }
-)
+})
 
 const saleSlice = createSlice({
   name: 'sale',
@@ -61,9 +58,7 @@ const saleSlice = createSlice({
           }
         }
       })
-      state.touched = !!state.saleData?.SoldItems.find(
-        (val) => val.oldQty !== val.Qty
-      )
+      state.touched = !!state.saleData?.SoldItems.find((val) => val.oldQty !== val.Qty)
     },
     removeSoldItem: (state, action) => {
       state.saleData?.SoldItems.forEach((val) => {
@@ -97,7 +92,6 @@ const saleSlice = createSlice({
   },
 })
 
-export const { updateSaleData, removeSoldItem, clearSaleState } =
-  saleSlice.actions
+export const { updateSaleData, removeSoldItem, clearSaleState } = saleSlice.actions
 export { fetchSale }
 export default saleSlice.reducer

@@ -1,19 +1,9 @@
 import { Header } from '@/components/sales'
 import { TableComponent } from '@/components/ui'
-import {
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableRow,
-} from '@/components/ui/table'
+import { TableHeader, TableBody, TableFooter, TableRow } from '@/components/ui/table'
 import { links } from '@/config/constants'
 import { useSearch } from '@/hooks'
-import type {
-  ApiSalesData,
-  DynamicTableCol,
-  SortOrder,
-  SortTypes,
-} from '@/utils/types'
+import type { ApiSalesData, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -40,8 +30,7 @@ function SalesList() {
   const [limit, setLimit] = useState<number>(10)
   const [saleData, setSaleData] = useState<ApiSalesData[] | undefined>()
   const navigate = useNavigate()
-  const { searchData, handleEnter, handleQuery, resetState } =
-    useSearch<ApiSalesData>('', 'sales/')
+  const { searchData, handleEnter, handleQuery, resetState } = useSearch<ApiSalesData>('', 'sales/')
   console.log(error, 'err')
 
   const viewAll = () => {
@@ -57,9 +46,7 @@ function SalesList() {
     setSortType(val)
   }
   useEffect(() => {
-    fetchData(
-      `/sales?sort=${sort}&sortType=${sortType}&page=${page}&limit=${limit}`
-    )
+    fetchData(`/sales?sort=${sort}&sortType=${sortType}&page=${page}&limit=${limit}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, limit, sortType, sort])
 
@@ -93,9 +80,7 @@ function SalesList() {
                 // console.log(val, index, 'vaaaaaaaaaaa')
 
                 const isLast = index === saleData.length - 1
-                const classes: string = isLast
-                  ? 'p-4'
-                  : 'p-4 border-b border-blue-gray-50'
+                const classes: string = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
                   col1: { value: 'unknown' },
                   col2: { value: val.PKSaleID },

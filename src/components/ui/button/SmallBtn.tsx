@@ -9,12 +9,7 @@ type SmallBtnProps = {
 
 function SmallBtn({ children, className, onClick }: SmallBtnProps) {
   return (
-    <Button
-      variant="gradient"
-      className={className}
-      type="button"
-      onClick={() => onClick()}
-    >
+    <Button variant="gradient" className={className} type="button" onClick={() => onClick()}>
       {children}
     </Button>
   )

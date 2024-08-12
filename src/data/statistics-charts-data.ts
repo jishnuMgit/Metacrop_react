@@ -50,17 +50,7 @@ const dailySalesChart: ChartProps = {
     },
     xaxis: {
       ...chartsConfig.xaxis,
-      categories: [
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ],
+      categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     },
   },
 }
@@ -85,17 +75,7 @@ const completedTaskChart: ChartProps = {
     },
     xaxis: {
       ...chartsConfig.xaxis,
-      categories: [
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ],
+      categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     },
   },
 }

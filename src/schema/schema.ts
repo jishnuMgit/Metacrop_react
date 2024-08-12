@@ -18,8 +18,8 @@ const BillGenerateObj = object({
 /**
  * transform to api expecting data on create sale.
  */
-export const BillGenerate = array(BillGenerateObj).transform(
-  (_, original: ApiItem[]) => original.map((val) => ({ ...val, Qty: val.qty }))
+export const BillGenerate = array(BillGenerateObj).transform((_, original: ApiItem[]) =>
+  original.map((val) => ({ ...val, Qty: val.qty }))
 )
 
 export const UpdateItemObject = object({
@@ -36,9 +36,7 @@ export const UpdateSale = object({
   subTotal: number().required(),
   soldItems: array(UpdateItemObject),
 }).transform((_, original: ApiSalesData) => {
-  const updatedItems = original.SoldItems.filter(
-    (val) => val.Qty !== val.oldQty
-  )
+  const updatedItems = original.SoldItems.filter((val) => val.Qty !== val.oldQty)
   return {
     subTotal: updatedItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
     soldItems: updatedItems,

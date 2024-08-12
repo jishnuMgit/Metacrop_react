@@ -21,14 +21,8 @@ function Item({ item, onClick, isSmall, qtyElement }: ItemProps) {
           className={clsx({ 'h-10': !isSmall, 'h-6': isSmall })}
           src={`${baseImgUrl}${item.PKItemID % 5 == 0 ? 'milk.png' : 'groceries.png'}`}
         />
-        <p className="text-[#28251f] dark:text-white text-sm">
-          {item.ItemName}
-        </p>
-        {qtyElement ? (
-          <>{qtyElement}</>
-        ) : (
-          <span className="font-semibold">{item.HSNCode}</span>
-        )}
+        <p className="text-[#28251f] dark:text-white text-sm">{item.ItemName}</p>
+        {qtyElement ? <>{qtyElement}</> : <span className="font-semibold">{item.HSNCode}</span>}
       </div>
     </div>
   )

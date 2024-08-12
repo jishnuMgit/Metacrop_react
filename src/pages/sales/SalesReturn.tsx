@@ -2,14 +2,7 @@ import { Invoice, ProductContainer } from '@/components'
 import Item from '@/components/products/Item'
 import OrderItem from '@/components/products/OrderItem'
 import { PosBaseMemo } from '@/components/products/PosBase'
-import {
-  Button,
-  ErrorText,
-  Input,
-  ItemContainer,
-  Modal,
-  Success,
-} from '@/components/ui'
+import { Button, ErrorText, Input, ItemContainer, Modal, Success } from '@/components/ui'
 import { AnimatedAlert } from '@/components/ui/Alert'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import {
@@ -35,22 +28,15 @@ function SalesReturn() {
   const { mutate, fetching, success, error, clearState } = useApi()
   const dispatch = useAppDispatch()
   const returnItems = useAppSelector((state) => state.returnItem.sales)
-  const customReturnItems = useAppSelector(
-    (state) => state.returnItem.customReturn
-  )
+  const customReturnItems = useAppSelector((state) => state.returnItem.customReturn)
   const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
   const saleError = useAppSelector((state) => state.sale.error)
   const totalAmount = useMemo(
     () =>
       returnItems.reduce(
-        (acc, sale) =>
-          acc + sale.items.reduce((a, i) => a + i.returnQty! * i.Price, 0),
+        (acc, sale) => acc + sale.items.reduce((a, i) => a + i.returnQty! * i.Price, 0),
         0
-      ) +
-      customReturnItems.reduce(
-        (acc, val) => acc + val.item!.Price * val.returnQty,
-        0
-      ),
+      ) + customReturnItems.reduce((acc, val) => acc + val.item!.Price * val.returnQty, 0),
     [returnItems, customReturnItems]
   )
 
@@ -72,9 +58,7 @@ function SalesReturn() {
     }
     return
   }
-  const handleAddToReturn = (
-    payload: Partial<ReturnItemType> & { item?: ApiItem }
-  ) => {
+  const handleAddToReturn = (payload: Partial<ReturnItemType> & { item?: ApiItem }) => {
     dispatch(addToReturn(payload))
   }
   const handleDelItem = (id: unknown) => {
