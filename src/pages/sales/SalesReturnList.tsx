@@ -47,7 +47,9 @@ function SalesReturnList() {
 
   const navigate = useNavigate()
   useEffect(() => {
-    fetchData('/sales/returns')
+    fetchData(
+      `/sales/returns/?sort=${sort}&sortType=${sortType}&page=${page}&limit=${limit}`
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, sortType, page, limit])
   console.log(data)
@@ -113,6 +115,7 @@ function SalesReturnList() {
         </TableComponent>
         <TableFooter
           fetching={fetching}
+          isLast={data?.data?.length !== limit}
           setPage={setPage}
           page={page}
         ></TableFooter>
