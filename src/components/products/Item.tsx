@@ -6,11 +6,11 @@ import React from 'react'
 type ItemProps = {
   item: ApiItem
   onClick?: () => void
-  small?: boolean
+  isSmall?: boolean
   qtyElement?: React.JSX.Element
 }
 
-function Item({ item, onClick, small, qtyElement }: ItemProps) {
+function Item({ item, onClick, isSmall, qtyElement }: ItemProps) {
   return (
     <div
       onClick={onClick}
@@ -18,7 +18,7 @@ function Item({ item, onClick, small, qtyElement }: ItemProps) {
     >
       <div className="flex flex-col items-center">
         <img
-          className={clsx({ 'h-10': !small, 'h-6': small })}
+          className={clsx({ 'h-10': !isSmall, 'h-6': isSmall })}
           src={`${baseImgUrl}${item.PKItemID % 5 == 0 ? 'milk.png' : 'groceries.png'}`}
         />
         <p className="text-[#28251f] dark:text-white text-sm">

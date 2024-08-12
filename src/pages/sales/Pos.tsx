@@ -1,12 +1,12 @@
+import { useEffect, useMemo, useState } from 'react'
 import { Button, Modal, Success } from '@/components/ui'
 import { CurrentOrder, Invoice } from '@/components'
-import { PosBaseMemo } from '@/components/products/PosBase'
-import { useEffect, useMemo, useState } from 'react'
-import { ApiSalesData, SortOption } from '@/utils/types'
+import { PosBaseMemo } from '@/components/products'
+import { ApiItem, ApiSalesData, SortOption } from '@/utils/types'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { useApi } from 'useipa'
 import { BillGenerate } from '@/schema'
-import { clearOrder } from '@/redux/order'
+import { addToOrders, clearOrder } from '@/redux/order'
 
 function Sales() {
   const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
@@ -21,12 +21,12 @@ function Sales() {
   }>()
   const dispatch = useAppDispatch()
 
-  const handleClick = async (): Promise<void> => {
+  const handleSubmit = async (): Promise<void> => {
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
     mutate('/sales/create', { items, totalAmount })
   }
-  const handleClickWrapper = () => {
-    handleClick().catch(
+  const handleSubmitWrapper = () => {
+    handleSubmit().catch(
       () =>
         new Response('Validation Error', {
           status: 400,
@@ -34,6 +34,10 @@ function Sales() {
         })
     )
   }
+  const itemClickHandler = (item: ApiItem) => {
+    dispatch(addToOrders(item))
+  }
+
   if (error) {
     console.log(error)
 
@@ -59,7 +63,7 @@ function Sales() {
         <Success data={data?.data} />
       </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
-        <PosBaseMemo sort={sort}>
+        <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}>
           <div className="flex w-full justify-between ">
             <Button
               onClick={() => setSort({ option: '?sort=none' })}
@@ -86,7 +90,7 @@ function Sales() {
           <Invoice
             btnProps={{
               btnname: 'Generate Bill',
-              handleClick: handleClickWrapper,
+              handleClick: handleSubmitWrapper,
               disabled: orders.length === 0,
             }}
             fetching={fetching}

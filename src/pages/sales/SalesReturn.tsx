@@ -10,18 +10,20 @@ import {
   Modal,
   Success,
 } from '@/components/ui'
+import { AnimatedAlert } from '@/components/ui/Alert'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import {
   addToReturn,
   clearReturn,
   decrementReturn,
   incrementReturn,
-  PayloadIDs,
+  type PayloadIDs,
   removeFromReturns,
-  ReturnItemType,
+  type ReturnItemType,
 } from '@/redux/returnItem'
 import { clearSaleState, fetchSale } from '@/redux/sale'
 import { ReturnItemSchema } from '@/schema'
+import { ApiItem } from '@/utils/types'
 import { Typography } from '@material-tailwind/react'
 import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
@@ -29,19 +31,27 @@ import { useApi } from 'useipa'
 function SalesReturn() {
   const [inputVal, setInputVal] = useState('')
   const [modal, setModal] = useState(false)
-  const { mutate, fetching, success } = useApi()
+  const [errorAlert, setErrorAlert] = useState(false)
+  const { mutate, fetching, success, error, clearState } = useApi()
   const dispatch = useAppDispatch()
   const returnItems = useAppSelector((state) => state.returnItem.sales)
+  const customReturnItems = useAppSelector(
+    (state) => state.returnItem.customReturn
+  )
   const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
   const saleError = useAppSelector((state) => state.sale.error)
   const totalAmount = useMemo(
     () =>
       returnItems.reduce(
         (acc, sale) =>
-          acc + sale.items.reduce((a, i) => a + i.returnQty! * i.item.Price, 0),
+          acc + sale.items.reduce((a, i) => a + i.returnQty! * i.Price, 0),
+        0
+      ) +
+      customReturnItems.reduce(
+        (acc, val) => acc + val.item!.Price * val.returnQty,
         0
       ),
-    [returnItems]
+    [returnItems, customReturnItems]
   )
 
   const handleSubmit = () => {
@@ -53,13 +63,18 @@ function SalesReturn() {
       console.table(returnData)
     })().catch((err) => console.log(err))
   }
+  const itemClickHandler = (item: ApiItem) => {
+    handleAddToReturn({ item: item })
+  }
   const handleSearch = () => {
     if (inputVal !== '') {
       void dispatch(fetchSale(inputVal))
     }
     return
   }
-  const handleAddToReturn = (payload: ReturnItemType) => {
+  const handleAddToReturn = (
+    payload: Partial<ReturnItemType> & { item?: ApiItem }
+  ) => {
     dispatch(addToReturn(payload))
   }
   const handleDelItem = (id: unknown) => {
@@ -77,21 +92,26 @@ function SalesReturn() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value)
   }
+
   useEffect(() => {
     if (success) {
       dispatch(clearReturn())
       dispatch(clearSaleState())
       setModal(true)
       setInputVal('')
+      clearState()
     }
-  }, [success])
+    if (error) {
+      setErrorAlert(true)
+    }
+  }, [success, error])
 
   return (
     <div className="flex md:p-5 lg:flex-row flex-col transition-all">
       <Modal isOpen={modal} handleClose={() => setModal(false)}>
         <Success></Success>
       </Modal>
-      <PosBaseMemo className="max-h-none">
+      <PosBaseMemo itemClickHandler={itemClickHandler} className="max-h-none">
         <div className="flex flex-col w-full mb-5">
           <Typography variant="h3" className="mb-3">
             Add Sales Return
@@ -118,16 +138,13 @@ function SalesReturn() {
                   <Item
                     onClick={() =>
                       handleAddToReturn({
+                        ...val,
                         saleId: val.FKSaleID,
                         PKSoldItemID: val.PKSoldItemID,
-                        item: { ...val, ItemName: val.Item.ItemName },
+                        ItemName: val.Item.ItemName,
                       })
                     }
-                    qtyElement={
-                      <>
-                        <span>Total Qty : {val.Qty}</span>
-                      </>
-                    }
+                    qtyElement={<span>Total Qty : {val.Qty}</span>}
                     item={val.Item}
                     key={i}
                   />
@@ -143,7 +160,7 @@ function SalesReturn() {
             <div className="flex justify-between items-center">
               <h1 className="text-2xl font-semibold">Return Items</h1>
               <Button
-                disabled={returnItems.length === 0}
+                disabled={!(returnItems.length || customReturnItems.length)}
                 className="disabled:!cursor-not-allowed disabled:pointer-events-auto"
                 onClick={handleClear}
               >
@@ -159,18 +176,32 @@ function SalesReturn() {
                     minusBtn={minusBtnHandler}
                     plusBtn={plusBtnHander}
                     item={{
-                      Price: v.item.Price,
-                      ItemName: v.item.ItemName,
+                      Price: v.Price,
+                      ItemName: v.ItemName,
                       qty: v.returnQty,
                       id: {
                         soldItemId: v.PKSoldItemID,
-                        saleId: v.item.FKSaleID,
+                        saleId: v.FKSaleID,
                       },
                     }}
                     key={v.PKSoldItemID}
                   />
                 ))
               )}
+              {customReturnItems.map((val) => (
+                <OrderItem
+                  delBtnHandler={handleDelItem}
+                  minusBtn={minusBtnHandler}
+                  plusBtn={plusBtnHander}
+                  className="bg-red-100 bg-opacity-25"
+                  key={val.item?.PKItemID}
+                  item={{
+                    ...val.item,
+                    qty: val.returnQty,
+                    id: { soldItemId: val.item?.PKItemID },
+                  }}
+                />
+              ))}
             </div>
           </div>
         </ItemContainer>
@@ -178,12 +209,17 @@ function SalesReturn() {
           btnProps={{
             btnname: 'Return Sales',
             handleClick: handleSubmit,
-            disabled: returnItems.length === 0,
+            disabled: !(returnItems.length || customReturnItems.length),
           }}
           fetching={fetching}
           totalAmount={totalAmount}
         />
       </div>
+      {error && (
+        <AnimatedAlert onClose={() => setErrorAlert(false)} open={errorAlert}>
+          {error.message}
+        </AnimatedAlert>
+      )}
     </div>
   )
 }

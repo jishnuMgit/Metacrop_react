@@ -7,17 +7,17 @@ import { clearOrder } from '@/redux/order'
 function CurrentOrder() {
   const dispatch = useAppDispatch()
   const orders = useAppSelector((state) => state.order.orders)
-  const handleDelItem = (id: string | number) => {
-    dispatch(removeFrmOrders(id))
+  const handleDelItem = (id: unknown) => {
+    dispatch(removeFrmOrders(id as number))
   }
   const handleClear = () => {
     dispatch(clearOrder())
   }
-  const minusBtnHandler = (itemId: number) => {
-    dispatch(decrement(itemId))
+  const minusBtnHandler = (itemId: unknown) => {
+    dispatch(decrement(itemId as number))
   }
-  const plusBtnHander = (itemId: number) => {
-    dispatch(increment(itemId))
+  const plusBtnHander = (itemId: unknown) => {
+    dispatch(increment(itemId as number))
   }
 
   return (

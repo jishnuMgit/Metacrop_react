@@ -4,17 +4,25 @@ import milkImg from '@/assets/images/milk.png'
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { ApiItem } from '@/utils/types'
 import { MinusCircleIcon } from '@heroicons/react/24/outline'
+import clsx from 'clsx'
 
 type OrderItemProps = {
   item: Partial<ApiItem>
   minusBtn: (id: unknown) => void
   plusBtn: (id: unknown) => void
   delBtnHandler: (id: unknown) => void
+  className?: string
   fetching?: boolean
   btn?: boolean
 }
 
-function OrderItem({ item, minusBtn, plusBtn, delBtnHandler }: OrderItemProps) {
+function OrderItem({
+  item,
+  minusBtn,
+  plusBtn,
+  delBtnHandler,
+  className,
+}: OrderItemProps) {
   const itemRef = useRef<HTMLDivElement | null>(null)
   console.log(item.Price)
 
@@ -25,7 +33,7 @@ function OrderItem({ item, minusBtn, plusBtn, delBtnHandler }: OrderItemProps) {
     })
   }, [item])
   return (
-    <div className="flex mb-4 ref={itemRef} w-96 lg:w-auto">
+    <div ref={itemRef} className={clsx('flex mb-4 w-96 lg:w-auto', className)}>
       <div className="flex w-1/2 items-center">
         <div className="flex w-2/12">
           <img className="h-8" src={`${milkImg}`} alt="l" />

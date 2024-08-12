@@ -1,5 +1,6 @@
-import EditSale from '@/components/sales/EditSale'
-import InvoiceList from '@/components/sales/InvoiceList'
+import { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
+import { EditSale, InvoiceList } from '@/components/sales/'
 import { Button, Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
@@ -13,8 +14,6 @@ import {
   CardHeader,
   Typography,
 } from '@material-tailwind/react'
-import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
 
 const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Qty', 'Price', 'SubTotal']
 

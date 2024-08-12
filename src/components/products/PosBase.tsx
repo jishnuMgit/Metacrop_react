@@ -9,14 +9,19 @@ import { fuzzySearch } from '@/utils/helpers'
 import { setQrData } from '@/redux/component'
 import clsx from 'clsx'
 import Item from './Item'
-import { addToOrders } from '@/redux/order'
 
 type PosBaseProps = {
   children?: React.JSX.Element | React.JSX.Element[]
   sort?: SortOption
   className?: string
+  itemClickHandler: (item: ApiItem) => void
 }
-function PosBase({ children, sort, className }: PosBaseProps) {
+function PosBase({
+  children,
+  sort,
+  className,
+  itemClickHandler,
+}: PosBaseProps) {
   const [products, setProducts] = useState<ApiItem[]>()
   const productRef = useRef<ApiItem[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
@@ -121,15 +126,9 @@ function PosBase({ children, sort, className }: PosBaseProps) {
       </>
       <ProductContainer>
         <>
-          <>
-            {products?.map((val, i) => (
-              <Item
-                onClick={() => dispatch(addToOrders(val))}
-                item={val}
-                key={i}
-              />
-            ))}
-          </>
+          {products?.map((val, i) => (
+            <Item onClick={() => itemClickHandler(val)} item={val} key={i} />
+          ))}
         </>
       </ProductContainer>
     </ItemContainer>

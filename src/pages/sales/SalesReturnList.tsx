@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Header } from '@/components/sales'
 import { TableComponent } from '@/components/ui'
 import {
@@ -15,8 +17,6 @@ import {
   SortTypes,
 } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useApi } from 'useipa'
 
 const TABLE_HEAD = [
