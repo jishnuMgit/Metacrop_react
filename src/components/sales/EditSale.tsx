@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale, removeSoldItem, updateSaleData } from '@/redux/sale'
 import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
-import { ReturnItemSchema, UpdateSale } from '@/schema'
+import { SalesReturnSchema, UpdateSale } from '@/schema'
 import { AnimatedAlert } from '../ui/Alert'
 import { Button, Spinner } from '../ui'
 import { createInvoiceList } from '@/utils/helpers'
@@ -46,12 +46,14 @@ function EditSale() {
   }
 
   const returnHandler = async (id: number, qty: number) => {
-    const returnItemData = await ReturnItemSchema.validate([
-      {
-        saleId: saleData?.PKSaleID,
-        items: [{ PKSoldItemID: id, returnQty: qty }],
-      },
-    ])
+    const returnItemData = await SalesReturnSchema.validate({
+      sales: [
+        {
+          saleId: saleData?.PKSaleID,
+          items: [{ PKSoldItemID: id, returnQty: qty }],
+        },
+      ],
+    })
     mutate(`/sales/return-items`, returnItemData)
   }
   const wrapperReturnitem = (id: number, qty: number) => {
@@ -133,7 +135,7 @@ function EditSale() {
           </div>
         </div>
       )}
-      <AnimatedAlert open={alertOpen} onClose={() => setAlertOpen(false)}>
+      <AnimatedAlert color="green" open={alertOpen} onClose={() => setAlertOpen(false)}>
         {'Sale Updated successfully'}
       </AnimatedAlert>
     </>

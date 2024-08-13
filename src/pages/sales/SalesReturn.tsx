@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react'
 import { Invoice, ProductContainer } from '@/components'
 import Item from '@/components/products/Item'
 import OrderItem from '@/components/products/OrderItem'
@@ -15,10 +16,9 @@ import {
   type ReturnItemType,
 } from '@/redux/returnItem'
 import { clearSaleState, fetchSale } from '@/redux/sale'
-import { ReturnItemSchema } from '@/schema'
+import { SalesReturnSchema } from '@/schema'
 import { ApiItem } from '@/utils/types'
 import { Typography } from '@material-tailwind/react'
-import { useEffect, useMemo, useState } from 'react'
 import { useApi } from 'useipa'
 
 function SalesReturn() {
@@ -27,10 +27,12 @@ function SalesReturn() {
   const [errorAlert, setErrorAlert] = useState(false)
   const { mutate, fetching, success, error, clearState } = useApi()
   const dispatch = useAppDispatch()
+
   const returnItems = useAppSelector((state) => state.returnItem.sales)
   const customReturnItems = useAppSelector((state) => state.returnItem.customReturn)
   const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
   const saleError = useAppSelector((state) => state.sale.error)
+
   const totalAmount = useMemo(
     () =>
       returnItems.reduce(
@@ -42,11 +44,14 @@ function SalesReturn() {
 
   const handleSubmit = () => {
     ;(async () => {
-      const returnData = await ReturnItemSchema.validate(returnItems, {
-        stripUnknown: true,
-      })
+      const returnData = await SalesReturnSchema.validate(
+        { sales: returnItems, nonSales: customReturnItems },
+        {
+          stripUnknown: true,
+        }
+      )
+      console.log(returnData, 'return data')
       mutate('/sales/return-items', returnData)
-      console.table(returnData)
     })().catch((err) => console.log(err))
   }
   const itemClickHandler = (item: ApiItem) => {
@@ -200,8 +205,12 @@ function SalesReturn() {
         />
       </div>
       {error && (
-        <AnimatedAlert onClose={() => setErrorAlert(false)} open={errorAlert}>
-          {error.message}
+        <AnimatedAlert
+          className="bg-dark-btn-color"
+          onClose={() => setErrorAlert(false)}
+          open={errorAlert}
+        >
+          <div>{error.message} </div>
         </AnimatedAlert>
       )}
     </div>

@@ -1,17 +1,15 @@
-import { Alert } from '@material-tailwind/react'
-import { useEffect } from 'react'
+import { Alert, AlertProps } from '@material-tailwind/react'
+import React, { useEffect } from 'react'
 
-export function AnimatedAlert({
-  open,
-  onClose,
-  children,
-  timeout,
-}: {
+type AnimatedAlertProps = {
   open: boolean
   onClose: () => void
-  children: string
+  children: string | React.JSX.Element | React.JSX.Element[]
   timeout?: number
-}) {
+  className?: string
+} & AlertProps
+
+export function AnimatedAlert({ open, onClose, children, timeout, ...props }: AnimatedAlertProps) {
   useEffect(() => {
     const timer = setTimeout(() => onClose(), timeout ?? 3000)
     return () => {
@@ -23,7 +21,7 @@ export function AnimatedAlert({
     <>
       <div className="fixed bottom-10 left-[4.34444%;] w-11/12">
         <Alert
-          className="dark:bg-dark-btn-color"
+          {...props}
           open={open}
           onClose={onClose}
           animate={{

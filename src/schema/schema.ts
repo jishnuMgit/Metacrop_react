@@ -1,5 +1,5 @@
 import { ApiItem, ApiSalesData } from '@/utils/types'
-import { array, number, object, string } from 'yup'
+import { array, InferType, number, object, string } from 'yup'
 
 /**
  * Login Validation
@@ -52,9 +52,27 @@ export const ReturnItemObject = object({
   returnQty: number(),
 }).required()
 
-export const ReturnItemSchema = array(
-  object({
-    saleId: number().required(),
-    items: array(ReturnItemObject).required(),
-  })
-)
+export const nonSaleReturnObject = object({
+  item: object({ PKItemID: number(), Price: number() }).required(),
+  returnQty: number(),
+})
+
+export const SalesReturnSchema = object({
+  sales: array(
+    object({
+      saleId: number().required(),
+      items: array(ReturnItemObject).required(),
+    })
+  ).min(1),
+  // for custom returns.
+  nonSales: array(nonSaleReturnObject).optional().min(1),
+}).transform((_, original: InferType<typeof SalesReturnSchema>) => {
+  const { nonSales, sales } = original
+  if (sales?.length === 0) {
+    return { nonSales }
+  }
+  if (nonSales?.length === 0) {
+    return { sales }
+  }
+  return original
+})
