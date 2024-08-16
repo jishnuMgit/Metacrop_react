@@ -24,7 +24,7 @@ function Sale() {
   const { error, fetching, saleData: data } = useAppSelector((state) => state.sale)
   useEffect(() => {
     void dispatch(fetchSale(params.id!))
-  }, [])
+  }, [dispatch, params.id])
 
   if (error) {
     throw new Response('NO sale found', {
@@ -111,12 +111,12 @@ function Sale() {
                       </>
                     </TableBody>
                   </TableComponent>
-                  {data.SoldItemsReturn.length !== 0 && (
+                  {data.SalesReturnItems.length !== 0 && (
                     <TableComponent heading="Returned Items For Sales">
                       <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
                       <TableBody fetching={fetching}>
                         <>
-                          {data.SoldItemsReturn.map((val, index) => {
+                          {data.SalesReturnItems.map((val, index) => {
                             const isLast = index === data.SoldItems.length - 1
                             const classes: string = isLast
                               ? 'p-4'

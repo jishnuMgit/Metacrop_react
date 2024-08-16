@@ -55,6 +55,7 @@ function SalesList() {
       setSaleData(searchData)
       resetState()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchData])
 
   useEffect(() => {

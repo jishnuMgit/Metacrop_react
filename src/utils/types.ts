@@ -100,22 +100,22 @@ export type ApiSalesData = {
   PKSaleID: number | string
   TotalAmount: number | string
   SoldItems: ApiSoldItem[]
-  SoldItemsReturn: ApiSalesReturn[]
+  SalesReturnItems: ApiSalesReturnItem[]
 }
 
 /**
  * sales return response api data type
  */
-export type ApiSalesReturn = {
-  CreatedOn: string
-  FKItemID: number | string
-  FKSoldItemID: number | string
+export type ApiSalesReturnItem = {
+  PKReturnItemID: number | string
+  FKReturnID: number | string
   FKSaleID: number | string
-  PKReturnID: number | string
+  FKItemID: number | string
+  CreatedOn: string
   Qty: number
   SubTotal: number | string
   Price: number
-  Item: { ItemName: number }
+  Item: { ItemName: string }
 }
 
 /**

@@ -5,7 +5,7 @@ import { TableComponent } from '@/components/ui'
 import { TableBody, TableFooter, TableHeader, TableRow } from '@/components/ui/table'
 import { links } from '@/config/constants'
 import { useSearch } from '@/hooks'
-import { ApiSalesReturn, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
+import { ApiSalesReturnItem, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useApi } from 'useipa'
 
@@ -25,14 +25,14 @@ const TABLE_HEAD = [
  * @limit - Page limit. howmany items in one page.
  */
 function SalesReturnList() {
-  const { fetchData, data, fetching } = useApi<{ data?: ApiSalesReturn[] }>()
+  const { fetchData, data, fetching } = useApi<{ data?: ApiSalesReturnItem[] }>()
   const [page, setPage] = useState(1)
   const [sort] = useState<SortOrder>('desc')
   const [limit] = useState<number>(10)
   const [sortType, setSortType] = useState<SortTypes>('date')
-  const [saleData, setSaleData] = useState<ApiSalesReturn[] | undefined>()
+  const [saleData, setSaleData] = useState<ApiSalesReturnItem[] | undefined>()
   const { handleEnter, handleQuery, searchData, resetState } = useSearch<
-    ApiSalesReturn | undefined
+    ApiSalesReturnItem | undefined
   >('', 'sales/returns/')
 
   const navigate = useNavigate()
@@ -74,7 +74,7 @@ function SalesReturnList() {
                 const classes: string = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
                   col1: { value: val.Item.ItemName },
-                  col2: { value: val.PKReturnID },
+                  col2: { value: val.FKReturnID },
                   col3: { value: val.FKSaleID },
                   col4: { value: new Date(val.CreatedOn).toLocaleDateString() },
                   col5: { value: val.Qty },
