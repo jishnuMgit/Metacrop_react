@@ -29,3 +29,13 @@ export const sortOptions = {
   MOST_SALED: 'most-saled',
   RECENT: 'recent',
 } as const
+
+export const SALE_INVOICE_NAMES = [
+  'Sale Date',
+  'Modified Date',
+  'Sale Id',
+  'Total Items',
+  'Total Amount',
+]
+
+export const SALES_RETURN_INVOICE = ['Return Date', 'Return ID', 'Total Items', 'Total Amount']

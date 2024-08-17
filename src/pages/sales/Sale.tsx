@@ -5,10 +5,11 @@ import { Button, Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale } from '@/redux/sale'
-import { createInvoiceList } from '@/utils/helpers'
+import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
 import { DynamicTableCol } from '@/utils/types'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
+import { SALE_INVOICE_NAMES } from '@/config/constants'
 
 const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Qty', 'Price', 'SubTotal']
 
@@ -72,9 +73,11 @@ function Sale() {
                   </Typography>
                 </div>
                 <div className="mb-5 flex flex-col  ">
-                  {createInvoiceList(data).map((val, index) => (
-                    <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
-                  ))}
+                  {createInvoiceList(SALE_INVOICE_NAMES, createInvoiceValues(data)).map(
+                    (val, index) => (
+                      <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
+                    )
+                  )}
                 </div>
               </div>
               {!edit && query !== 'edit' ? (
@@ -102,6 +105,7 @@ function Sale() {
                                 text: 'paid',
                                 color: 'green',
                                 classes: 'dark:text-[rgb(33,234,48)]',
+                                index: 3,
                               }}
                               {...columns}
                               classes={classes}
@@ -134,6 +138,7 @@ function Sale() {
                                   text: 'returned',
                                   color: 'blue-gray',
                                   classes: 'dark:text-[rgb(136,193,221)]',
+                                  index: 3,
                                 }}
                                 key={index}
                                 {...columns}

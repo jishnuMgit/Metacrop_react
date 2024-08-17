@@ -1,6 +1,7 @@
 import { Typography } from '@material-tailwind/react'
 
-function InvoiceList({ name, value }: { name: string; value?: string | number }) {
+export type InvoiceListProps = { name: string; value?: string | number }
+function InvoiceList({ name, value }: InvoiceListProps) {
   return (
     <>
       <div className="flex justify-between w-full">

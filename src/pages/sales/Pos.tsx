@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { useApi } from 'useipa'
 import { BillGenerate } from '@/schema'
 import { addToOrders, clearOrder } from '@/redux/order'
+import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
+import { SALE_INVOICE_NAMES } from '@/config/constants'
 
 function Sales() {
   const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
@@ -60,7 +62,11 @@ function Sales() {
   return (
     <>
       <Modal handleClose={handleClose} center isOpen={isOpen}>
-        <Success data={data?.data} />
+        <>
+          {data?.data && (
+            <Success data={createInvoiceList(SALE_INVOICE_NAMES, createInvoiceValues(data.data))} />
+          )}
+        </>
       </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
         <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}>

@@ -6,20 +6,19 @@ import clsx from 'clsx'
 import { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export type TableRowProps = {
+export type TableRowProps = ({ click: true; link: string } | { click?: false; link?: never }) & {
   classes: string
   action?: boolean
-  click?: boolean
   status?: { text: string; color: colors; index?: number; classes?: string }
 } & DynamicTableCol
 
-function TableRow({ classes, action, click = false, status, ...props }: TableRowProps) {
-  const { index: statusIndex = 3 } = status!
+function TableRow({ classes, action, click = false, status, link, ...props }: TableRowProps) {
+  const { index: statusIndex } = status ?? {}
 
   const navigate = useNavigate()
   const handleClick = () => {
-    if (click) {
-      navigate(`/sales/${props.col2?.value}`)
+    if (click && link) {
+      navigate(`${link}`)
     }
     return
   }
@@ -37,7 +36,7 @@ function TableRow({ classes, action, click = false, status, ...props }: TableRow
       {Object.values(props).map((col, index) => {
         return (
           <Fragment key={index}>
-            {statusIndex === index + 1 && (
+            {statusIndex && statusIndex === index + 1 && (
               <td className={classes}>
                 <div key={index} className="w-max">
                   <Chip

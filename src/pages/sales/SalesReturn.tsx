@@ -1,220 +1,127 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Invoice, ProductContainer } from '@/components'
-import Item from '@/components/products/Item'
-import OrderItem from '@/components/products/OrderItem'
-import { PosBaseMemo } from '@/components/products/PosBase'
-import { Button, ErrorText, Input, ItemContainer, Modal, Success } from '@/components/ui'
-import { AnimatedAlert } from '@/components/ui/Alert'
-import { useAppDispatch, useAppSelector } from '@/config/hooks'
-import {
-  addToReturn,
-  clearReturn,
-  decrementReturn,
-  incrementReturn,
-  type PayloadIDs,
-  removeFromReturns,
-  type ReturnItemType,
-} from '@/redux/returnItem'
-import { clearSaleState, fetchSale } from '@/redux/sale'
-import { SalesReturnSchema } from '@/schema'
-import { ApiItem } from '@/utils/types'
-import { Typography } from '@material-tailwind/react'
+import { useEffect } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
+import { InvoiceList } from '@/components/sales/'
+import { Spinner, TableComponent } from '@/components/ui'
+import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
+import { createInvoiceList, createReturnInvoice } from '@/utils/helpers'
+import { ApiSalesReturn, DynamicTableCol } from '@/utils/types'
+import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
 import { useApi } from 'useipa'
+import { SALES_RETURN_INVOICE } from '@/config/constants'
 
-function SalesReturn() {
-  const [inputVal, setInputVal] = useState('')
-  const [modal, setModal] = useState(false)
-  const [errorAlert, setErrorAlert] = useState(false)
-  const { mutate, fetching, success, error, clearState } = useApi()
-  const dispatch = useAppDispatch()
+const TABLE_HEAD = [
+  'Item',
+  'Sales Return ID',
+  'Sale ID',
+  'Status',
+  'Date',
+  'Quantity',
+  'Price',
+  'Total Amount',
+]
 
-  const returnItems = useAppSelector((state) => state.returnItem.sales)
-  const customReturnItems = useAppSelector((state) => state.returnItem.customReturn)
-  const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
-  const saleError = useAppSelector((state) => state.sale.error)
-
-  const totalAmount = useMemo(
-    () =>
-      returnItems.reduce(
-        (acc, sale) => acc + sale.items.reduce((a, i) => a + i.returnQty! * i.Price, 0),
-        0
-      ) + customReturnItems.reduce((acc, val) => acc + val.item!.Price * val.returnQty, 0),
-    [returnItems, customReturnItems]
-  )
-
-  const handleSubmit = () => {
-    ;(async () => {
-      const returnData = await SalesReturnSchema.validate(
-        { sales: returnItems, nonSales: customReturnItems },
-        {
-          stripUnknown: true,
-        }
-      )
-      console.log(returnData, 'return data')
-      mutate('/sales/return-items', returnData)
-    })().catch((err) => console.log(err))
-  }
-  const itemClickHandler = (item: ApiItem) => {
-    handleAddToReturn({ item: item })
-  }
-  const handleSearch = () => {
-    if (inputVal !== '') {
-      void dispatch(fetchSale(inputVal))
-    }
-    return
-  }
-  const handleAddToReturn = (payload: Partial<ReturnItemType> & { item?: ApiItem }) => {
-    dispatch(addToReturn(payload))
-  }
-  const handleDelItem = (id: unknown) => {
-    dispatch(removeFromReturns(id as PayloadIDs))
-  }
-  const handleClear = () => {
-    dispatch(clearReturn())
-  }
-  const minusBtnHandler = (ids: unknown) => {
-    dispatch(decrementReturn(ids as PayloadIDs))
-  }
-  const plusBtnHander = (ids: unknown) => {
-    dispatch(incrementReturn(ids as PayloadIDs))
-  }
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputVal(e.target.value)
-  }
+function Sale() {
+  const params = useParams()
+  const { search } = useLocation()
+  const { fetchData, data: response, error, fetching } = useApi<{ data?: ApiSalesReturn }>()
+  const query = new URLSearchParams(search).get('action')
+  console.log(query, 'actionnnnnnnnn')
 
   useEffect(() => {
-    if (success) {
-      dispatch(clearReturn())
-      dispatch(clearSaleState())
-      setModal(true)
-      setInputVal('')
-      clearState()
-    }
-    if (error) {
-      setErrorAlert(true)
-    }
-  }, [success, error])
+    fetchData(`/sales/returns/${params.id}`)
+  }, [params.id])
+
+  if (error) {
+    throw new Response('NO sale found', {
+      status: 400,
+      statusText: 'No sales found given id',
+    })
+  }
 
   return (
-    <div className="flex md:p-5 lg:flex-row flex-col transition-all">
-      <Modal isOpen={modal} handleClose={() => setModal(false)}>
-        <Success></Success>
-      </Modal>
-      <PosBaseMemo itemClickHandler={itemClickHandler} className="max-h-none">
-        <div className="flex flex-col w-full mb-5">
-          <Typography variant="h3" className="mb-3">
-            Add Sales Return
-          </Typography>
-          <div className="flex">
-            <Input
-              value={inputVal}
-              placeholder="Search Invoice"
-              type="text"
-              className=" indent-7 mb-0 w-8/12 h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
-              onChange={handleChange}
-            />
-            <Button className="w-3/12 ms-auto" onClick={handleSearch}>
-              Search
-            </Button>
-          </div>
-        </div>
-        <> {saleError && <ErrorText message={saleError.message} />}</>
+    <>
+      {response ? (
         <>
-          {soldItems && (
-            <ProductContainer>
-              <>
-                {soldItems?.map((val, i) => (
-                  <Item
-                    onClick={() =>
-                      handleAddToReturn({
-                        ...val,
-                        saleId: val.FKSaleID,
-                        PKSoldItemID: val.PKSoldItemID,
-                        ItemName: val.Item.ItemName,
-                      })
-                    }
-                    qtyElement={<span>Total Qty : {val.Qty}</span>}
-                    item={val.Item}
-                    key={i}
-                  />
-                ))}
-              </>
-            </ProductContainer>
-          )}
-        </>
-      </PosBaseMemo>
-      <div className="flex flex-col mt-3 lg:mt-0 lg:w-1/2 lg:ms-4 items-center ">
-        <ItemContainer className="w-full mb-4">
-          <div>
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-semibold">Return Items</h1>
-              <Button
-                disabled={!(returnItems.length || customReturnItems.length)}
-                className="disabled:!cursor-not-allowed disabled:pointer-events-auto"
-                onClick={handleClear}
-              >
-                Clear All
-              </Button>
-            </div>
-            <hr className="h-[2px] my-3 bg-[#cec6b4] border-0 " />
-            <div className="overflow-y-auto max-h-96 pe-3">
-              {returnItems.map((val) =>
-                val.items.map((v) => (
-                  <OrderItem
-                    delBtnHandler={handleDelItem}
-                    minusBtn={minusBtnHandler}
-                    plusBtn={plusBtnHander}
-                    item={{
-                      Price: v.Price,
-                      ItemName: v.ItemName,
-                      qty: v.returnQty,
-                      id: {
-                        soldItemId: v.PKSoldItemID,
-                        saleId: v.FKSaleID,
-                      },
-                    }}
-                    key={v.PKSoldItemID}
-                  />
-                ))
+          <Card className="h-full mx-5 mt-5 dark:bg-dark-primary-bg">
+            <CardHeader
+              floated={false}
+              shadow={false}
+              className="rounded-none dark:bg-dark-primary-bg"
+            >
+              <div className="mb-8 flex items-center justify-between gap-8">
+                <div>
+                  <Typography variant="h4" color="blue-gray" className="dark:text-white">
+                    {`Sales Return Details`}
+                  </Typography>
+                  <Typography color="gray" className="mt-1 font-normal">
+                    {`See information about this sales return`}
+                  </Typography>
+                </div>
+              </div>
+            </CardHeader>
+            <CardBody className="p-6">
+              <div className="md:w-4/12 w-full ">
+                <div>
+                  <Typography variant="h6" color="blue-gray" className="dark:text-blue-200">
+                    {`Invoice Details`}
+                  </Typography>
+                </div>
+                <div className="mb-5 flex flex-col  ">
+                  {createInvoiceList(SALES_RETURN_INVOICE, createReturnInvoice(response.data!)).map(
+                    (val, index) => (
+                      <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
+                    )
+                  )}
+                </div>
+              </div>
+              {response.data && (
+                <>
+                  <TableComponent heading="Selected Items For Sales Return">
+                    <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
+                    <TableBody fetching={fetching}>
+                      <>
+                        {response?.data?.SalesReturnItems.map((val, index) => {
+                          const isLast = index === response.data!.SalesReturnItems.length - 1
+                          const classes: string = isLast
+                            ? 'p-4'
+                            : 'p-4 border-b border-blue-gray-50'
+                          const columns: DynamicTableCol = {
+                            col1: { value: val.Item.ItemName },
+                            col2: { value: val.FKReturnID },
+                            col3: { value: val.FKSaleID ?? 'No sale' },
+                            col4: { value: new Date(val.CreatedOn).toLocaleDateString() },
+                            col5: { value: val.Qty },
+                            col6: { value: val.Price, prefix: '$' },
+                            col7: { value: val.SubTotal, prefix: '$' },
+                          }
+
+                          return (
+                            <TableRow
+                              status={{
+                                text: 'returned',
+                                color: 'blue-gray',
+                                index: 4,
+                                classes: 'dark:text-[rgb(136,193,221)]',
+                              }}
+                              key={index}
+                              {...columns}
+                              classes={classes}
+                            />
+                          )
+                        })}
+                      </>
+                    </TableBody>
+                  </TableComponent>
+                </>
               )}
-              {customReturnItems.map((val) => (
-                <OrderItem
-                  delBtnHandler={handleDelItem}
-                  minusBtn={minusBtnHandler}
-                  plusBtn={plusBtnHander}
-                  className="bg-red-100 bg-opacity-25"
-                  key={val.item?.PKItemID}
-                  item={{
-                    ...val.item,
-                    qty: val.returnQty,
-                    id: { soldItemId: val.item?.PKItemID },
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        </ItemContainer>
-        <Invoice
-          btnProps={{
-            btnname: 'Return Sales',
-            handleClick: handleSubmit,
-            disabled: !(returnItems.length || customReturnItems.length),
-          }}
-          fetching={fetching}
-          totalAmount={totalAmount}
-        />
-      </div>
-      {error && (
-        <AnimatedAlert
-          className="bg-dark-btn-color"
-          onClose={() => setErrorAlert(false)}
-          open={errorAlert}
-        >
-          <div>{error.message} </div>
-        </AnimatedAlert>
+            </CardBody>
+          </Card>
+        </>
+      ) : (
+        <Spinner />
       )}
-    </div>
+    </>
   )
 }
 
-export default SalesReturn
+export default Sale

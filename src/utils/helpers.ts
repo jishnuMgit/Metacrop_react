@@ -1,7 +1,7 @@
 import { COOKIE_TTL } from '@/config/constants'
 import Fuse, { IFuseOptions } from 'fuse.js'
 import Cookies from 'js-cookie'
-import { ApiSalesData } from './types'
+import { ApiSalesData, ApiSalesReturn } from './types'
 
 export const fuzzySearch = <T>(list: T[], query: string): T[] => {
   const fuseOptions: IFuseOptions<T> = {
@@ -48,30 +48,30 @@ export const setDarkMode = (dark: boolean) => {
   localStorage.setItem('darkMode', dark + '')
 }
 
-export const createInvoiceList = (data?: ApiSalesData) => {
-  if (data) {
-    return [
-      {
-        name: 'Sale Date',
-        value: new Date(data?.CreatedOn).toLocaleDateString(),
-      },
-      {
-        name: 'Modified Date',
-        value: new Date(data.ModifiedOn).toLocaleDateString(),
-      },
-      {
-        name: 'Sale Id',
-        value: data.PKSaleID,
-      },
-      {
-        name: 'Total Items',
-        value: data.SoldItems.length,
-      },
-      {
-        name: 'Total Amount',
-        value: `$` + data.TotalAmount,
-      },
-    ]
+export const createInvoiceValues = (data: ApiSalesData) => {
+  return [
+    new Date(data?.CreatedOn).toLocaleDateString(),
+    new Date(data.ModifiedOn).toLocaleDateString(),
+    data.PKSaleID,
+    data.SoldItems.length,
+    `$` + data.TotalAmount,
+  ]
+}
+
+export const createReturnInvoice = (data: ApiSalesReturn) => {
+  return [
+    dateParser(data.CreatedOn),
+    data.PKReturnID,
+    data.SalesReturnItems?.length,
+    data.TotalReturnAmount,
+  ]
+}
+
+export const createInvoiceList = (nameArr: string[], valArr: (string | number)[]) => {
+  if (nameArr && valArr) {
+    return nameArr
+      .map((name, index) => ({ name, value: valArr[index] }))
+      .filter((val) => !!val.value)
   }
   return []
 }

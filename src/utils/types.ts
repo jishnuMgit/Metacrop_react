@@ -104,7 +104,17 @@ export type ApiSalesData = {
 }
 
 /**
- * sales return response api data type
+ * sales return api data type
+ */
+export type ApiSalesReturn = {
+  PKReturnID: number
+  TotalReturnAmount: number
+  CreatedOn: string
+  ModifiedOn: string
+  SalesReturnItems: ApiSalesReturnItem[]
+}
+/**
+ * sales return items response api data type
  */
 export type ApiSalesReturnItem = {
   PKReturnItemID: number | string

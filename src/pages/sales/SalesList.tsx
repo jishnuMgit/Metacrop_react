@@ -100,8 +100,9 @@ function SalesList() {
                     key={index}
                     {...columns}
                     classes={classes}
-                    click
                     action
+                    click
+                    link={`/sales/${val.PKSaleID}`}
                   />
                 )
               })}

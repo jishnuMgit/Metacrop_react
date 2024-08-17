@@ -9,7 +9,8 @@ import { useApi } from 'useipa'
 import { SalesReturnSchema, UpdateSale } from '@/schema'
 import { AnimatedAlert } from '../ui/Alert'
 import { Button, Spinner } from '../ui'
-import { createInvoiceList } from '@/utils/helpers'
+import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
+import { SALE_INVOICE_NAMES } from '@/config/constants'
 
 function EditSale() {
   const [alertOpen, setAlertOpen] = useState(false)
@@ -117,7 +118,10 @@ function EditSale() {
               </Typography>
 
               <div className="mb-5 flex flex-col">
-                {createInvoiceList({ ...saleData, TotalAmount: total! }).map((val, index) => (
+                {createInvoiceList(
+                  SALE_INVOICE_NAMES,
+                  createInvoiceValues({ ...saleData, TotalAmount: total! })
+                ).map((val, index) => (
                   <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
                 ))}
               </div>

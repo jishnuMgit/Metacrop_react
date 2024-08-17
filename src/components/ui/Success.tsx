@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react'
 import Center from './Center'
 import tickIcon from '@/assets/images/icon-tick.png'
 import clsx from 'clsx'
-import InvoiceList from '../sales/InvoiceList'
-import { ApiSalesData } from '@/utils/types'
-import { createInvoiceList } from '@/utils/helpers'
+import InvoiceList, { InvoiceListProps } from '../sales/InvoiceList'
 
-function Success({ data }: { data?: ApiSalesData }) {
+function Success({ data }: { data: InvoiceListProps[] }) {
   const [small, setsmall] = useState(false)
   useEffect(() => {
     console.log(data)
@@ -41,7 +39,7 @@ function Success({ data }: { data?: ApiSalesData }) {
         <div
           className={`${small ? 'opacity-1' : 'opacity-0'} w-64 mt-10 transition-opacity duration-1000`}
         >
-          {createInvoiceList(data).map((val, index) => (
+          {data.map((val, index) => (
             <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
           ))}
         </div>
