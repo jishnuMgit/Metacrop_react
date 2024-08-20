@@ -1,6 +1,6 @@
 type InvoiceLiProps = {
   start: string
-  end: string | number
+  end: string | number | React.JSX.Element
   bold?: boolean
 }
 
