@@ -5,6 +5,8 @@ import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { ApiItem } from '@/utils/types'
 import { MinusCircleIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
+import { InputNumber } from '../ui/input'
+import { InputNumberProps } from '../ui/input/InputNumber'
 
 type OrderItemProps = {
   item: Partial<ApiItem>
@@ -14,9 +16,17 @@ type OrderItemProps = {
   className?: string
   fetching?: boolean
   btn?: boolean
+  itemPriceInput?: InputNumberProps
 }
 
-function OrderItem({ item, minusBtn, plusBtn, delBtnHandler, className }: OrderItemProps) {
+function OrderItem({
+  item,
+  minusBtn,
+  plusBtn,
+  delBtnHandler,
+  className,
+  itemPriceInput,
+}: OrderItemProps) {
   const itemRef = useRef<HTMLDivElement | null>(null)
   console.log(item.Price)
 
@@ -33,7 +43,10 @@ function OrderItem({ item, minusBtn, plusBtn, delBtnHandler, className }: OrderI
           <img className="h-8" src={`${milkImg}`} alt="l" />
         </div>
         <p className="w-7/12 text-base md:font-bold font-semibold">{item.ItemName}</p>
-        <div className="w-2/12">{'$' + item.Price}</div>
+        <div className="w-2/12 flex">
+          {'$ '}
+          <InputNumber {...itemPriceInput} value={item.Price} className="w-full" />
+        </div>
       </div>
       <div className="flex items-center md:justify-center w-1/2">
         <div className="flex items-center justify-items-center">

@@ -1,6 +1,6 @@
 import { Button, ItemContainer } from '@/components/ui'
 import OrderItem from './OrderItem'
-import { decrement, increment, removeFrmOrders } from '@/redux/order'
+import { decrement, editPrice, increment, removeFrmOrders } from '@/redux/order'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { clearOrder } from '@/redux/order'
 
@@ -38,6 +38,13 @@ function CurrentOrder() {
           <div className="overflow-y-auto max-h-96 pe-3">
             {orders.map((val) => (
               <OrderItem
+                itemPriceInput={{
+                  onChange: (e) => {
+                    dispatch(
+                      editPrice({ PKItemID: val.PKItemID, customPrice: Number(e.target.value) })
+                    )
+                  },
+                }}
                 delBtnHandler={handleDelItem}
                 minusBtn={minusBtnHandler}
                 plusBtn={plusBtnHander}
