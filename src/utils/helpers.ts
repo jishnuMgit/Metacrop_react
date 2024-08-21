@@ -54,6 +54,7 @@ export const createInvoiceValues = (data: ApiSalesData) => {
     new Date(data.ModifiedOn).toLocaleDateString(),
     data.PKSaleID,
     data.SoldItems.length,
+    data.Discount,
     `$` + data.TotalAmount,
   ]
 }

@@ -1,9 +1,10 @@
 import { ApiItem } from '@/utils/types'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-type InitialState = { orders: ApiItem[]; totalAmount: number }
+type InitialState = { orders: ApiItem[]; totalAmount: number; discount?: number | string }
 const INITIAL_STATE: InitialState = {
   orders: [],
+  discount: undefined,
   totalAmount: 0,
 }
 
@@ -54,8 +55,22 @@ const orderSlice = createSlice({
       state.orders = []
       state.totalAmount = 0
     },
+    setDiscount: (state, action: PayloadAction<number | string>) => {
+      state.discount = Number(action.payload)
+    },
+    setDiscountOnBlur: (state) => {
+      state.discount = (state.discount as number).toFixed(2)
+    },
   },
 })
-export const { addToOrders, decrement, increment, clearOrder, removeFrmOrders, editPrice } =
-  orderSlice.actions
+export const {
+  addToOrders,
+  decrement,
+  increment,
+  clearOrder,
+  removeFrmOrders,
+  editPrice,
+  setDiscount,
+  setDiscountOnBlur,
+} = orderSlice.actions
 export default orderSlice.reducer

@@ -11,7 +11,7 @@ import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
 import { SALE_INVOICE_NAMES } from '@/config/constants'
 
-const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Qty', 'Price', 'SubTotal']
+const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Price', 'Qty', 'SoldPrice', 'SubTotal']
 
 function Sale() {
   const [edit, setEdit] = useState(false)
@@ -94,9 +94,10 @@ function Sale() {
                           const columns: DynamicTableCol = {
                             col1: { value: val?.Item?.ItemName },
                             col2: { value: val.FKItemID },
-                            col3: { value: val?.oldQty ?? 'err' },
-                            col4: { value: val.Price, prefix: '$' },
-                            col5: { value: val.SubTotal, prefix: '$' },
+                            col3: { value: val.Price, prefix: '$' },
+                            col4: { value: val?.oldQty ?? 'err' },
+                            col5: { value: val.SoldPrice, prefix: '$' },
+                            col6: { value: val.SubTotal, prefix: '$' },
                           }
                           return (
                             <TableRow

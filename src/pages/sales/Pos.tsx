@@ -13,6 +13,7 @@ import { SALE_INVOICE_NAMES } from '@/config/constants'
 function Sales() {
   const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
   const orders = useAppSelector((state) => state.order.orders)
+  const discount = useAppSelector((state) => state.order.discount)
   const totalAmount = useMemo(
     () => orders.reduce((prev, val) => prev + val.qty * val.Price, 0),
     [orders]
@@ -25,7 +26,9 @@ function Sales() {
 
   const handleSubmit = async (): Promise<void> => {
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
-    mutate('/sales/create', { items, totalAmount })
+    console.log(items, totalAmount, 'befor mutate')
+
+    mutate('/sales/create', { items, totalAmount, discount })
   }
   const handleSubmitWrapper = () => {
     handleSubmit().catch(

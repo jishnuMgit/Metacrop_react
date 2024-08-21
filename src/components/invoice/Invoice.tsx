@@ -1,7 +1,8 @@
 import InvoiceLi from './InvoiceLi'
 import { ItemContainer, Center, Button } from '../ui'
-import { useState } from 'react'
 import { InputNumber } from '../ui/input'
+import { useAppDispatch, useAppSelector } from '@/config/hooks'
+import { setDiscount, setDiscountOnBlur } from '@/redux/order'
 
 type InvoiceProps = {
   btnProps: {
@@ -14,7 +15,8 @@ type InvoiceProps = {
 }
 
 function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
-  const [discount, setDiscount] = useState<number | string>()
+  const dispatch = useAppDispatch()
+  const discount = useAppSelector((state) => state.order.discount)
   const tax = 0
   const taxAmount = (tax / 100) * totalAmount
   const grandTotal = totalAmount + taxAmount - Number(discount ?? 0)
@@ -35,9 +37,9 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
                   className="text-right min-w-14 max-w-36 "
                   value={discount}
                   onBlur={() => {
-                    setDiscount(Number(discount ?? 0).toFixed(2))
+                    dispatch(setDiscountOnBlur())
                   }}
-                  onChange={(e) => setDiscount(e.target.value)}
+                  onChange={(e) => dispatch(setDiscount(e.target.value))}
                 />
               </>
             }

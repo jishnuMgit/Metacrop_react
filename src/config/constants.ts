@@ -35,6 +35,7 @@ export const SALE_INVOICE_NAMES = [
   'Modified Date',
   'Sale Id',
   'Total Items',
+  'Discount',
   'Total Amount',
 ]
 

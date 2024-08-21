@@ -53,7 +53,7 @@ export type DynamicTableCol = {
 export type ApiItem = {
   Class: string
   CreatedBy: number
-  CreatedOn: '2024-02-24T12:53:58.000Z'
+  CreatedOn: string
   DelFlag: number
   FKCmpID: number
   FKGroupID: number
@@ -76,6 +76,7 @@ export type ApiItem = {
   //
   qty: number
   id: unknown
+  customPrice?: number
 }
 
 export type ApiSoldItem = {
@@ -87,6 +88,7 @@ export type ApiSoldItem = {
   PKSoldItemID: number
   Price: number
   Qty: number
+  SoldPrice: number
   SubTotal: number
   //this for copy current qty
   oldQty?: number
@@ -98,6 +100,7 @@ export type ApiSalesData = {
   CreatedOn: string
   ModifiedOn: string
   PKSaleID: number | string
+  Discount: number
   TotalAmount: number | string
   SoldItems: ApiSoldItem[]
   SalesReturnItems: ApiSalesReturnItem[]

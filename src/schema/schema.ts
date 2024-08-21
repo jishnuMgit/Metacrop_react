@@ -11,15 +11,15 @@ export const LoginSchema = object({
 
 const BillGenerateObj = object({
   PKItemID: number().required(),
-  Price: number(),
-  Qty: number(),
-})
+  clientPrice: number().required(),
+  Qty: number().required(),
+}).required()
 
 /**
  * transform to api expecting data on create sale.
  */
 export const BillGenerate = array(BillGenerateObj).transform((_, original: ApiItem[]) =>
-  original.map((val) => ({ ...val, Qty: val.qty }))
+  original.map((val) => ({ ...val, Qty: val.qty, clientPrice: val.Price }))
 )
 
 export const UpdateItemObject = object({
