@@ -1,6 +1,7 @@
 import InvoiceLi from './InvoiceLi'
 import { ItemContainer, Center, Button } from '../ui'
 import { useState } from 'react'
+import { InputNumber } from '../ui/input'
 
 type InvoiceProps = {
   btnProps: {
@@ -29,13 +30,12 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
             start="Discount"
             end={
               <>
-                <input
+                <InputNumber
                   placeholder="0"
-                  type="number"
-                  className="bg-transparent text-right min-w-14 max-w-36 dark:focus:bg-black dark:!outline-none"
+                  className="text-right min-w-14 max-w-36 "
                   value={discount}
                   onBlur={() => {
-                    setDiscount(Number(discount).toFixed(2))
+                    setDiscount(Number(discount ?? 0).toFixed(2))
                   }}
                   onChange={(e) => setDiscount(e.target.value)}
                 />

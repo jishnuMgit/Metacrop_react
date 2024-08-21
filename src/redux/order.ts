@@ -42,11 +42,20 @@ const orderSlice = createSlice({
         }
       })
     },
+    editPrice: (state, action: PayloadAction<{ PKItemID: number; customPrice: number }>) => {
+      const { PKItemID, customPrice } = action.payload
+      state.orders.forEach((item) => {
+        if (item.PKItemID === PKItemID) {
+          item.Price = customPrice
+        }
+      })
+    },
     clearOrder: (state) => {
       state.orders = []
       state.totalAmount = 0
     },
   },
 })
-export const { addToOrders, decrement, increment, clearOrder, removeFrmOrders } = orderSlice.actions
+export const { addToOrders, decrement, increment, clearOrder, removeFrmOrders, editPrice } =
+  orderSlice.actions
 export default orderSlice.reducer
