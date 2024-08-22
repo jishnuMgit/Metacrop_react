@@ -142,6 +142,7 @@ function SalesReturn() {
                     onClick={() =>
                       handleAddToReturn({
                         ...val,
+                        Price: val.SoldPrice,
                         saleId: val.FKSaleID,
                         PKSoldItemID: val.PKSoldItemID,
                         ItemName: val.Item.ItemName,

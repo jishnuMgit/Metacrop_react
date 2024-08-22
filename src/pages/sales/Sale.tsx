@@ -82,43 +82,48 @@ function Sale() {
               </div>
               {!edit && query !== 'edit' ? (
                 <>
-                  <TableComponent heading="Selected Items For Sales">
-                    <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
-                    <TableBody fetching={fetching}>
-                      <>
-                        {data.SoldItems.map((val, index) => {
-                          const isLast = index === data.SoldItems.length - 1
-                          const classes: string = isLast
-                            ? 'p-4'
-                            : 'p-4 border-b border-blue-gray-50'
-                          const columns: DynamicTableCol = {
-                            col1: { value: val?.Item?.ItemName },
-                            col2: { value: val.FKItemID },
-                            col3: { value: val.Price, prefix: '$' },
-                            col4: { value: val?.oldQty ?? 'err' },
-                            col5: { value: val.SoldPrice, prefix: '$' },
-                            col6: { value: val.SubTotal, prefix: '$' },
-                          }
-                          return (
-                            <TableRow
-                              key={index}
-                              status={{
-                                text: 'paid',
-                                color: 'green',
-                                classes: 'dark:text-[rgb(33,234,48)]',
-                                index: 3,
-                              }}
-                              {...columns}
-                              classes={classes}
-                            />
-                          )
-                        })}
-                      </>
-                    </TableBody>
-                  </TableComponent>
-                  {data.SalesReturnItems.length !== 0 && (
-                    <TableComponent heading="Returned Items For Sales">
+                  {!!data.SoldItems.length && (
+                    <TableComponent heading="Selected Items For Sales">
                       <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
+                      <TableBody fetching={fetching}>
+                        <>
+                          {data.SoldItems.map((val, index) => {
+                            const isLast = index === data.SoldItems.length - 1
+                            const classes: string = isLast
+                              ? 'p-4'
+                              : 'p-4 border-b border-blue-gray-50'
+                            const columns: DynamicTableCol = {
+                              col1: { value: val?.Item?.ItemName },
+                              col2: { value: val.FKItemID },
+                              col3: { value: val.Price, prefix: '$' },
+                              col4: { value: val?.oldQty ?? 'err' },
+                              col5: { value: val.SoldPrice, prefix: '$' },
+                              col6: { value: val.SubTotal, prefix: '$' },
+                            }
+                            return (
+                              <TableRow
+                                key={index}
+                                status={{
+                                  text: 'paid',
+                                  color: 'green',
+                                  classes: 'dark:text-[rgb(33,234,48)]',
+                                  index: 3,
+                                }}
+                                {...columns}
+                                classes={classes}
+                              />
+                            )
+                          })}
+                        </>
+                      </TableBody>
+                    </TableComponent>
+                  )}
+
+                  {!!data.SalesReturnItems.length && (
+                    <TableComponent heading="Returned Items For Sales">
+                      <TableHeader
+                        TABLE_HEAD={ITEM_HEAD.filter((val) => val !== 'SoldPrice')}
+                      ></TableHeader>
                       <TableBody fetching={fetching}>
                         <>
                           {data.SalesReturnItems.map((val, index) => {
@@ -129,8 +134,8 @@ function Sale() {
                             const columns: DynamicTableCol = {
                               col1: { value: val?.Item?.ItemName },
                               col2: { value: val.FKItemID },
-                              col3: { value: val.Qty },
-                              col4: { value: val.Price, prefix: '$' },
+                              col3: { value: val.Price, prefix: '$' },
+                              col4: { value: val.Qty },
                               col5: { value: val.SubTotal, prefix: '$' },
                             }
                             return (
