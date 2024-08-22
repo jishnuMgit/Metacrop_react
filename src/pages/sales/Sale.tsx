@@ -29,7 +29,7 @@ function Sale() {
 
   if (error) {
     throw new Response('NO sale found', {
-      status: 400,
+      status: 404,
       statusText: 'No sales found given id',
     })
   }

@@ -6,10 +6,12 @@ import { UpIcon } from './icons'
 function Layout() {
   return (
     <>
-      <NavBar />
-      <Outlet />
-      <Footer />
-      <UpIcon />
+      <div className="relative">
+        <NavBar />
+        <Outlet />
+        <Footer />
+        <UpIcon />
+      </div>
     </>
   )
 }
