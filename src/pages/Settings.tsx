@@ -1,6 +1,6 @@
 import { Button, Hr } from '@/components/ui'
 import Sidebar from '@/components/ui/Sidebar'
-import { removeCookie, setDarkMode } from '@/utils/helpers'
+import { isDarkMode, removeCookie, setDarkMode } from '@/utils/helpers'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/solid'
 import { Switch } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useApi } from 'useipa'
 
 function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () => void }) {
-  const [dark, setDark] = useState(true)
+  const [dark, setDark] = useState(isDarkMode())
   const navigate = useNavigate()
   const { success, mutate, fetching } = useApi()
 
@@ -16,7 +16,6 @@ function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () =>
     removeCookie('logged_in')
     mutate('/auth/logout')
   }
-  const [htmlElement] = document.getElementsByTagName('html')
 
   const toggleDarkMode = () => {
     setDark(!dark)
@@ -27,14 +26,6 @@ function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () =>
       return navigate('/login')
     }
   }, [success])
-
-  useEffect(() => {
-    if (dark) {
-      htmlElement.classList.add('dark')
-    } else {
-      htmlElement.classList.remove('dark')
-    }
-  }, [dark])
 
   return (
     <Sidebar side="right" handleClose={handleClose} open={isOpen}>

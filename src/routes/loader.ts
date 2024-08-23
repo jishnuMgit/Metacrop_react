@@ -1,4 +1,4 @@
-import { getCookie } from '@/utils/helpers'
+import { getCookie, isDarkMode, setDarkMode } from '@/utils/helpers'
 import { redirect } from 'react-router-dom'
 
 export const authLoader = () => {
@@ -11,6 +11,8 @@ export const authLoader = () => {
 
 export const rootLoader = () => {
   const isLoggedIn = getCookie('logged_in')
+  setDarkMode(isDarkMode())
+
   if (!isLoggedIn) {
     return redirect('/login')
   }

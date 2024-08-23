@@ -41,11 +41,18 @@ export const dateParser = (dateString: string): string => {
 }
 
 export const isDarkMode = () => {
-  return !!localStorage.getItem('darkMode')
+  return localStorage.getItem('darkMode') === 'true'
 }
 
 export const setDarkMode = (dark: boolean) => {
   localStorage.setItem('darkMode', dark + '')
+  const [htmlElement] = document.getElementsByTagName('html')
+
+  if (dark) {
+    htmlElement.classList.add('dark')
+  } else {
+    htmlElement.classList.remove('dark')
+  }
 }
 
 export const createInvoiceValues = (data: ApiSalesData) => {
