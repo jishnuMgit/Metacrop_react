@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment, useEffect } from 'react'
 import {
   Typography,
   Card,
@@ -24,27 +24,43 @@ import {
 } from '@/data'
 import { CheckCircleIcon, ClockIcon } from '@heroicons/react/24/solid'
 import { colors } from '@material-tailwind/react/types/generic'
+import { useApi } from 'useipa'
+import { ApiAnalyticsSales } from '@/utils/types'
+
+function inject(this: { value?: string | number }, value?: string | number) {
+  this.value = value ? '$' + value : this.value
+}
 
 function Home() {
+  const { data, fetchData } = useApi<{ data: ApiAnalyticsSales }>()
+  useEffect(() => {
+    fetchData('/analytics/sales')
+  }, [])
+
   return (
     <div className="mt-12 mx-6">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
-        {statisticsCardsData.map(({ icon, title, footerProps, color, ...rest }) => (
-          <StatisticsCard
-            key={title}
-            color={color}
-            {...rest}
-            title={title}
-            icon={React.createElement(icon, {
-              className: 'w-6 h-6 text-white ',
-            })}
-            footer={
-              <Typography className="font-normal text-blue-gray-600 ">
-                <strong className={footerProps?.color}>{footerProps?.value}</strong>
-                &nbsp;{footerProps?.label}
-              </Typography>
-            }
-          />
+        {statisticsCardsData.map(({ icon, title, footerProps, color, ...rest }, index) => (
+          <Fragment key={index}>
+            <>
+              {index === 0 && inject.call(rest, data?.data.todayStat._sum.TotalAmount)}
+              {index === 3 && inject.call(rest, data?.data.totalStat._sum.TotalAmount)}
+            </>
+            <StatisticsCard
+              color={color}
+              {...rest}
+              title={title}
+              icon={React.createElement(icon, {
+                className: 'w-6 h-6 text-white ',
+              })}
+              footer={
+                <Typography className="font-normal text-blue-gray-600 ">
+                  <strong className={footerProps?.color}>{footerProps?.value}</strong>
+                  &nbsp;{footerProps?.label}
+                </Typography>
+              }
+            />
+          </Fragment>
         ))}
       </div>
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
@@ -53,6 +69,7 @@ function Home() {
             key={title}
             color={color as colors}
             {...props}
+            title={title}
             footerElement={
               <Typography
                 variant="small"

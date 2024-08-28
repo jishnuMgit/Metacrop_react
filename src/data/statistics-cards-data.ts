@@ -13,7 +13,7 @@ export type StatisticsCardType = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
   icon: React.ReactNode | any // Assuming you're using React components for the icons
   title: string
-  value: string
+  value?: string
   footerProps?: Footer
   footer?: React.ReactNode
 }
@@ -22,7 +22,7 @@ export const statisticsCardsData: StatisticsCardType[] = [
     color: 'gray',
     icon: BanknotesIcon,
     title: "Today's Money",
-    value: '$53k',
+    value: '$0',
     footerProps: {
       color: 'text-green-500',
       value: '+55%',
@@ -54,8 +54,8 @@ export const statisticsCardsData: StatisticsCardType[] = [
   {
     color: 'gray',
     icon: ChartBarIcon,
-    title: 'Sales',
-    value: '$103,430',
+    title: 'Total Sales',
+    value: '$0',
     footerProps: {
       color: 'text-green-500',
       value: '+5%',

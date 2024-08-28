@@ -117,7 +117,7 @@ export type ApiSalesReturn = {
   SalesReturnItems: ApiSalesReturnItem[]
 }
 /**
- * sales return items response api data type
+ * sales return items response api data types
  */
 export type ApiSalesReturnItem = {
   PKReturnItemID: number | string
@@ -131,6 +131,20 @@ export type ApiSalesReturnItem = {
   Item: { ItemName: string }
 }
 
+/**
+ * analytic response api data types
+ */
+type AggregateArgs = {
+  _sum: { TotalAmount: number }
+  _count: number
+  _avg: { TotalAmount: number; Discount: number }
+  _max: { TotalAmount: number; Discount: number }
+  _min: { TotalAmount: number; Discount: number }
+}
+export type ApiAnalyticsSales = {
+  todayStat: AggregateArgs
+  totalStat: AggregateArgs
+}
 /**
  * Sort types
  */
