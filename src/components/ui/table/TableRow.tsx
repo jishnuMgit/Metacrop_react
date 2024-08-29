@@ -86,7 +86,11 @@ function TableRow({ classes, action, click = false, status, link, ...props }: Ta
       {action && (
         <td className={classes}>
           <Tooltip content="Edit Sale">
-            <IconButton variant="text" className="dark:hover:bg-dark-btn-hover">
+            <IconButton
+              aria-label="Edit sale"
+              variant="text"
+              className="dark:hover:bg-dark-btn-hover"
+            >
               <PencilIcon className="h-4 w-4 dark:text-white " />
             </IconButton>
           </Tooltip>

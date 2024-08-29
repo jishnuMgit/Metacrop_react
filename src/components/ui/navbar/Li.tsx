@@ -23,7 +23,7 @@ function Li({ children, active = false, link, className, path, dropdown }: LiPro
   const liClass = clsx(
     !className &&
       `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:hover:text-blue-200 md:p-0`,
-    !active && 'text-md text-[#747474]',
+    !active && 'text-md text-[#747474] dark:text-dark-text-color',
     active && 'text-black text text-md font-semibold  dark:text-blue-200',
     !!className && className,
     dropdown && location.split('/')[2] === path && 'bg-gray-100 dark:bg-dark-primary-bg'
@@ -32,9 +32,11 @@ function Li({ children, active = false, link, className, path, dropdown }: LiPro
   return (
     <>
       {link ? (
-        <Link to={link} className={liClass}>
-          {children}
-        </Link>
+        <li>
+          <Link to={link} className={liClass}>
+            {children}
+          </Link>
+        </li>
       ) : (
         <li className={liClass}>{children}</li>
       )}

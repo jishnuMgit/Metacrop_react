@@ -34,6 +34,7 @@ function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () =>
         <div className="flex ">
           {/* <Typography>Dark Mode</Typography> */}
           <Switch
+            labelProps={{ className: 'dark:text-dark-text-color' }}
             crossOrigin={''}
             checked={dark}
             label={'Dark Mode'}

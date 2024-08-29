@@ -18,6 +18,7 @@ function Item({ item, onClick, isSmall, qtyElement }: ItemProps) {
     >
       <div className="flex flex-col items-center">
         <img
+          alt="img"
           className={clsx({ 'h-10': !isSmall, 'h-6': isSmall })}
           src={`${baseImgUrl}${item.PKItemID % 5 == 0 ? 'milk.png' : 'groceries.png'}`}
         />

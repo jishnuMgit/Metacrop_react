@@ -13,7 +13,7 @@ export default withMt({
     extend: {
       colors: {
         'dark-primary-bg': '#191C24',
-        'dark-text-color': '#6c7293',
+        'dark-text-color': '#A6A9BF',
         'dark-btn-color': '#eb1616',
         'dark-btn-hover': '#c81313',
       },

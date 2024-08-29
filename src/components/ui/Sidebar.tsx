@@ -14,7 +14,13 @@ function Sidebar({ side, handleClose, children, open }: SidebarProps) {
         <Typography variant="h5" color="blue-gray" className="dark:text-white">
           Metacorp
         </Typography>
-        <IconButton variant="text" color="blue-gray" onClick={handleClose}>
+        <IconButton
+          variant="text"
+          color="blue-gray"
+          aria-label="close settings"
+          title="Close"
+          onClick={handleClose}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

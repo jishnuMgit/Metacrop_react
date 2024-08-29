@@ -143,7 +143,7 @@ function Home() {
                     <tr key={name}>
                       <td className={className}>
                         <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" />
+                          <Avatar src={img} alt={'profile'} size="sm" />
                           <Typography variant="small" color="blue-gray" className="font-bold">
                             {name}
                           </Typography>
@@ -154,7 +154,7 @@ function Home() {
                           <Tooltip key={name} content={name}>
                             <Avatar
                               src={img}
-                              alt={name}
+                              alt={'profile'}
                               size="xs"
                               variant="circular"
                               className={`cursor-pointer border-2 border-white ${
