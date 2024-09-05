@@ -66,7 +66,7 @@ function Sale() {
               </div>
             </CardHeader>
             <CardBody className="p-6">
-              <div className="md:w-4/12 w-full ">
+              <div className="md:w-5/12 w-full ">
                 <div>
                   <Typography variant="h6" color="blue-gray" className="dark:text-blue-200">
                     {`Invoice Details`}

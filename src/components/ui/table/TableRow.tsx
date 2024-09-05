@@ -17,7 +17,7 @@ function TableRow({ classes, action, click = false, status, link, ...props }: Ta
 
   const navigate = useNavigate()
   const handleClick = () => {
-    if (click && link) {
+    if (click && link && !window.getSelection()?.toString()) {
       navigate(`${link}`)
     }
     return
@@ -27,7 +27,7 @@ function TableRow({ classes, action, click = false, status, link, ...props }: Ta
     <tr
       onClick={handleClick}
       className={clsx(
-        `hover:bg-blue-gray-50 dark:hover:bg-[rgba(0,0,0,0.075)] dark:border-2 border-solid !border-black`,
+        `hover:bg-blue-gray-50 dark:hover:bg-black/10 dark:border-2 border-solid !border-black `,
         {
           'cursor-pointer': click,
         }

@@ -21,6 +21,7 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
   const productRef = useRef<ApiItem[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
   const [cam, setCam] = useState<boolean>(false)
+  const [controller, setController] = useState<AbortController | null>(null)
 
   const dispatch = useAppDispatch()
   const { qrData } = useAppSelector((state) => state.uiState)
@@ -39,13 +40,21 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
     }
     setProducts(productRef.current)
   }
+
   // when Enter key press in search input.
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (controller) {
+      controller.abort()
+    }
+    const newController = new AbortController()
+    setController(newController)
     if (e.key === 'Enter' && searchInputVal !== '') {
       const isString = isNaN(Number(searchInputVal))
       console.log(isString)
 
-      fetchData(`/products/?${isString ? 'q' : 'id'}=${searchInputVal}`)
+      fetchData(`/products/?${isString ? 'q' : 'id'}=${searchInputVal}`, {
+        signal: newController.signal,
+      })
     }
   }
   const handleClose = () => {
@@ -85,7 +94,16 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
 
   useEffect(() => {
     fetchData(clsx(`/products/${sort?.option ?? '?sort=none'}`))
-  }, [sort])
+  }, [sort?.option])
+
+  useEffect(() => {
+    return () => {
+      if (controller) {
+        controller.abort()
+      }
+    }
+  }, [controller])
+
   return (
     <ItemContainer className={className + ' lg:w-1/2'}>
       <> {children}</>

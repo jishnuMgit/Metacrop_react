@@ -19,9 +19,7 @@ function Sales() {
     [orders]
   )
   const [isOpen, setisOpen] = useState(false)
-  const { mutate, success, error, fetching, data, clearState } = useApi<{
-    data?: ApiSalesData
-  }>()
+  const { mutate, success, error, fetching, data, clearState } = useApi<{ data?: ApiSalesData }>()
   const dispatch = useAppDispatch()
 
   const handleSubmit = async (): Promise<void> => {

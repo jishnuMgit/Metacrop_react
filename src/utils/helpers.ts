@@ -37,7 +37,7 @@ export const dateParser = (dateString: string): string => {
   if (isNaN(date.getTime())) {
     return date.toString()
   }
-  return date.toLocaleDateString()
+  return date.toLocaleString('en-GB', { hour12: true })
 }
 
 export const isDarkMode = () => {
@@ -57,8 +57,8 @@ export const setDarkMode = (dark: boolean) => {
 
 export const createInvoiceValues = (data: ApiSalesData) => {
   return [
-    new Date(data?.CreatedOn).toLocaleDateString(),
-    new Date(data.ModifiedOn).toLocaleDateString(),
+    dateParser(data?.CreatedOn),
+    dateParser(data.ModifiedOn),
     data.PKSaleID,
     data.SoldItems.length,
     data.Discount,

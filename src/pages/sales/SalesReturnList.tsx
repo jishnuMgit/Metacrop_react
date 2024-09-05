@@ -8,6 +8,7 @@ import { useSearch } from '@/hooks'
 import { ApiSalesReturn, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
 import { useApi } from 'useipa'
+import { dateParser } from '@/utils/helpers'
 
 const TABLE_HEAD = ['Customer', 'Sales Return ID', 'Date', 'Items', 'Total Amount']
 /**
@@ -66,7 +67,7 @@ function SalesReturnList() {
                 const columns: DynamicTableCol = {
                   col1: { value: 'unknown' },
                   col2: { value: val.PKReturnID },
-                  col3: { value: new Date(val.CreatedOn).toLocaleDateString() },
+                  col3: { value: dateParser(val.CreatedOn) },
                   col4: { value: val.SalesReturnItems.length },
                   col5: { value: val.TotalReturnAmount, prefix: '$' },
                 }
