@@ -5,33 +5,22 @@ import { TableComponent } from '@/components/ui'
 import { TableBody, TableFooter, TableHeader, TableRow } from '@/components/ui/table'
 import { links } from '@/config/constants'
 import { useSearch } from '@/hooks'
-import { ApiSalesReturn, DynamicTableCol, SortOrder, SortTypes } from '@/utils/types'
+import { ApiSalesReturn, DynamicTableCol } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
-import { useApi } from 'useipa'
 import { dateParser } from '@/utils/helpers'
+import { useGetSalesReturnList } from '@/hooks/useSalesReturn'
 
 const TABLE_HEAD = ['Customer', 'Sales Return ID', 'Date', 'Items', 'Total Amount']
-/**
- * Sales return List
- * @states
- * @limit - Page limit. howmany items in one page.
- */
+
 function SalesReturnList() {
-  const { fetchData, data, fetching } = useApi<{ data?: ApiSalesReturn[] }>()
-  const [page, setPage] = useState(1)
-  const [sort] = useState<SortOrder>('desc')
-  const [limit] = useState<number>(10)
-  const [sortType, setSortType] = useState<SortTypes>('date')
+  const { data, fetching, limit, page, setSortType, setPage } = useGetSalesReturnList()
   const [saleData, setSaleData] = useState<ApiSalesReturn[] | undefined>()
   const { handleEnter, handleQuery, searchData, resetState } = useSearch<
     ApiSalesReturn | undefined
   >('', 'sales/returns/')
 
   const navigate = useNavigate()
-  useEffect(() => {
-    fetchData(`/sales/returns/?sort=${sort}&sortType=${sortType}&page=${page}&limit=${limit}`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort, sortType, page, limit])
+
   console.log(data)
   useEffect(() => {
     if (searchData) {

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Invoice, ProductContainer } from '@/components'
-import Item from '@/components/products/Item'
-import OrderItem from '@/components/products/OrderItem'
+import { Item, OrderItem } from '@/components/products'
 import { PosBaseMemo } from '@/components/products/PosBase'
 import { Button, ErrorText, Input, ItemContainer, Modal, Success } from '@/components/ui'
 import { AnimatedAlert } from '@/components/ui/Alert'
@@ -11,30 +10,22 @@ import {
   clearReturn,
   decrementReturn,
   incrementReturn,
-  type PayloadIDs,
   removeFromReturns,
-  type ReturnItemType,
 } from '@/redux/returnItem'
+import type { PayloadIDs, ReturnItemType } from '@/redux/returnItem'
 import { clearSaleState, fetchSale } from '@/redux/sale'
 import { SalesReturnSchema } from '@/schema'
-import { ApiItem, ApiSalesReturn } from '@/utils/types'
+import { ApiItem } from '@/utils/types'
 import { Typography } from '@material-tailwind/react'
-import { useApi } from 'useipa'
 import { createInvoiceList, createReturnInvoice } from '@/utils/helpers'
 import { SALES_RETURN_INVOICE } from '@/config/constants'
+import { useAddSalesReturn } from '@/hooks/useSalesReturn'
 
 function SalesReturn() {
   const [inputVal, setInputVal] = useState('')
   const [modal, setModal] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
-  const {
-    mutate,
-    fetching,
-    success,
-    error,
-    clearState,
-    data: response,
-  } = useApi<{ data: ApiSalesReturn }>()
+  const { habdleMutate, fetching, success, error, clearState, response } = useAddSalesReturn()
   const dispatch = useAppDispatch()
 
   const returnItems = useAppSelector((state) => state.returnItem.sales)
@@ -59,8 +50,7 @@ function SalesReturn() {
           stripUnknown: true,
         }
       )
-      console.log(returnData, 'return data')
-      mutate('/sales/return-items', returnData)
+      habdleMutate(returnData)
     })().catch((err) => console.log(err))
   }
   const itemClickHandler = (item: ApiItem) => {

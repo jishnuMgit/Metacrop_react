@@ -72,13 +72,15 @@ function Header({
               className: 'dark:bg-dark-btn-color',
             }}
           >
-            {TABS.map(({ label, value }) => (
+            {TABS.map(({ label, value }, i) => (
               <Tab
                 className="dark:text-white"
                 onClick={() => {
+                  console.log(value)
+
                   setSortType(value as SortTypes)
                 }}
-                key={value}
+                key={i}
                 value={value}
               >
                 &nbsp;&nbsp;{label}&nbsp;&nbsp;

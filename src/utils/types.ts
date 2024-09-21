@@ -1,7 +1,9 @@
 import { sortOptions } from '@/config/constants'
+import { BillGenerate } from '@/schema'
 import { QrcodeErrorCallback, QrcodeSuccessCallback } from 'html5-qrcode'
 import { Html5QrcodeScannerConfig } from 'html5-qrcode/esm/html5-qrcode-scanner'
 import { ChangeEvent } from 'react'
+import { InferType } from 'yup'
 
 export type InputTypes = 'text' | 'number' | 'password' | 'email'
 export type ButtonTypes = 'button' | 'submit'
@@ -134,12 +136,13 @@ export type ApiSalesReturnItem = {
 /**
  * analytic response api data types
  */
+type CommonArgsProps = { TotalAmount: number; Discount: number }
 type AggregateArgs = {
   _sum: { TotalAmount: number }
   _count: number
-  _avg: { TotalAmount: number; Discount: number }
-  _max: { TotalAmount: number; Discount: number }
-  _min: { TotalAmount: number; Discount: number }
+  _avg: CommonArgsProps
+  _max: CommonArgsProps
+  _min: CommonArgsProps
 }
 export type ApiAnalyticsSales = {
   todayStat: AggregateArgs
@@ -153,3 +156,8 @@ export type SortOrder = 'asc' | 'desc'
 export type SortOption = {
   option: `?sort=${(typeof sortOptions)[keyof typeof sortOptions]}` | 'most-saled'
 }
+
+/**
+ * Add sale item type on pos
+ */
+export type AddSaleItems = InferType<typeof BillGenerate>

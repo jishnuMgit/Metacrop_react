@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { EditSale, InvoiceList } from '@/components/sales/'
 import { Button, Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
-import { useAppDispatch, useAppSelector } from '@/config/hooks'
-import { fetchSale } from '@/redux/sale'
 import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
 import { DynamicTableCol } from '@/utils/types'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
 import { SALE_INVOICE_NAMES } from '@/config/constants'
+import { useGetSaleById } from '@/hooks/useSale'
 
 const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Price', 'Qty', 'SoldPrice', 'SubTotal']
 
@@ -18,21 +17,9 @@ function Sale() {
   const params = useParams()
   const { search } = useLocation()
   // const { fetchData, data, error, fetching } = useApi<{ data?: ApiSalesData }>()
-  const dispatch = useAppDispatch()
   const query = new URLSearchParams(search).get('action')
   console.log(query, 'actionnnnnnnnn')
-
-  const { error, fetching, saleData: data } = useAppSelector((state) => state.sale)
-  useEffect(() => {
-    void dispatch(fetchSale(params.id!))
-  }, [dispatch, params.id])
-
-  if (error) {
-    throw new Response('NO sale found', {
-      status: 404,
-      statusText: 'No sales found given id',
-    })
-  }
+  const { fetching, data } = useGetSaleById(params.id)
 
   return (
     <>

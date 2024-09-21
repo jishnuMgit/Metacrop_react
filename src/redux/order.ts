@@ -54,6 +54,7 @@ const orderSlice = createSlice({
     clearOrder: (state) => {
       state.orders = []
       state.totalAmount = 0
+      state.discount = ''
     },
     setDiscount: (state, action: PayloadAction<number | string>) => {
       state.discount = Number(action.payload)

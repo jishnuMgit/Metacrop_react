@@ -1,3 +1,5 @@
 export { default as ProductContainer } from './ProductContainer'
 export { default as CurrentOrder } from './CurrentOrder'
+export { default as Item } from './Item'
+export { default as OrderItem } from './OrderItem'
 export { PosBaseMemo } from './PosBase'

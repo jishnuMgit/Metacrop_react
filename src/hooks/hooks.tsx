@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useApi } from 'useipa'
 
 export function useSearch<T>(query: string, endpoint: string) {
-  const { fetchData, data } = useApi<{ data: T }>()
+  const { fetchData, data: response } = useApi<{ data: T }>()
   const [searchQuery, setSearchQuery] = useState(query)
   const [enter, setEnter] = useState(false)
   const [searchData1, setSearchData] = useState<T>()
@@ -12,10 +12,10 @@ export function useSearch<T>(query: string, endpoint: string) {
       handleApiCall()
       setEnter(false)
     }
-    if (data?.data) {
-      setSearchData(data?.data)
+    if (response?.data) {
+      setSearchData(response?.data)
     }
-  }, [enter, data])
+  }, [enter, response])
 
   const handleApiCall = () => {
     fetchData(endpoint.concat(searchQuery))
@@ -33,7 +33,9 @@ export function useSearch<T>(query: string, endpoint: string) {
     setEnter(false)
     setSearchQuery('')
   }
+
   return {
+    // wrap data with [] for array
     searchData: searchData1 && [searchData1],
     handleQuery,
     handleEnter,

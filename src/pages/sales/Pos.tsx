@@ -2,15 +2,15 @@ import { useEffect, useMemo, useState } from 'react'
 import { Button, Modal, Success } from '@/components/ui'
 import { CurrentOrder, Invoice } from '@/components'
 import { PosBaseMemo } from '@/components/products'
-import { ApiItem, ApiSalesData, SortOption } from '@/utils/types'
+import { ApiItem, SortOption } from '@/utils/types'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
-import { useApi } from 'useipa'
 import { BillGenerate } from '@/schema'
 import { addToOrders, clearOrder } from '@/redux/order'
 import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
 import { SALE_INVOICE_NAMES } from '@/config/constants'
+import { useAddSale } from '@/hooks/useSale'
 
-function Sales() {
+function Pos() {
   const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
   const orders = useAppSelector((state) => state.order.orders)
   const discount = useAppSelector((state) => state.order.discount)
@@ -19,14 +19,12 @@ function Sales() {
     [orders]
   )
   const [isOpen, setisOpen] = useState(false)
-  const { mutate, success, error, fetching, data, clearState } = useApi<{ data?: ApiSalesData }>()
+  const { handleMutate, success, fetching, data, clearState } = useAddSale()
   const dispatch = useAppDispatch()
 
   const handleSubmit = async (): Promise<void> => {
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
-    console.log(items, totalAmount, 'befor mutate')
-
-    mutate('/sales/create', { items, totalAmount, discount })
+    handleMutate({ items, totalAmount, discount })
   }
   const handleSubmitWrapper = () => {
     handleSubmit().catch(
@@ -41,14 +39,6 @@ function Sales() {
     dispatch(addToOrders(item))
   }
 
-  if (error) {
-    console.log(error)
-
-    throw new Response(error.message, {
-      status: error?.status,
-      statusText: error.message,
-    })
-  }
   const handleClose = () => {
     setisOpen(false)
     clearState()
@@ -109,4 +99,4 @@ function Sales() {
   )
 }
 
-export default Sales
+export default Pos

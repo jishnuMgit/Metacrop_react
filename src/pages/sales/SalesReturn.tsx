@@ -1,13 +1,12 @@
-import { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { InvoiceList } from '@/components/sales/'
 import { Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
 import { createInvoiceList, createReturnInvoice } from '@/utils/helpers'
-import { ApiSalesReturn, DynamicTableCol } from '@/utils/types'
+import { DynamicTableCol } from '@/utils/types'
 import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
-import { useApi } from 'useipa'
 import { SALES_RETURN_INVOICE } from '@/config/constants'
+import { useGetSalesReturnById } from '@/hooks/useSalesReturn'
 
 const TABLE_HEAD = [
   'Item',
@@ -23,20 +22,9 @@ const TABLE_HEAD = [
 function Sale() {
   const params = useParams()
   const { search } = useLocation()
-  const { fetchData, data: response, error, fetching } = useApi<{ data?: ApiSalesReturn }>()
+  const { response, fetching } = useGetSalesReturnById(params.id)
   const query = new URLSearchParams(search).get('action')
   console.log(query, 'actionnnnnnnnn')
-
-  useEffect(() => {
-    fetchData(`/sales/returns/${params.id}`)
-  }, [params.id])
-
-  if (error) {
-    throw new Response('NO sale found', {
-      status: 400,
-      statusText: 'No sales found given id',
-    })
-  }
 
   return (
     <>
