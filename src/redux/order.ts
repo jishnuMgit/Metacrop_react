@@ -4,10 +4,13 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 type InitialState = { orders: ApiItem[]; totalAmount: number; discount?: number | string }
 const INITIAL_STATE: InitialState = {
   orders: [],
-  discount: undefined,
+  //Initially set discount is empty string
+  discount: '',
   totalAmount: 0,
 }
-
+/**
+ * Order slice for create sales
+ */
 const orderSlice = createSlice({
   name: 'order',
   initialState: INITIAL_STATE,
@@ -23,6 +26,8 @@ const orderSlice = createSlice({
       }
       state.orders.push({ ...action.payload, qty: 1 })
     },
+
+    // Remove Item from order slice with PKItemID.
     removeFrmOrders: (state, action: PayloadAction<string | number>) => {
       state.orders = state.orders.filter((val) => val.PKItemID !== action.payload)
     },
@@ -33,6 +38,7 @@ const orderSlice = createSlice({
         }
       })
     },
+    // decrement item qty. if item qty is equal to 1, remove item from order slice
     decrement: (state, action) => {
       state.orders.forEach((item, index, array) => {
         if (item.PKItemID === action.payload) {
@@ -43,6 +49,7 @@ const orderSlice = createSlice({
         }
       })
     },
+    // Initially item have fixed price from db. but you can edit price
     editPrice: (state, action: PayloadAction<{ PKItemID: number; customPrice: number }>) => {
       const { PKItemID, customPrice } = action.payload
       state.orders.forEach((item) => {
@@ -59,6 +66,7 @@ const orderSlice = createSlice({
     setDiscount: (state, action: PayloadAction<number | string>) => {
       state.discount = Number(action.payload)
     },
+    // onBlur event. set to decimal point to discount. eg: 20 is 20.00 or 20.983674 is 20.98
     setDiscountOnBlur: (state) => {
       state.discount = (state.discount as number).toFixed(2)
     },

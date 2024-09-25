@@ -32,7 +32,6 @@ function NavBar() {
     close: { opacity: 0, transform: 'scale(0.8)' },
   })
   const hover = useHover(context, { handleClose: safePolygon(), delay: 100 })
-
   const { getReferenceProps, getFloatingProps } = useInteractions([hover])
 
   const handleClose = () => {

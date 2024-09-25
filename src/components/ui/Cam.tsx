@@ -12,6 +12,7 @@ function Cam({ handleClose }: { handleClose: () => void }) {
     handleClose()
     console.log(decodedResult)
   }
+
   useEffect(() => {
     console.log('cam activated')
     return () => {

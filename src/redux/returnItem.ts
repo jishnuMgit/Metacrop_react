@@ -11,18 +11,22 @@ type ReturnSales = {
   saleId: string | number
   items: Omit<ReturnItemType, 'saleId'>[]
 }
+
 export type PayloadIDs = { soldItemId: number; saleId?: number }
 export type CustomReturnType = {
   item?: ApiItem
   returnQty: number
 }
+
 const INITIAL_STATE: {
   sales: ReturnSales[]
+  // customReturn have no salesId
   customReturn: CustomReturnType[]
 } = {
   sales: [],
   customReturn: [],
 }
+
 const returnItemSlice = createSlice({
   name: 'return_item',
   initialState: INITIAL_STATE,
@@ -30,23 +34,28 @@ const returnItemSlice = createSlice({
     addToReturn: (state, action: PayloadAction<Partial<ReturnItemType> & { item?: ApiItem }>) => {
       const { saleId, ...rest } = action.payload
       if (!saleId) {
+        // check this item in customReturn
         const item = state.customReturn.find((val) => val.item?.PKItemID === rest.item?.PKItemID)
         if (item) {
           item.returnQty++
           return
         }
+        // if no saleId and no item in customReturn, push first item to customReturn
         state.customReturn.push({ item: rest.item, returnQty: 1 })
         return
       }
+
       const sale = state.sales.find((val) => val.saleId === action.payload.saleId)
       const itemInitial = { ...rest, returnQty: 1 }
       if (!sale) {
+        // if sale is empty array, push first element.
         state.sales.push({
           saleId: saleId,
           items: [itemInitial as ReturnItemType],
         })
         return
       }
+      // check current item exist in sales with sales id.
       const soldItem = sale.items.find((val) => val.PKSoldItemID === action.payload.PKSoldItemID)
       if (!soldItem) {
         sale.items.push(itemInitial as ReturnItemType)
@@ -66,6 +75,7 @@ const returnItemSlice = createSlice({
       const sale = state.sales.find((s) => s.saleId === saleId)
       if (sale) {
         for (const item of sale.items) {
+          //second statement is check actua qty  gt current return qty.
           if (item.PKSoldItemID === soldItemId && item.Qty > item.returnQty!) {
             item.returnQty!++
             break
@@ -73,6 +83,7 @@ const returnItemSlice = createSlice({
         }
       }
     },
+    // decrement return qty. if return qty equal to 1, remove return item from this slice
     decrementReturn: (state, action: PayloadAction<PayloadIDs>) => {
       const { saleId, soldItemId } = action.payload
       if (!saleId) {

@@ -38,6 +38,7 @@ input:focus-visible {
   align-items: center;
 }
 
+/* navbar sales drop down arrow icon */
 .arrow-icon::before {
   content: '';
   display: inline-block;
@@ -62,7 +63,6 @@ input:focus-visible {
 }
 
 /* for hide arrows in input[type=number] elements */
-
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

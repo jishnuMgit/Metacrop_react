@@ -18,6 +18,7 @@ function Pos() {
     () => orders.reduce((prev, val) => prev + val.qty * val.Price, 0),
     [orders]
   )
+
   const [isOpen, setisOpen] = useState(false)
   const { handleMutate, success, fetching, data, clearState } = useAddSale()
   const dispatch = useAppDispatch()
@@ -26,6 +27,7 @@ function Pos() {
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
     handleMutate({ items, totalAmount, discount })
   }
+
   const handleSubmitWrapper = () => {
     handleSubmit().catch(
       () =>
@@ -35,6 +37,7 @@ function Pos() {
         })
     )
   }
+
   const itemClickHandler = (item: ApiItem) => {
     dispatch(addToOrders(item))
   }
@@ -44,6 +47,7 @@ function Pos() {
     clearState()
     dispatch(clearOrder())
   }
+
   useEffect(() => {
     if (success) {
       setisOpen(true)

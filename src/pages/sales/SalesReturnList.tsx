@@ -21,7 +21,6 @@ function SalesReturnList() {
 
   const navigate = useNavigate()
 
-  console.log(data)
   useEffect(() => {
     if (searchData) {
       setSaleData(searchData)

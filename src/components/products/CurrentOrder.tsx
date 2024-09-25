@@ -10,12 +10,15 @@ function CurrentOrder() {
   const handleDelItem = (id: unknown) => {
     dispatch(removeFrmOrders(id as number))
   }
+
   const handleClear = () => {
     dispatch(clearOrder())
   }
+
   const minusBtnHandler = (itemId: unknown) => {
     dispatch(decrement(itemId as number))
   }
+
   const plusBtnHander = (itemId: unknown) => {
     dispatch(increment(itemId as number))
   }

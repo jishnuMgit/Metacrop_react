@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { InvoiceList } from '@/components/sales/'
 import { Spinner, TableComponent } from '@/components/ui'
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
@@ -21,10 +21,7 @@ const TABLE_HEAD = [
 
 function Sale() {
   const params = useParams()
-  const { search } = useLocation()
   const { response, fetching } = useGetSalesReturnById(params.id)
-  const query = new URLSearchParams(search).get('action')
-  console.log(query, 'actionnnnnnnnn')
 
   return (
     <>

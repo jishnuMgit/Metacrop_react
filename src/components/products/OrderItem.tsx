@@ -28,7 +28,6 @@ function OrderItem({
   itemPriceInput,
 }: OrderItemProps) {
   const itemRef = useRef<HTMLDivElement | null>(null)
-  console.log(item.Price)
 
   useEffect(() => {
     itemRef.current?.scrollIntoView({
@@ -36,6 +35,7 @@ function OrderItem({
       block: 'nearest',
     })
   }, [item])
+
   return (
     <div ref={itemRef} className={clsx('flex mb-4 w-96 lg:w-auto', className)}>
       <div className="flex w-1/2 items-center">

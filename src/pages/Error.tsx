@@ -7,6 +7,7 @@ export type ErrorType = {
   data?: string
   message?: string
 }
+
 function Error() {
   const err = useRouteError() as ErrorType
   const error = err

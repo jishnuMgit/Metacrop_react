@@ -13,13 +13,13 @@ type LiProps = {
 }
 function Li({ children, active = false, link, className, path, dropdown }: LiProps) {
   const location = useLocation().pathname
-
   if (location === '/') {
     active = typeof children === 'string' && children.toLowerCase() === 'home'
   } else {
     active =
       location.split('/')[1] === ((typeof children === 'string' && children.toLowerCase()) || path)
   }
+
   const liClass = clsx(
     !className &&
       `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:hover:text-blue-200 md:p-0`,

@@ -3,6 +3,9 @@ import Fuse, { IFuseOptions } from 'fuse.js'
 import Cookies from 'js-cookie'
 import { ApiSalesData, ApiSalesReturn } from './types'
 
+/**
+ * Fuzzy search item with query match ItemName
+ */
 export const fuzzySearch = <T>(list: T[], query: string): T[] => {
   const fuseOptions: IFuseOptions<T> = {
     shouldSort: true,
@@ -39,7 +42,7 @@ export const dateParser = (dateString: string): string => {
   }
   return date.toLocaleString('en-GB', { hour12: true })
 }
-
+// Check darkmode
 export const isDarkMode = () => {
   return localStorage.getItem('darkMode') === 'true'
 }

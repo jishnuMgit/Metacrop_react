@@ -22,12 +22,11 @@ const TABLE_HEAD = [
 
 function SalesList() {
   const [btnName, setbtnName] = useState('view all')
-  const { data, fetching, error, page, setSortType, setPage } = useGetSales()
+  const { data, fetching, page, setSortType, setPage } = useGetSales()
   const [limit, setLimit] = useState<number>(10)
   const [saleData, setSaleData] = useState<ApiSalesData[] | undefined>()
   const navigate = useNavigate()
   const { searchData, handleEnter, handleQuery, resetState } = useSearch<ApiSalesData>('', 'sales/')
-  console.log(error, 'err')
 
   const viewAll = () => {
     if (limit == -1) {
@@ -38,6 +37,7 @@ function SalesList() {
     setLimit(-1)
     setPage(1)
   }
+
   const sortHandler = (val: SortTypes) => {
     setSortType(val)
   }
@@ -53,6 +53,7 @@ function SalesList() {
   useEffect(() => {
     setSaleData(data?.data)
   }, [data])
+
   return (
     <>
       <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">

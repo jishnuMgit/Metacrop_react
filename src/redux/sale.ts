@@ -11,6 +11,7 @@ type InitialState = {
   error: ErrorType | null
   touched: boolean // this for any qty changed update data. if changed touched is true.
 }
+
 const INITIAL_STATE: InitialState = {
   saleData: undefined,
   totalAmount: 0,
@@ -29,6 +30,10 @@ const fetchSale = createAsyncThunk('sale/fetchsale', async (id: string, { reject
       }
     )
     if (data) {
+      /**
+       * add duplicate proprety oldQty, when updating sale check old qty actual qty.
+       * @refactor -need refactor
+       */
       data.SoldItems = data.SoldItems.map((val) => ({
         ...val,
         oldQty: val.Qty,

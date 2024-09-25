@@ -6,9 +6,8 @@ import InvoiceList, { InvoiceListProps } from '../sales/InvoiceList'
 
 function Success({ data }: { data: InvoiceListProps[] }) {
   const [small, setsmall] = useState(false)
-  useEffect(() => {
-    console.log(data)
 
+  useEffect(() => {
     const timer = setTimeout(() => {
       setsmall(true)
     }, 1000)

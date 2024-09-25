@@ -33,12 +33,11 @@ function EditSale() {
   const removeItem = (id: unknown) => {
     dispatch(removeSoldItem(id as number))
   }
+
   const updateSale = async () => {
     const parsedData = await UpdateSale.validate(saleData, {
       stripUnknown: true,
     })
-    console.log(parsedData, 'parseddata')
-
     mutate(`/sales/${saleData?.PKSaleID}`, parsedData, { method: 'PUT' })
   }
 
@@ -57,15 +56,18 @@ function EditSale() {
     })
     mutate(`/sales/return-items`, returnItemData)
   }
+
   const wrapperReturnitem = (id: number, qty: number) => {
     returnHandler(id, qty).catch((e) => console.log(e))
   }
+
   if (error) {
     throw new Response(error.message, {
       status: error?.status,
       statusText: error.message,
     })
   }
+
   useEffect(() => {
     if (apiData) {
       void dispatch(fetchSale(saleData?.PKSaleID as string))

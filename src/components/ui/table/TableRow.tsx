@@ -14,8 +14,8 @@ export type TableRowProps = ({ click: true; link: string } | { click?: false; li
 
 function TableRow({ classes, action, click = false, status, link, ...props }: TableRowProps) {
   const { index: statusIndex } = status ?? {}
-
   const navigate = useNavigate()
+
   const handleClick = () => {
     if (click && link && !window.getSelection()?.toString()) {
       navigate(`${link}`)

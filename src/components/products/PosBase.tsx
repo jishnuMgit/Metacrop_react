@@ -33,7 +33,6 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
     if (error) {
       clearState()
     }
-    console.log('change')
     setSearchInputVal(e.target.value)
     if (e.target.value !== '') {
       return setProducts(fuzzySearch(productRef.current!, e.target.value))
@@ -125,7 +124,6 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
           <Modal isOpen={cam} handleClose={handleClose}>
             <Cam handleClose={handleClose} />
           </Modal>
-
           <MicIcon />
         </div>
       </div>

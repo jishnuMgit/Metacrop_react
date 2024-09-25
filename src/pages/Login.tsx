@@ -13,12 +13,14 @@ function Login() {
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
   const { success, submitForm, error, fetching } = useFormApi()
-  const togglePassword = () => {
-    setShow(!show)
-  }
   if (success) {
     setCookie('logged_in', 'true')
   }
+
+  const togglePassword = () => {
+    setShow(!show)
+  }
+
   useEffect(() => {
     navigate('/')
   }, [success])

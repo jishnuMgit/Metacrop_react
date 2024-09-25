@@ -25,7 +25,7 @@ function SalesReturn() {
   const [inputVal, setInputVal] = useState('')
   const [modal, setModal] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
-  const { habdleMutate, fetching, success, error, clearState, response } = useAddSalesReturn()
+  const { handleMutate, fetching, success, error, clearState, response } = useAddSalesReturn()
   const dispatch = useAppDispatch()
 
   const returnItems = useAppSelector((state) => state.returnItem.sales)
@@ -50,33 +50,41 @@ function SalesReturn() {
           stripUnknown: true,
         }
       )
-      habdleMutate(returnData)
+      handleMutate(returnData)
     })().catch((err) => console.log(err))
   }
+
   const itemClickHandler = (item: ApiItem) => {
     handleAddToReturn({ item: item })
   }
+
   const handleSearch = () => {
     if (inputVal !== '') {
       void dispatch(fetchSale(inputVal))
     }
     return
   }
+
   const handleAddToReturn = (payload: Partial<ReturnItemType> & { item?: ApiItem }) => {
     dispatch(addToReturn(payload))
   }
+
   const handleDelItem = (id: unknown) => {
     dispatch(removeFromReturns(id as PayloadIDs))
   }
+
   const handleClear = () => {
     dispatch(clearReturn())
   }
+
   const minusBtnHandler = (ids: unknown) => {
     dispatch(decrementReturn(ids as PayloadIDs))
   }
+
   const plusBtnHander = (ids: unknown) => {
     dispatch(incrementReturn(ids as PayloadIDs))
   }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value)
   }

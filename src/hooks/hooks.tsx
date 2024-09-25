@@ -20,14 +20,17 @@ export function useSearch<T>(query: string, endpoint: string) {
   const handleApiCall = () => {
     fetchData(endpoint.concat(searchQuery))
   }
+
   const handleQuery = (value: string) => {
     setSearchQuery(value)
   }
+
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchQuery !== '') {
       setEnter(true)
     }
   }
+
   const resetState = () => {
     setSearchData(undefined)
     setEnter(false)

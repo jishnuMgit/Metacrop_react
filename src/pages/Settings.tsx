@@ -21,6 +21,7 @@ function Settings({ isOpen, handleClose }: { isOpen: boolean; handleClose: () =>
     setDark(!dark)
     setDarkMode(!dark)
   }
+
   useEffect(() => {
     if (success) {
       return navigate('/login')

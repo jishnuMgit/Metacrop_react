@@ -11,12 +11,14 @@ export const useGetSalesReturnById = (id?: string) => {
   useEffect(() => {
     fetchData(`/sales/returns/${id}`)
   }, [id])
+
   if (rest.error) {
     throw new Response('NO sale found', {
       status: 404,
       statusText: 'No sales return found given id',
     })
   }
+
   return { response, ...rest }
 }
 
@@ -25,7 +27,6 @@ export const useGetSalesReturnList = () => {
   const { page, limit, setPage } = usePagination()
   const { fetchData, data, fetching } = useApi<{ data?: ApiSalesReturn[] }>()
 
-  console.log(sortType)
   useEffect(() => {
     fetchData(`/sales/returns/?sort=${sort}&sortOption=${sortType}&page=${page}&limit=${limit}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,8 +38,9 @@ export const useGetSalesReturnList = () => {
 export const useAddSalesReturn = () => {
   const { mutate, fetching, success, error, clearState, data } = useApi<{ data: ApiSalesReturn }>()
 
-  const habdleMutate = (payload: InferType<typeof SalesReturnSchema>) => {
+  const handleMutate = (payload: InferType<typeof SalesReturnSchema>) => {
     mutate('/sales/return-items', payload)
   }
-  return { habdleMutate, fetching, response: data, success, clearState, error }
+
+  return { handleMutate, fetching, response: data, success, clearState, error }
 }

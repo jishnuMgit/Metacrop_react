@@ -9,25 +9,30 @@ export const useGetSales = () => {
   const { setSort, setSortType, sort, sortType } = useSort()
   const { limit, page, setLimit, setPage } = usePagination()
   const { fetchData, ...rest } = useApi<{ data?: ApiSalesData[] }>()
+
   useEffect(() => {
     fetchData(`/sales?sort=${sort}&sortOption=${sortType}&page=${page}&limit=${limit}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, limit, sortType, sort])
+
   return { ...rest, setLimit, setPage, setSort, setSortType, sortType, page, limit, sort }
 }
 
 export const useGetSaleById = (id?: string) => {
   const { error, fetching, saleData: data } = useAppSelector((state) => state.sale)
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     void dispatch(fetchSale(id!))
   }, [dispatch, id])
+
   if (error) {
     throw new Response('NO sale found', {
       status: 404,
       statusText: 'No sales found given id',
     })
   }
+
   return { fetching, data }
 }
 
@@ -48,5 +53,6 @@ export const useAddSale = () => {
       statusText: error.message,
     })
   }
+
   return { handleMutate, success, fetching, data, clearState }
 }

@@ -12,6 +12,7 @@ function Modal({ children, center = false, isOpen, handleClose }: ModalProps) {
   if (!isOpen) {
     return null
   }
+
   return (
     <>
       {isOpen && (

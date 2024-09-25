@@ -46,7 +46,6 @@ export type QrPluginProps = {
   }
  * ```
  */
-
 type ColumnKeys = `col${number}`
 export type DynamicTableCol = {
   [key in ColumnKeys]?: { value: string | number; prefix?: string }
@@ -75,7 +74,12 @@ export type ApiItem = {
   ReOrderLevel: number
   RepFlag: number
   TaxPer: number
-  //
+
+  /*
+   * below types not actual Item propreties. this propreties not in database.
+   * this propreties may add after api call in frontend for redux and other
+   * purposes.
+   */
   qty: number
   id: unknown
   customPrice?: number
@@ -92,7 +96,7 @@ export type ApiSoldItem = {
   Qty: number
   SoldPrice: number
   SubTotal: number
-  //this for copy current qty
+  //this for copy current qty. not in db.
   oldQty?: number
 }
 /**

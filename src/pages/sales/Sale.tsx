@@ -16,9 +16,7 @@ function Sale() {
   const [edit, setEdit] = useState(false)
   const params = useParams()
   const { search } = useLocation()
-  // const { fetchData, data, error, fetching } = useApi<{ data?: ApiSalesData }>()
   const query = new URLSearchParams(search).get('action')
-  console.log(query, 'actionnnnnnnnn')
   const { fetching, data } = useGetSaleById(params.id)
 
   return (
