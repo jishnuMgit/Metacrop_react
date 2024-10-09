@@ -33,6 +33,7 @@ const returnItemSlice = createSlice({
   reducers: {
     addToReturn: (state, action: PayloadAction<Partial<ReturnItemType> & { item?: ApiItem }>) => {
       const { saleId, ...rest } = action.payload
+      console.log(rest, 'resttt')
       if (!saleId) {
         // check this item in customReturn
         const item = state.customReturn.find((val) => val.item?.PKItemID === rest.item?.PKItemID)
@@ -40,6 +41,7 @@ const returnItemSlice = createSlice({
           item.returnQty++
           return
         }
+
         // if no saleId and no item in customReturn, push first item to customReturn
         state.customReturn.push({ item: rest.item, returnQty: 1 })
         return

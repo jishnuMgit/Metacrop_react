@@ -48,9 +48,10 @@ export const UpdateSale = object({
  */
 
 export const ReturnItemObject = object({
+  PKItemID: number().required(),
   PKSoldItemID: number().required(),
   returnQty: number(),
-}).required()
+}).from('FKItemID', 'PKItemID', true)
 
 export const nonSaleReturnObject = object({
   item: object({ PKItemID: number(), Price: number() }).required(),
