@@ -26,7 +26,7 @@ function Logo({ small, textColor, iconColor, noIcon }: LogoProps) {
           style={{ color: textColor }}
           className={clsx(
             `${small ? 'text-lg leading-4' : 'text-4xl font-bold'} text-transparent bg-clip-text`,
-            ` ${!textColor ? 'bg-gradient-to-r from-[#1e375a] to-[#00ABE4]' : textColor} `
+            ` ${!textColor ? 'bg-gradient-to-r from-[#1e375a] to-[#00ABE4]  ' : textColor} `
           )}
         >
           Metacorp

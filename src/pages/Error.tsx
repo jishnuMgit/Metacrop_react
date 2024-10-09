@@ -1,5 +1,5 @@
 import { Center } from '@/components/ui'
-import { useRouteError } from 'react-router-dom'
+import { Link, useRouteError } from 'react-router-dom'
 
 export type ErrorType = {
   status?: number
@@ -18,6 +18,9 @@ function Error() {
         <div className="text-9xl">{error?.status}</div>
         <div>{error.statusText ?? error.message}</div>
         <div>{error.data}</div>
+        <Link className="text-blue-500" to={'/'}>
+          Back to Home
+        </Link>
       </>
     </Center>
   )

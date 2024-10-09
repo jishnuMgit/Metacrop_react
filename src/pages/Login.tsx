@@ -45,18 +45,18 @@ function Login() {
                   <Typography variant="h2" className="font-bold mb-4">
                     Sign In
                   </Typography>
-                  <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">
+                  <Typography variant="paragraph" className="text-lg font-normal">
                     Enter your email and password to Sign In.
                   </Typography>
                 </div>
                 <div className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
                   <div className="mb-1 flex flex-col gap-6">
-                    <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    <Typography variant="small" className="-mb-3 font-medium">
                       Your email
                     </Typography>
                     <FormInput name="email" type="email" placeholder="you@mail.com"></FormInput>
 
-                    <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    <Typography variant="small" className="-mb-3 font-medium">
                       Password
                     </Typography>
                     <div className="relative">
@@ -81,7 +81,7 @@ function Login() {
                   </Button>
 
                   <div className="flex items-center justify-between gap-2 mt-6">
-                    <Typography variant="small" className="font-medium text-gray-900">
+                    <Typography variant="small" className="font-medium">
                       <a href="#">Forgot Password?</a>
                     </Typography>
                   </div>
@@ -89,7 +89,10 @@ function Login() {
               </div>
               <div className="w-2/5 h-full hidden lg:block relative">
                 <div className="absolute">
-                  <Logo noIcon textColor="bg-gradient-to-r from-[#191b1c] to-[#f7f7f7]" />
+                  <Logo
+                    noIcon
+                    textColor="bg-gradient-to-r from-[#191b1c] dark:from-dark-btn-color to-[#f7f7f7] dark:to-dark-btn-color/50"
+                  />
                 </div>
 
                 <img src="img/pattern.png" className="h-full w-full object-cover rounded-3xl" />
