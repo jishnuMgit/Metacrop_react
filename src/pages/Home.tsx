@@ -22,10 +22,17 @@ import {
   projectsTableData,
   ordersOverviewData,
 } from '@/data'
-import { CheckCircleIcon, ClockIcon } from '@heroicons/react/24/solid'
+import {
+  ArrowTrendingDownIcon,
+  ArrowTrendingUpIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  QueueListIcon,
+} from '@heroicons/react/24/solid'
 import { colors } from '@material-tailwind/react/types/generic'
 import { useApi } from 'useipa'
 import { ApiAnalyticsSales } from '@/utils/types'
+import { ItemCard } from '@/widgets/cards/ItemCard'
 
 function inject(this: { value?: string | number }, value?: string | number) {
   this.value = value ? '$' + value : this.value
@@ -62,6 +69,29 @@ function Home() {
             />
           </Fragment>
         ))}
+      </div>
+      <div className="grid xl:grid-cols-3 gap-x-6 gap-y-10 mb-12">
+        <ItemCard
+          queryParam={{ sort: 'most-saled' }}
+          icon={React.createElement(ArrowTrendingUpIcon, {
+            className: 'w-6 h-6 text-white ',
+          })}
+          title="Most Sold"
+        />
+        <ItemCard
+          icon={React.createElement(ArrowTrendingDownIcon, {
+            className: 'w-6 h-6 text-white ',
+          })}
+          queryParam={{ filter: '?filter=least' }}
+          title="Least Sold"
+        />
+        <ItemCard
+          icon={React.createElement(QueueListIcon, {
+            className: 'w-6 h-6 text-white ',
+          })}
+          queryParam={{ filter: '?filter=rol' }}
+          title="Re Order Level Item"
+        />
       </div>
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
         {statisticsChartsData.map(({ title, footerText, color, ...props }) => (

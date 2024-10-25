@@ -10,11 +10,19 @@ import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
 import Env from './config/env'
 import { ThemeProvider } from '@material-tailwind/react'
+import { removeCookie } from './utils/helpers'
 
 function App() {
   const client: CreateAxiosDefaults = {
     baseURL: Env.VITE_BASE_URL,
     withCredentials: true,
+    validateStatus(status) {
+      if (status === 401) {
+        removeCookie('logged_in')
+        window.location.href = '/login'
+      }
+      return true
+    },
   }
 
   return (

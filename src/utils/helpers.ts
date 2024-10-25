@@ -1,7 +1,7 @@
 import { COOKIE_TTL } from '@/config/constants'
 import Fuse, { IFuseOptions } from 'fuse.js'
 import Cookies from 'js-cookie'
-import { ApiSalesData, ApiSalesReturn } from './types'
+import { ApiSalesData, ApiSalesReturn, QueryParamOpts } from './types'
 
 /**
  * Fuzzy search item with query match ItemName
@@ -85,4 +85,18 @@ export const createInvoiceList = (nameArr: string[], valArr: (string | number)[]
       .filter((val) => !!val.value)
   }
   return []
+}
+
+/**
+ * Construct a query string from sort and filter options.
+ *
+ * @param {QueryParamOpts} opts
+ * @returns {string} The constructed query string.
+ */
+export const qs = (opts: QueryParamOpts): string => {
+  const { filter, sort } = opts
+  if (filter && sort) {
+    return `${sort}&${filter}`
+  }
+  return filter ?? sort ?? ''
 }

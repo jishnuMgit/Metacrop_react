@@ -1,4 +1,4 @@
-import { sortOptions } from '@/config/constants'
+import { filterOptions } from '@/config/constants'
 import { BillGenerate } from '@/schema'
 import { QrcodeErrorCallback, QrcodeSuccessCallback } from 'html5-qrcode'
 import { Html5QrcodeScannerConfig } from 'html5-qrcode/esm/html5-qrcode-scanner'
@@ -36,7 +36,7 @@ export type QrPluginProps = {
 
 /**
  * Dynamic table col type.
- *  ```js
+ *  ```ts
  * //achieve incremental name for column.
  * const tableCol: DynamicTableCol = {
    col1: 'foo',
@@ -153,12 +153,20 @@ export type ApiAnalyticsSales = {
   totalStat: AggregateArgs
 }
 /**
- * Sort types
+ * Sort types and filter types
  */
-export type SortTypes = 'id' | 'date' | 'price'
+export type SortTypes = 'id' | 'date' | 'price' | 'item' | 'none'
 export type SortOrder = 'asc' | 'desc'
 export type SortOption = {
-  option: `?sort=${(typeof sortOptions)[keyof typeof sortOptions]}` | 'most-saled'
+  option: `?sort=${SortTypes}` | 'most-saled'
+}
+export type FilterType = {
+  option: `?filter=${(typeof filterOptions)[keyof typeof filterOptions]}`
+}
+
+export type QueryParamOpts = {
+  sort: SortOption['option']
+  filter: FilterType['option']
 }
 
 /**

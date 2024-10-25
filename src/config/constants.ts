@@ -30,6 +30,12 @@ export const sortOptions = {
   RECENT: 'recent',
 } as const
 
+export const filterOptions = {
+  NONE: 'none',
+  ROL: 'rol',
+  LEAST: 'least',
+} as const
+
 export const SALE_INVOICE_NAMES = [
   'Sale Date',
   'Modified Date',

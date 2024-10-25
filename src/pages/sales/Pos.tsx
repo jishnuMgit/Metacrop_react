@@ -73,7 +73,7 @@ function Pos() {
               All
             </Button>
             <Button
-              onClick={() => setSort({ option: '?sort=recent' })}
+              onClick={() => setSort({ option: '?sort=date' })}
               className="md:w-32 rounded-sm"
             >
               Recent
