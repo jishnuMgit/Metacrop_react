@@ -165,8 +165,8 @@ export type FilterType = {
 }
 
 export type QueryParamOpts = {
-  sort: SortOption['option']
-  filter: FilterType['option']
+  sort?: SortOption['option']
+  filter?: FilterType['option']
 }
 
 /**
