@@ -16,7 +16,7 @@ function Error() {
     <Center className="h-screen flex-col">
       <>
         <div className="text-9xl">{error?.status}</div>
-        <div>{error.statusText ?? error.message}</div>
+        <div>{error?.statusText ?? error?.message}</div>
         <div>{error.data}</div>
         <Link className="text-blue-500" to={'/'}>
           Back to Home

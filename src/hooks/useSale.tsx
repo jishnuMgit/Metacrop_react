@@ -46,13 +46,6 @@ export const useAddSale = () => {
   const handleMutate = (payload: AddSalePayload) => {
     mutate('/sales/create', payload)
   }
-  if (error) {
-    console.log(error)
-    throw new Response(error.message, {
-      status: error?.status,
-      statusText: error.message,
-    })
-  }
 
-  return { handleMutate, success, fetching, data, clearState }
+  return { handleMutate, success, fetching, data, clearState, error }
 }
