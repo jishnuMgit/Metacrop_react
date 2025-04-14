@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Button, Modal, Success } from '@/components/ui'
+import { Button, ErrorText, Modal, Success } from '@/components/ui'
 import { CurrentOrder, Invoice } from '@/components'
 import { PosBaseMemo } from '@/components/products'
 import { ApiItem, SortOption } from '@/utils/types'
@@ -9,6 +9,7 @@ import { addToOrders, clearOrder } from '@/redux/order'
 import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
 import { SALE_INVOICE_NAMES } from '@/config/constants'
 import { useAddSale } from '@/hooks/useSale'
+import { AnimatedAlert } from '@/components/ui/Alert'
 
 function Pos() {
   const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
@@ -20,7 +21,7 @@ function Pos() {
   )
 
   const [isOpen, setisOpen] = useState(false)
-  const { handleMutate, success, fetching, data, clearState } = useAddSale()
+  const { handleMutate, success, fetching, data, clearState, error } = useAddSale()
   const dispatch = useAppDispatch()
 
   const handleSubmit = async (): Promise<void> => {
@@ -97,6 +98,11 @@ function Pos() {
             fetching={fetching}
             totalAmount={totalAmount}
           />
+          {error && (
+            <AnimatedAlert open={!!error} onClose={clearState}>
+              <ErrorText message="Validation Error" />
+            </AnimatedAlert>
+          )}
         </div>
       </div>
     </>

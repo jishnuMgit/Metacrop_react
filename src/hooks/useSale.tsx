@@ -44,15 +44,8 @@ type AddSalePayload = {
 export const useAddSale = () => {
   const { mutate, success, error, fetching, data, clearState } = useApi<{ data?: ApiSalesData }>()
   const handleMutate = (payload: AddSalePayload) => {
-    mutate('/sales/create', payload)
-  }
-  if (error) {
-    console.log(error)
-    throw new Response(error.message, {
-      status: error?.status,
-      statusText: error.message,
-    })
+    mutate('/sales', payload)
   }
 
-  return { handleMutate, success, fetching, data, clearState }
+  return { handleMutate, success, fetching, data, clearState, error }
 }
