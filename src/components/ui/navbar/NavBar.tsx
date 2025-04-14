@@ -97,10 +97,10 @@ function NavBar() {
                   </div>
                 </>
               </Li>
-              <Li>Procuremnt</Li>
+              {/* <Li>Procuremnt</Li>
               <Li>Finance</Li>
               <Li>Inventory</Li>
-              <Li>Analytics</Li>
+              <Li>Analytics</Li> */}
               <Li className="flex items-center">
                 <GearIcon onClick={handleClick} />
               </Li>

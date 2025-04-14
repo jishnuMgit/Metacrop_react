@@ -1,4 +1,4 @@
-import { Footer } from '@/widgets/layout'
+// import { Footer } from '@/widgets/layout'
 import { NavBar } from './ui'
 import { Outlet } from 'react-router-dom'
 import { UpIcon } from './icons'
@@ -9,7 +9,7 @@ function Layout() {
       <div className="relative">
         <NavBar />
         <Outlet />
-        <Footer />
+        {/* <Footer /> */}
         <UpIcon />
       </div>
     </>

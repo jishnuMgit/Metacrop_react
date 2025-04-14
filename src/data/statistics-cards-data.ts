@@ -21,7 +21,7 @@ export const statisticsCardsData: StatisticsCardType[] = [
   {
     color: 'gray',
     icon: BanknotesIcon,
-    title: "Today's Money",
+    title: "Today's Revenue",
     value: '$0',
     footerProps: {
       color: 'text-green-500',

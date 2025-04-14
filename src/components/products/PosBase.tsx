@@ -1,6 +1,6 @@
 import React, { ChangeEvent, memo, useEffect, useRef, useState } from 'react'
 import { Cam, ErrorText, Input, ItemContainer, Modal, Spinner } from '../ui'
-import { MicIcon, ScanIcon, SearchIcon } from '../icons'
+import { ScanIcon, SearchIcon } from '../icons'
 import ProductContainer from './ProductContainer'
 import { ApiItem, SortOption } from '@/utils/types'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
@@ -104,7 +104,7 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
   }, [controller])
 
   return (
-    <ItemContainer className={className + ' lg:w-1/2'}>
+    <ItemContainer className={className + 'lg:w-1/2 min-h-screen'}>
       <> {children}</>
       <div className="flex items-center mb-6 mt-5">
         <div className=" relative w-full ">
@@ -124,7 +124,7 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
           <Modal isOpen={cam} handleClose={handleClose}>
             <Cam handleClose={handleClose} />
           </Modal>
-          <MicIcon />
+          {/* <MicIcon /> */}
         </div>
       </div>
       <>
