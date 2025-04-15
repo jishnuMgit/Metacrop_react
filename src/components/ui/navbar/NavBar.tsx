@@ -1,4 +1,4 @@
-import { Logo } from '@/components/ui'
+// import { Logo } from '@/components/ui'
 import Li from './Li'
 import { GearIcon } from '@/components/icons'
 import { useState } from 'react'
@@ -14,6 +14,7 @@ import {
 import { List } from '@material-tailwind/react'
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import { links } from '@/config/constants'
+import Logo from '../../../assets/images/connectlylogo.png'
 
 function NavBar() {
   const [show, setShow] = useState(false)
@@ -46,7 +47,8 @@ function NavBar() {
       <nav className="bg-white border-gray-200 sticky z-[8] top-0 shadow dark:bg-dark-primary-bg">
         <div className=" flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
           <Link to={'/'}>
-            <Logo small />
+            {/* <Logo small /> */}
+            <img src={Logo} alt="logo" className="max-w-28 h-full object-cover" />
           </Link>
 
           <button

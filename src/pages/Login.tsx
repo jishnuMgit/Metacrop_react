@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Form, FormInput, Logo } from '@/components/ui'
+import { Form, FormInput } from '@/components/ui'
 import { EyeIcon, EyeOff } from '@/components/icons'
 import { Formik } from 'formik'
 import { LoginSchema } from '@/schema'
@@ -8,6 +8,7 @@ import { setCookie } from '@/utils/helpers'
 import { useNavigate } from 'react-router-dom'
 import { useFormApi } from 'useipa'
 import { Button, Typography } from '@material-tailwind/react'
+import Logo from '../assets/images/connectlylogo.png'
 
 function Login() {
   const [show, setShow] = useState(false)
@@ -87,15 +88,16 @@ function Login() {
                   </div>
                 </div>
               </div>
-              <div className="w-2/5 h-full hidden lg:block relative">
-                <div className="absolute">
+              <div className=" h-full hidden lg:block relative">
+                {/* <div className="absolute">
                   <Logo
                     noIcon
                     textColor="bg-gradient-to-r from-[#191b1c] dark:from-dark-btn-color to-[#f7f7f7] dark:to-dark-btn-color/50"
                   />
-                </div>
+                </div> */}
 
-                <img src="img/pattern.png" className="h-full w-full object-cover rounded-3xl" />
+                {/* <img src="img/pattern.png" className="h-full w-full object-cover rounded-3xl" /> */}
+                <img src={Logo} className="h-full w-full mx-auto mt-24 object-cover rounded-3xl" />
               </div>
             </section>
           </>
