@@ -16,7 +16,7 @@ export const generateInvoicePDF = (invoiceData: {
   const logo = Logo
   doc.addImage(logo, 'PNG', 15, 10, 50, 30)
 
-  doc.setFontSize(22)
+  doc.setFontSize(18)
   doc.text('Invoice', 105, 45, { align: 'center' })
 
   doc.setFontSize(12)
