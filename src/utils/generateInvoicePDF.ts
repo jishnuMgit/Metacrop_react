@@ -36,7 +36,7 @@ export const generateInvoicePDF = (invoiceData: {
   doc.text(`Total: $${invoiceData.grandTotal.toFixed(2)}`, 15, 130)
 
   doc.setFontSize(10)
-  doc.text('THANK YOU, VISIT AGAIN!', 105, 160, { align: 'center' })
+  doc.text('THANK YOU, VISIT AGAIN', 105, 160, { align: 'center' })
 
   const pdfBlob = doc.output('blob')
   const blobUrl = URL.createObjectURL(pdfBlob)
