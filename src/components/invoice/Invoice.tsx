@@ -87,20 +87,23 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
   const taxAmount = (tax / 100) * totalAmount
   const grandTotal = totalAmount + taxAmount - Number(discount ?? 0)
 
-  const handleGeneratePDF = () => {
-    generateInvoicePDF({
-      totalAmount,
-      discount: Number(discount ?? 0),
-      tax,
-      taxAmount,
-      grandTotal,
-      billNumber: '123ABC',
-      // items: [
-      //   { name: 'Item 1', qty: 2, price: 50 },
-      //   { name: 'Item 2', qty: 1, price: 100 },
-      // ],
-    })
-    window.location.reload()
+  const orders = useAppSelector((state) => state.order.orders)
+
+  const handleGeneratePDF = async () => {
+    try {
+      await generateInvoicePDF({
+        totalAmount,
+        discount: Number(discount ?? 0),
+        tax,
+        taxAmount,
+        grandTotal,
+        billNumber: '123ABC',
+        orders,
+      })
+      window.location.reload()
+    } catch (error) {
+      console.error('Error generating invoice PDF:', error)
+    }
   }
 
   return (
@@ -128,7 +131,10 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
 
       <Center className="mt-4">
         <Button
-          onClick={handleGeneratePDF}
+          onClick={() => {
+            btnProps.handleClick && btnProps.handleClick()
+            handleGeneratePDF().catch((error) => console.error('Error in onClick handler:', error))
+          }}
           disabled={btnProps.disabled}
           className="disabled:!cursor-not-allowed disabled:pointer-events-auto"
           loading={fetching}

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, memo, useEffect, useRef, useState } from 'react'
-import { Cam, ErrorText, Input, ItemContainer, Modal, Spinner } from '../ui'
-import { ScanIcon, SearchIcon } from '../icons'
+import { ErrorText, Input, ItemContainer, Spinner } from '../ui'
+import { SearchIcon } from '../icons'
 import ProductContainer from './ProductContainer'
 import { ApiItem, SortOption } from '@/utils/types'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
@@ -20,7 +20,7 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
   const [products, setProducts] = useState<ApiItem[]>()
   const productRef = useRef<ApiItem[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
-  const [cam, setCam] = useState<boolean>(false)
+  // const [cam, setCam] = useState<boolean>(false)
   const [controller, setController] = useState<AbortController | null>(null)
 
   const dispatch = useAppDispatch()
@@ -56,9 +56,9 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
       })
     }
   }
-  const handleClose = () => {
-    setCam(false)
-  }
+  // const handleClose = () => {
+  //   setCam(false)
+  // }
 
   useEffect(() => {
     if (data) {
@@ -74,10 +74,10 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
   }, [data])
 
   //when scanner icon click
-  const handleScanner = () => {
-    setCam(true)
-    // dispatch(showModal())
-  }
+  // const handleScanner = () => {
+  //   setCam(true)
+  //   // dispatch(showModal())
+  // }
 
   useEffect(() => {
     if (qrData !== '') {
@@ -119,13 +119,13 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
           />
           <SearchIcon />
         </div>
-        <div className="flex p-1">
+        {/* <div className="flex p-1">
           <ScanIcon onClick={handleScanner} />
           <Modal isOpen={cam} handleClose={handleClose}>
             <Cam handleClose={handleClose} />
           </Modal>
-          {/* <MicIcon /> */}
-        </div>
+          <MicIcon />
+        </div> */}
       </div>
       <>
         {fetching && <Spinner />}

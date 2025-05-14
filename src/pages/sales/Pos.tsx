@@ -40,6 +40,7 @@ function Pos() {
   }
 
   const itemClickHandler = (item: ApiItem) => {
+    console.log(' selected item: ', item)
     dispatch(addToOrders(item))
   }
 

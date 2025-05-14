@@ -17,6 +17,7 @@ const orderSlice = createSlice({
   reducers: {
     addToOrders: (state, action: PayloadAction<ApiItem>) => {
       const item = state.orders.find((item) => item.PKItemID === action.payload.PKItemID)
+      console.log('item : ', state.orders)
       if (item) {
         return state.orders.forEach((val) => {
           if (item.PKItemID === val.PKItemID) {
