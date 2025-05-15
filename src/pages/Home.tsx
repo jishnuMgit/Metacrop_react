@@ -1,33 +1,33 @@
 import React, { Fragment, useEffect } from 'react'
 import {
   Typography,
-  Card,
-  CardHeader,
-  CardBody,
-  IconButton,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
-  Tooltip,
-  Progress,
+  // Card,
+  // CardHeader,
+  // CardBody,
+  // IconButton,
+  // Menu,
+  // MenuHandler,
+  // MenuList,
+  // MenuItem,
+  // Avatar,
+  // Tooltip,
+  // Progress,
 } from '@material-tailwind/react'
-import { EllipsisVerticalIcon, ArrowUpIcon } from '@heroicons/react/24/outline'
+// import { EllipsisVerticalIcon, ArrowUpIcon } from '@heroicons/react/24/outline'
 import { StatisticsCard } from '@/widgets/cards'
 import { StatisticsChart } from '@/widgets/charts'
 import {
   statisticsCardsData,
   statisticsChartsData,
-  projectsTableData,
-  ordersOverviewData,
+  // projectsTableData,
+  // ordersOverviewData,
 } from '@/data'
 import {
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon,
-  CheckCircleIcon,
+  // CheckCircleIcon,
   ClockIcon,
-  QueueListIcon,
+  // QueueListIcon,
 } from '@heroicons/react/24/solid'
 import { colors } from '@material-tailwind/react/types/generic'
 import { useApi } from 'useipa'
@@ -70,7 +70,7 @@ function Home() {
           </Fragment>
         ))}
       </div>
-      <div className="grid xl:grid-cols-3 gap-x-6 gap-y-10 mb-12">
+      <div className="grid xl:grid-cols-2 gap-x-6 gap-y-10 mb-12">
         <ItemCard
           queryParam={{ sort: 'most-saled' }}
           icon={React.createElement(ArrowTrendingUpIcon, {
@@ -85,15 +85,15 @@ function Home() {
           queryParam={{ filter: '?filter=least' }}
           title="Least Sold"
         />
-        <ItemCard
+        {/* <ItemCard
           icon={React.createElement(QueueListIcon, {
             className: 'w-6 h-6 text-white ',
           })}
           queryParam={{ filter: '?filter=rol' }}
           title="Re Order Level Item"
-        />
+        /> */}
       </div>
-      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         {statisticsChartsData.map(({ title, footerText, color, ...props }) => (
           <StatisticsChart
             key={title}
@@ -112,7 +112,7 @@ function Home() {
           />
         ))}
       </div>
-      <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
+      {/* <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card className="overflow-hidden xl:col-span-2 border border-blue-gray-100 dark:border-none shadow-sm dark:bg-dark-primary-bg">
           <CardHeader
             floated={false}
@@ -266,7 +266,7 @@ function Home() {
             ))}
           </CardBody>
         </Card>
-      </div>
+      </div> */}
     </div>
   )
 }
