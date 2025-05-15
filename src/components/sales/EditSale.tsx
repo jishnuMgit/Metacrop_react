@@ -93,7 +93,7 @@ function EditSale() {
                           item={{
                             PKItemID: val.FKItemID,
                             qty: val.Qty,
-                            ItemName: val.Item.ItemName,
+                            ItemName: val.Item?.ItemName,
                             Price: val.Price,
                           }}
                         />
