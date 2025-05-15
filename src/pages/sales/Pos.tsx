@@ -58,7 +58,7 @@ function Pos() {
 
   return (
     <>
-      <Modal handleClose={handleClose} center isOpen={isOpen}>
+      <Modal handleClose={handleClose} center isOpen={false}>
         <>
           {data?.data && (
             <Success data={createInvoiceList(SALE_INVOICE_NAMES, createInvoiceValues(data.data))} />
@@ -67,19 +67,19 @@ function Pos() {
       </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
         <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}>
-          <div className="flex w-full justify-between ">
+          <div className="flex w-full justify-start gap-10 ">
             <Button
               onClick={() => setSort({ option: '?sort=none' })}
               className="md:w-32 rounded-sm"
             >
               All
             </Button>
-            <Button
+            {/* <Button
               onClick={() => setSort({ option: '?sort=date' })}
               className="md:w-32 rounded-sm"
             >
               Recent
-            </Button>
+            </Button> */}
             <Button
               onClick={() => setSort({ option: 'most-saled' })}
               className="md:w-32  rounded-sm"
