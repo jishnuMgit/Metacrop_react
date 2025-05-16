@@ -52,11 +52,11 @@ function TableRow({ classes, action, click = false, status, link, ...props }: Ta
             <td className={classes}>
               {index === 0 ? (
                 <div className="flex items-center gap-3">
-                  <Avatar
+                  {/* <Avatar
                     src={`https://picsum.photos/id/${props.col2?.value}/50/50`}
                     alt={'img'}
                     size="sm"
-                  ></Avatar>
+                  ></Avatar> */}
                   <div className="flex flex-col">
                     <Typography
                       variant="small"

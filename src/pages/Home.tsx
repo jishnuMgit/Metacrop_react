@@ -93,7 +93,7 @@ function Home() {
           title="Re Order Level Item"
         /> */}
       </div>
-      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
+      <div className="mb-[48px] grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-1">
         {statisticsChartsData.map(({ title, footerText, color, ...props }) => (
           <StatisticsChart
             key={title}

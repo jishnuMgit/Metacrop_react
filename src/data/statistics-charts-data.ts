@@ -124,13 +124,13 @@ export const statisticsChartsData = [
     footerText: 'updated 4 min ago',
     chart: dailySalesChart,
   },
-  {
-    color: 'white',
-    title: 'Completed Tasks',
-    description: 'Last Campaign Performance',
-    footerText: 'just updated',
-    chart: completedTasksChart,
-  },
+  // {
+  //   color: 'white',
+  //   title: 'Completed Tasks',
+  //   description: 'Last Campaign Performance',
+  //   footerText: 'just updated',
+  //   chart: completedTasksChart,
+  // },
 ]
 
 export default statisticsChartsData

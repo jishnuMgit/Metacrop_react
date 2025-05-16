@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const TABLE_HEAD = [
-  'Customer',
+  // 'Customer',
   'Sales ID',
   'Status',
   'Date',
@@ -76,11 +76,11 @@ function SalesList() {
                 const isLast = index === saleData.length - 1
                 const classes: string = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
-                  col1: { value: 'unknown' },
-                  col2: { value: val.PKSaleID },
-                  col3: { value: dateParser(val.CreatedOn) },
-                  col4: { value: val.SoldItems.length },
-                  col5: { value: val.TotalAmount, prefix: '$' },
+                  // col1: { value: 'unknown' },
+                  col1: { value: val.PKSaleID },
+                  col2: { value: dateParser(val.CreatedOn) },
+                  col3: { value: val.SoldItems.length },
+                  col4: { value: val.TotalAmount, prefix: '$' },
                 }
                 return (
                   <TableRow
