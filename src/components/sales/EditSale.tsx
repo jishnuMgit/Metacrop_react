@@ -21,6 +21,8 @@ function EditSale() {
     () => saleData?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
     [saleData]
   )
+  console.log("saleData",saleData);
+  
   const minusBtnHandler = (id: number) => {
     dispatch(updateSaleData({ id, operation: 'DEC' }))
     return
@@ -45,20 +47,20 @@ function EditSale() {
     updateSale().catch((e) => console.log(e))
   }
 
-  const returnHandler = async (id: number, qty: number) => {
+  const returnHandler = async (id: number, qty: number,itemId:number) => {
     const returnItemData = await SalesReturnSchema.validate({
       sales: [
         {
           saleId: saleData?.PKSaleID,
-          items: [{ PKSoldItemID: id, returnQty: qty }],
+          items: [{  PKSoldItemID: id, returnQty: qty,PKItemID:itemId }],
         },
       ],
     })
     mutate(`/sales/return-items`, returnItemData)
   }
 
-  const wrapperReturnitem = (id: number, qty: number) => {
-    returnHandler(id, qty).catch((e) => console.log(e))
+  const wrapperReturnitem = (id: number, qty: number,itemId:number) => {
+    returnHandler(id, qty,itemId).catch((e) => console.log(e))
   }
 
   if (error) {
@@ -99,7 +101,7 @@ function EditSale() {
                         />
                       </div>
                       <Button
-                        onClick={() => wrapperReturnitem(val.PKSoldItemID, val.Qty)}
+                        onClick={() => wrapperReturnitem(val.PKSoldItemID, val.Qty,val.FKItemID)}
                         size="sm"
                         className="h-10 ml-5"
                       >
