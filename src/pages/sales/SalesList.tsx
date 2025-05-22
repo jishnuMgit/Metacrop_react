@@ -29,9 +29,12 @@ function SalesList() {
   const { searchData, handleEnter, handleQuery, resetState } = useSearch<ApiSalesData>('', 'sales/')
 
   const viewAll = () => {
+
     if (limit == -1) {
       setbtnName('view all')
-      return setLimit(10)
+      setLimit(10)
+        window.location.reload()
+      return 
     }
     setbtnName('view page')
     setLimit(-1)
@@ -42,13 +45,13 @@ function SalesList() {
     setSortType(val)
   }
 
-  useEffect(() => {
-    if (searchData) {
-      setSaleData(searchData)
-      resetState()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchData])
+ useEffect(() => {
+  if (searchData) {
+    setSaleData(searchData)
+    resetState()
+  }
+}, [searchData])
+
 
   useEffect(() => {
     setSaleData(data?.data)

@@ -59,6 +59,7 @@ function SalesReturn() {
   }
 
   const handleSearch = () => {
+    alert(inputVal)
     if (inputVal !== '') {
       void dispatch(fetchSale(inputVal))
     }

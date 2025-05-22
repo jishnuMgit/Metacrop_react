@@ -41,7 +41,7 @@ function SalesReturnList() {
         <Header
           btnClick={() => navigate(links.ADD_SALES_RETURN)}
           setSortType={setSortType}
-          name="Sales Return"
+          name="Sales Return "
           handleEnter={handleEnter}
           handleQuery={handleQuery}
         />
