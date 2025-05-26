@@ -16,7 +16,11 @@ type PosBaseProps = {
   className?: string
   itemClickHandler: (item: ApiItem) => void
 }
+
 function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) {
+
+  // 👇 Accessing the store value from Redux
+  const currentStore = useAppSelector((state) => state.uiState.store)
   const [products, setProducts] = useState<ApiItem[]>()
   const productRef = useRef<ApiItem[]>()
   const [searchInputVal, setSearchInputVal] = useState('')
@@ -28,6 +32,8 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
   const { data, error, fetching, clearState, fetchData } = useApi<{
     data: ApiItem[]
   }>()
+
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (error) {
@@ -90,10 +96,12 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrData])
-
+// alert()
   useEffect(() => {
-    fetchData(clsx(`/products/${sort?.option ?? '?sort=none'}`))
-  }, [sort?.option])
+
+    sort?.option==="most-saled"?fetchData(clsx(`/products/${sort?.option ?? '?sort=none'}/${currentStore.value}`)):
+fetchData(clsx(`/products/${ currentStore?.value}`))
+  }, [sort?.option,currentStore])
 
   useEffect(() => {
     return () => {
@@ -104,7 +112,7 @@ function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) 
   }, [controller])
 
   return (
-    <ItemContainer className={className + 'lg:w-1/2 min-h-screen'}>
+    <ItemContainer className={className + 'lg:w-1/3 min-h-screen'}>
       <> {children}</>
       <div className="flex items-center mb-6 mt-5">
         <div className=" relative w-full ">

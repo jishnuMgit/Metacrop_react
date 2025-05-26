@@ -10,17 +10,64 @@ import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
 import { SALE_INVOICE_NAMES } from '@/config/constants'
 import { useAddSale } from '@/hooks/useSale'
 import { AnimatedAlert } from '@/components/ui/Alert'
+import Select, { SingleValue } from 'react-select'
+import { setStore } from '@/redux/component'
+import Env from '@/config/env'
+import useFetch from '@/hooks/useFetch'
+type CustomerOption = {
+  value: string
+  label: string
+}
+const customerOptions: CustomerOption[] = [
+  { value: 'john_doe', label: 'John Doe' },
+  { value: 'jane_smith', label: 'Jane Smith' },
+  { value: 'robert_brown', label: 'Robert Brown' },
+]
+
+// const storeOptions: CustomerOption[] = [
+//    { value: "", label: 'ALL' },
+//   { value: '1', label: 'store 1' },
+//   { value: '2', label: 'store 2' },
+//   { value: '3', label: 'store 3' },
+// ]
+interface currentStoretype {
+  value: string;
+  label: string;
+}
 
 function Pos() {
+  
   const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
   const orders = useAppSelector((state) => state.order.orders)
   const discount = useAppSelector((state) => state.order.discount)
+  const store = useAppSelector((state) => state.uiState.store)
+    const [selectedCustomer, setSelectedCustomer] = useState<CustomerOption | null>(customerOptions[0])
+  const [selectedStore, setSelectedStore] = useState<CustomerOption | null>()
+const [StoreOptions,setStoreOptions]=useState()
   const totalAmount = useMemo(
-    () => orders.reduce((prev, val) => prev + val.qty * val.Price, 0),
+    () => orders.reduce((prev, val) => prev + val.qty * val.Price + val.qty  *  val.TaxPer, 0),
     [orders]
   )
 
-  const [isOpen, setisOpen] = useState(false)
+const { data:StoreData,  } = useFetch<any>(`${Env.VITE_BASE_URL}/home/store`);
+
+
+useEffect(() => {
+  if (StoreData?.Data) {
+    const options: currentStoretype[] = StoreData.Data.map((val: { PKStoreID: any; StoreName: any }) => ({
+      value: val.PKStoreID,
+      label: val.StoreName,
+    }));
+
+    const allOption: currentStoretype = { value: "", label: "ALL" };
+
+    setStoreOptions([allOption, ...options]); // Add 'ALL' at the top
+  }
+}, [StoreData]);
+
+
+
+  const [isOpen, setIsOpen] = useState(false)
   const { handleMutate, success, fetching, data, clearState, error } = useAddSale()
   const dispatch = useAppDispatch()
 
@@ -30,12 +77,11 @@ function Pos() {
   }
 
   const handleSubmitWrapper = () => {
-    handleSubmit().catch(
-      () =>
-        new Response('Validation Error', {
-          status: 400,
-          statusText: 'Validation Error',
-        })
+    handleSubmit().catch(() =>
+      new Response('Validation Error', {
+        status: 400,
+        statusText: 'Validation Error',
+      })
     )
   }
 
@@ -44,21 +90,65 @@ function Pos() {
     dispatch(addToOrders(item))
   }
 
+  const handleCustomerChange = (selected: SingleValue<CustomerOption>) => {
+    setSelectedCustomer(selected)
+  }
+
+  const handleStoreChange = (selected: SingleValue<CustomerOption>) => {
+    dispatch(setStore(selected))
+    setSelectedStore(selected)
+  }
+
   const handleClose = () => {
-    setisOpen(false)
+    setIsOpen(false)
     clearState()
     dispatch(clearOrder())
   }
 
+  const handleCash = (method: string) => {
+    console.log('Payment method:', method)
+  }
+
   useEffect(() => {
     if (success) {
-      setisOpen(true)
+      setIsOpen(true)
     }
   }, [success])
 
+  const customStyles = {
+    control: (base: any) => ({
+      ...base,
+      backgroundColor: 'black',
+      color: 'white',
+      borderColor: '#4B5563', // gray-600
+    }),
+    singleValue: (base: any) => ({
+      ...base,
+      color: 'white',
+    }),
+    menu: (base: any) => ({
+      ...base,
+      backgroundColor: 'black',
+      color: 'white',
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isFocused ? '#374151' : 'black', // dark hover
+      color: 'white',
+    }),
+    input: (base: any) => ({
+      ...base,
+      color: 'white',
+    }),
+    placeholder: (base: any) => ({
+      ...base,
+      color: '#9CA3AF', // gray-400
+    }),
+  }
+
   return (
     <>
-      <Modal handleClose={handleClose} center isOpen={false}>
+      <Modal handleClose={handleClose} center isOpen={isOpen}>
         <>
           {data?.data && (
             <Success data={createInvoiceList(SALE_INVOICE_NAMES, createInvoiceValues(data.data))} />
@@ -66,29 +156,98 @@ function Pos() {
         </>
       </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
-        <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}>
-          <div className="flex w-full justify-start gap-10 ">
-            <Button
-              onClick={() => setSort({ option: '?sort=none' })}
-              className="md:w-32 rounded-sm"
-            >
+        <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort} >
+          <div className="flex flex-wrap w-full justify-start gap-10 ">
+           
+
+            <input
+              type="date"
+              className="bg-black border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
+            />
+
+            <Select
+              options={customerOptions}
+              onChange={handleCustomerChange}
+              placeholder="Customer"
+              value={selectedCustomer}
+              styles={customStyles}
+              className="bg-black text-white w-[390px]"
+            />
+
+            
+
+            <Select
+              options={StoreOptions}
+              onChange={handleStoreChange}
+              placeholder="Store"
+              value={selectedStore}
+              styles={customStyles}
+              className="bg-black text-white w-[180px]"
+            />
+<div className='flex justify-center items-center border border-white px-5 hover:text-white cursor-pointer shadow-white hover:shadow-sm'>
+                          <h4 className="flex justify-center items-center text-xl ">Invoice NO:10</h4>
+
+</div>
+                    <input type="text"   placeholder='  Remarks '  className='py-2 bg-black rounded-md text-white border border-white'/>
+
+          </div>
+
+<div className='lg:flex lg:flex-row justify-between md:flex-col'>
+<div className='flex items-center gap-8 mt-5 text-2xl justify-end'>
+   <Button onClick={() => setSort({ option: '?sort=none' })} className="md:w-32 rounded-sm">
               All
             </Button>
-            {/* <Button
-              onClick={() => setSort({ option: '?sort=date' })}
-              className="md:w-32 rounded-sm"
-            >
+            {/* <Button onClick={() => setSort({ option: '?sort=date' })} className="md:w-32 rounded-sm">
               Recent
             </Button> */}
-            <Button
-              onClick={() => setSort({ option: 'most-saled' })}
-              className="md:w-32  rounded-sm"
-            >
+            <Button onClick={() => setSort({ option: 'most-saled' })} className="md:w-32  rounded-sm">
               Most
             </Button>
+</div>
+          <div className="flex items-center gap-8 mt-5 text-2xl justify-end">
+            
+            <label className="font-semibold whitespace-nowrap">Payment </label>
+
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="radio"
+                name="payment_method"
+                value="cash"
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
+              />
+              Cash
+            </label>
+
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="radio"
+                name="payment_method"
+                value="bank"
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+                className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 rounded-full"
+              />
+              Bank
+            </label>
+
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="radio"
+                name="payment_method"
+                value="credit"
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+                className="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
+              />
+              credit 
+            </label>
+        
           </div>
+        
+</div>
+
         </PosBaseMemo>
-        <div className="flex flex-col mt-3 lg:mt-0 lg:w-1/2 lg:ms-4 items-center ">
+
+        <div className="flex flex-col mt-3 lg:mt-0 lg:w-[500px] lg:ms-4 items-center ">
           <CurrentOrder />
           <Invoice
             btnProps={{

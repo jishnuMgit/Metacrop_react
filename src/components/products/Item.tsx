@@ -24,7 +24,7 @@ function Item({ item, onClick, isSmall, qtyElement }: ItemProps) {
           src={`${item.PKItemID % 5 == 0 ? milkImg : groceryImg}`}
         />
         <p className="text-[#28251f] dark:text-white text-sm">{item.ItemName}</p>
-        {qtyElement ? <>{qtyElement}</> : <span className="font-semibold">{item.HSNCode}</span>}
+        {qtyElement ? <>{qtyElement}</> : <span className="font-semibold">{item.Qty}</span>}
       </div>
     </div>
   )

@@ -10,6 +10,7 @@ import { InputNumberProps } from '../ui/input/InputNumber'
 
 type OrderItemProps = {
   item: Partial<ApiItem>
+  button:string
   minusBtn: (id: unknown) => void
   plusBtn: (id: unknown) => void
   delBtnHandler: (id: unknown) => void
@@ -21,10 +22,11 @@ type OrderItemProps = {
 
 function OrderItem({
   item,
+  button,
   minusBtn,
   plusBtn,
   delBtnHandler,
-  className,
+  // className,
   itemPriceInput,
 }: OrderItemProps) {
   const itemRef = useRef<HTMLDivElement | null>(null)
@@ -37,19 +39,19 @@ function OrderItem({
   }, [item])
 
   return (
-    <div ref={itemRef} className={clsx('flex mb-4 w-96 lg:w-auto', className)}>
-      <div className="flex w-1/2 items-center">
+    <div ref={itemRef} className={clsx('flex mb-4  lg:w-auto')}>
+      <div className="flex  items-center">
         <div className="flex w-2/12">
           <img className="h-8" src={`${milkImg}`} alt="l" />
         </div>
         <p className="w-7/12 text-base md:font-bold font-semibold">{item.ItemName}</p>
         <div className="w-2/12 flex">
           {'$ '}
-          <InputNumber {...itemPriceInput} value={item.Price} className="w-full" />
+          <InputNumber {...itemPriceInput} value={item.Price}  className="w-full" />
         </div>
       </div>
-      <div className="flex items-center md:justify-center w-1/2">
-        <div className="flex items-center justify-items-center">
+      <div className="flex items-center md:justify-center w-1/2 ">
+        <div className="flex items-center gap-2 justify-items-center">
           <SmallBtn className="p-2 px-3" onClick={() => minusBtn(item.id)}>
             <MinusIcon strokeWidth={4} className="h-5 w-5" />
           </SmallBtn>
@@ -60,6 +62,11 @@ function OrderItem({
         </div>
         <div className="flex justify-end items-center w-full">
           <p className="font-semibold">{`$${(item.Price! * item.qty!).toFixed(2)}`}</p>
+
+       {  button==="Return Items"&&  <div className="mx-5 flex flex-row items-center">
+  <p className="whitespace-nowrap">{`Tax: ${item.TaxPer}$`}</p>
+</div>}
+
           <div title="Remove Item" className="w-1/3 flex justify-end items-center ">
             <MinusCircleIcon
               onClick={() => delBtnHandler(item.id)}

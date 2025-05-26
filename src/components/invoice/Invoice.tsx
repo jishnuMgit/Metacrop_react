@@ -112,7 +112,7 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
         <div className="flex flex-col w-full">
           <InvoiceLi start="Bill Number" end="123ABC" />
           <InvoiceLi start="SubTotal" end={`$ ` + totalAmount.toFixed(2)} />
-          <InvoiceLi start={`Tax (${tax + '%'}) `} end={taxAmount.toFixed(2)} />
+          {/* <InvoiceLi start={`Tax (${tax + '%'}) `} end={taxAmount.toFixed(2)} /> */}
           <InvoiceLi
             start="Discount"
             end={

@@ -16,17 +16,28 @@ import type { PayloadIDs, ReturnItemType } from '@/redux/returnItem'
 import { clearSaleState, fetchSale } from '@/redux/sale'
 import { SalesReturnSchema } from '@/schema'
 import { ApiItem } from '@/utils/types'
-import { Typography } from '@material-tailwind/react'
+import {  Typography } from '@material-tailwind/react'
 import { createInvoiceList, createReturnInvoice } from '@/utils/helpers'
 import { SALES_RETURN_INVOICE } from '@/config/constants'
 import { useAddSalesReturn } from '@/hooks/useSalesReturn'
+import Select,  { SingleValue } from 'react-select';
 
+type CustomerOption = {
+  value: string
+  label: string
+}
+const customerOptions: CustomerOption[] = [
+  { value: 'john_doe', label: 'John Doe' },
+  { value: 'jane_smith', label: 'Jane Smith' },
+  { value: 'robert_brown', label: 'Robert Brown' },
+]
 function SalesReturn() {
   const [inputVal, setInputVal] = useState('')
   const [modal, setModal] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
   const { handleMutate, fetching, success, error, clearState, response } = useAddSalesReturn()
   const dispatch = useAppDispatch()
+    const [selectedCustomer, setSelectedCustomer] = useState<CustomerOption | null>(customerOptions[0])
 
   const returnItems = useAppSelector((state) => state.returnItem.sales)
   const customReturnItems = useAppSelector((state) => state.returnItem.customReturn)
@@ -103,6 +114,44 @@ function SalesReturn() {
     }
   }, [success, error])
 
+  const handleCustomerChange = (selected: SingleValue<CustomerOption>) => {
+    setSelectedCustomer(selected)
+  }
+  
+    const handleCash = (method: string) => {
+    console.log('Payment method:', method)
+  }
+  const customStyles = {
+    control: (base: any) => ({
+      ...base,
+      backgroundColor: 'black',
+      color: 'white',
+      borderColor: '#4B5563', // gray-600
+    }),
+    singleValue: (base: any) => ({
+      ...base,
+      color: 'white',
+    }),
+    menu: (base: any) => ({
+      ...base,
+      backgroundColor: 'black',
+      color: 'white',
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isFocused ? '#374151' : 'black', // dark hover
+      color: 'white',
+    }),
+    input: (base: any) => ({
+      ...base,
+      color: 'white',
+    }),
+    placeholder: (base: any) => ({
+      ...base,
+      color: '#9CA3AF', // gray-400
+    }),
+  }
+
   return (
     <div className="flex md:p-5 lg:flex-row flex-col transition-all">
       {response?.data && (
@@ -126,9 +175,74 @@ function SalesReturn() {
               className=" indent-7 mb-0 w-8/12 h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
               onChange={handleChange}
             />
+            
             <Button className="w-3/12 ms-auto" onClick={handleSearch}>
               Search
             </Button>
+          </div>
+             <div className="flex items-center gap-8 mt-5 text-2xl justify-end">
+            
+            <label className="font-semibold whitespace-nowrap">Payment </label>
+
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="radio"
+                name="payment_method"
+                value="cash"
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
+              />
+              Cash
+            </label>
+
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="radio"
+                name="payment_method"
+                value="bank"
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+                className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 rounded-full"
+              />
+              Bank
+            </label>
+
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="radio"
+                name="payment_method"
+                value="credit"
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+                className="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
+              />
+              credit 
+            </label>
+
+            <div>
+              
+            
+
+            
+
+            
+
+           
+            </div>
+        
+          
+          </div>
+          <div className='flex gap-4 mt-5'>
+            <input
+              type="date"
+              className="bg-black border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
+            />
+          <Select
+              options={customerOptions}
+              onChange={handleCustomerChange}
+              placeholder="Customer"
+              value={selectedCustomer}
+              styles={customStyles}
+              className="bg-black text-white w-[390px]"
+            />
           </div>
         </div>
         <> {saleError && <ErrorText message={saleError.message} />}</>
@@ -175,6 +289,7 @@ function SalesReturn() {
               {returnItems.map((val) =>
                 val.items.map((v) => (
                   <OrderItem
+                  button="Return Items"
                     delBtnHandler={handleDelItem}
                     minusBtn={minusBtnHandler}
                     plusBtn={plusBtnHander}
@@ -193,6 +308,7 @@ function SalesReturn() {
               )}
               {customReturnItems.map((val) => (
                 <OrderItem
+                button=''
                   delBtnHandler={handleDelItem}
                   minusBtn={minusBtnHandler}
                   plusBtn={plusBtnHander}

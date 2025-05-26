@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const INITIAL_STATE = { modalState: false, qrData: '' }
+const INITIAL_STATE = { modalState: false, qrData: '', store: [] as string[] }
 const componentState = createSlice({
   name: 'components_states',
   initialState: INITIAL_STATE,
@@ -14,8 +14,11 @@ const componentState = createSlice({
     setQrData: (state, action) => {
       state.qrData = action.payload as string
     },
+    setStore: (state, action) => {
+      state.store = action.payload
+    },
   },
 })
 
-export const { hideModal, showModal, setQrData } = componentState.actions
+export const { hideModal, showModal, setQrData, setStore } = componentState.actions
 export default componentState.reducer
