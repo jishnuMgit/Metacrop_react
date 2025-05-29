@@ -18,6 +18,8 @@ type CustomerOption = {
   value: string
   label: string
 }
+
+
 const customerOptions: CustomerOption[] = [
   { value: 'john_doe', label: 'John Doe' },
   { value: 'jane_smith', label: 'Jane Smith' },
@@ -31,7 +33,7 @@ const customerOptions: CustomerOption[] = [
 //   { value: '3', label: 'store 3' },
 // ]
 interface currentStoretype {
-  value: string;
+  value: string | number;
   label: string;
 }
 
@@ -41,28 +43,43 @@ function Pos() {
   const orders = useAppSelector((state) => state.order.orders)
   const discount = useAppSelector((state) => state.order.discount)
   const store = useAppSelector((state) => state.uiState.store)
-    const [selectedCustomer, setSelectedCustomer] = useState<CustomerOption | null>(customerOptions[0])
+  const [remark, setRemarks] = useState<string >("")
   const [selectedStore, setSelectedStore] = useState<CustomerOption | null>()
-const [StoreOptions,setStoreOptions]=useState()
+  const [StoreOptions,setStoreOptions]=useState()
+  const [UserOption,setUserOption]=useState()
+  // const [stores, setStores] = useState(null);
+  const [user, setUser] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
+
   const totalAmount = useMemo(
     () => orders.reduce((prev, val) => prev + val.qty * val.Price + val.qty  *  val.TaxPer, 0),
     [orders]
   )
 
 const { data:StoreData,  } = useFetch<any>(`${Env.VITE_BASE_URL}/home/store`);
+const createOptions = (data: any[], valueKey: string |number, labelKey: string): currentStoretype[] => {
+  const allOption: currentStoretype = { value: "", label: "ALL" };
+  const options = data.map(item => ({
+    value: item[valueKey],
+    label: item[labelKey],
+  }));
+  return [allOption, ...options];
+};
 
 
 useEffect(() => {
   if (StoreData?.Data) {
-    const options: currentStoretype[] = StoreData.Data.map((val: { PKStoreID: any; StoreName: any }) => ({
-      value: val.PKStoreID,
-      label: val.StoreName,
-    }));
-
-    const allOption: currentStoretype = { value: "", label: "ALL" };
-
-    setStoreOptions([allOption, ...options]); // Add 'ALL' at the top
+    setStoreOptions(createOptions(StoreData.Data, 'PKStoreID', 'StoreName'));
   }
+  if (StoreData?.User) {
+    setUserOption(createOptions(StoreData.User, 'PKUserID', 'Name'));
+  }
+
+  console.log("StoreOptions",StoreOptions);
+  
+  console.log("UserOption",UserOption);
+  
 }, [StoreData]);
 
 
@@ -72,8 +89,13 @@ useEffect(() => {
   const dispatch = useAppDispatch()
 
   const handleSubmit = async (): Promise<void> => {
+    
+    if(!selectedOption){
+      return alert("select the method")
+
+    }
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
-    handleMutate({ items, totalAmount, discount })
+    handleMutate({ items, totalAmount, discount, user: user?.value || '', selectedOption, selectedStore:selectedStore?.value||'' , selectedDate,remark })
   }
 
   const handleSubmitWrapper = () => {
@@ -90,13 +112,14 @@ useEffect(() => {
     dispatch(addToOrders(item))
   }
 
-  const handleCustomerChange = (selected: SingleValue<CustomerOption>) => {
-    setSelectedCustomer(selected)
-  }
+  // const handleCustomerChange = (selected: SingleValue<CustomerOption>) => {
+  //   setSelectedCustomer(selected)
+  // }
 
   const handleStoreChange = (selected: SingleValue<CustomerOption>) => {
     dispatch(setStore(selected))
     setSelectedStore(selected)
+    // alert()
   }
 
   const handleClose = () => {
@@ -106,6 +129,7 @@ useEffect(() => {
   }
 
   const handleCash = (method: string) => {
+    setSelectedOption(method)
     console.log('Payment method:', method)
   }
 
@@ -156,20 +180,23 @@ useEffect(() => {
         </>
       </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
-        <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort} >
+        <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}  >
           <div className="flex flex-wrap w-full justify-start gap-10 ">
            
 
             <input
               type="date"
+               value={selectedDate}
+        onChange={(e) => setSelectedDate(e.target.value)}
               className="bg-black border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
             />
 
             <Select
-              options={customerOptions}
-              onChange={handleCustomerChange}
+              options={UserOption}
+              onChange={setUser}
               placeholder="Customer"
-              value={selectedCustomer}
+              value={user}
+
               styles={customStyles}
               className="bg-black text-white w-[390px]"
             />
@@ -181,14 +208,21 @@ useEffect(() => {
               onChange={handleStoreChange}
               placeholder="Store"
               value={selectedStore}
+              
               styles={customStyles}
               className="bg-black text-white w-[180px]"
             />
-<div className='flex justify-center items-center border border-white px-5 hover:text-white cursor-pointer shadow-white hover:shadow-sm'>
-                          <h4 className="flex justify-center items-center text-xl ">Invoice NO:10</h4>
+<div className='flex justify-center items-center border border-gray-800 px-5  cursor-pointer shadow-white hover:shadow-sm'>
+                          <h4 className="flex justify-center items-center text-xl ">Next Invoice :{StoreData?.Seriesnum.Number}</h4>
 
 </div>
-                    <input type="text"   placeholder='  Remarks '  className='py-2 bg-black rounded-md text-white border border-white'/>
+<input 
+  type="text"
+  placeholder="  Remarks"
+  value={remark}
+  onChange={(e) => setRemarks(e.target.value)}
+  className="py-2 bg-black rounded-md text-white border border-white"
+/>
 
           </div>
 
@@ -204,44 +238,43 @@ useEffect(() => {
               Most
             </Button>
 </div>
-          <div className="flex items-center gap-8 mt-5 text-2xl justify-end">
-            
-            <label className="font-semibold whitespace-nowrap">Payment </label>
+          <div className="flex items-center gap-6 mt-5  justify-end">
+  <label className="whitespace-nowrap">Payment</label>
 
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="radio"
-                name="payment_method"
-                value="cash"
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
-              />
-              Cash
-            </label>
+  <label className="flex items-center gap-1 cursor-pointer select-none">
+    <input
+      type="radio"
+      name="payment_method"
+      value="cash"
+      onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
+    />
+    Cash
+  </label>
 
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="radio"
-                name="payment_method"
-                value="bank"
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-                className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 rounded-full"
-              />
-              Bank
-            </label>
+  <label className="flex items-center gap-1 cursor-pointer select-none">
+    <input
+      type="radio"
+      name="payment_method"
+      value="bank"
+      onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+      className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 rounded-full"
+    />
+    Bank
+  </label>
 
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="radio"
-                name="payment_method"
-                value="credit"
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-                className="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
-              />
-              credit 
-            </label>
-        
-          </div>
+  <label className="flex items-center gap-1 cursor-pointer select-none">
+    <input
+      type="radio"
+      name="payment_method"
+      value="credit"
+      onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
+      className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
+    />
+    Credit
+  </label>
+</div>
+
         
 </div>
 
@@ -250,11 +283,16 @@ useEffect(() => {
         <div className="flex flex-col mt-3 lg:mt-0 lg:w-[500px] lg:ms-4 items-center ">
           <CurrentOrder />
           <Invoice
+          
             btnProps={{
               btnname: 'Generate Bill',
               handleClick: handleSubmitWrapper,
               disabled: orders.length === 0,
             }}
+            store={store}
+            user={user}
+            selectedDate={selectedDate}
+            selectedOption={selectedOption}
             fetching={fetching}
             totalAmount={totalAmount}
           />

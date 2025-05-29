@@ -21,24 +21,58 @@ import { createInvoiceList, createReturnInvoice } from '@/utils/helpers'
 import { SALES_RETURN_INVOICE } from '@/config/constants'
 import { useAddSalesReturn } from '@/hooks/useSalesReturn'
 import Select,  { SingleValue } from 'react-select';
+import useFetch from '@/hooks/useFetch'
+import Env from '@/config/env'
 
-type CustomerOption = {
-  value: string
-  label: string
+// type Invoiceoption={
+// billNo:number|null
+// }
+// interface BillData {
+//   billNo: number | null;
+// }
+interface CustomerOption {
+  value: string;
+  label: string;
 }
-const customerOptions: CustomerOption[] = [
-  { value: 'john_doe', label: 'John Doe' },
-  { value: 'jane_smith', label: 'Jane Smith' },
-  { value: 'robert_brown', label: 'Robert Brown' },
-]
+interface Items {
+  PKItemID: number;
+  FKCmpID: number;
+  FKGroupID: number;
+  FKStoreID: number;
+  FKUnitID: number;
+  FKManufactureID: number;
+  ItemCode: string;
+  HSNCode: string;
+  ItemName: string;
+  Class: string;
+  Qty: number;
+  Price: string;        // price as string based on your data
+  Lcost: number;
+  ReOrderLevel: number;
+  MaxLevel: number;
+  TaxPer: number;
+  DelFlag: number;
+  RepFlag: number;
+  CreatedBy: number;
+  CreatedOn: string;    // ISO date string
+  ModifiedBy: number;
+  ModifiedOn: string;   // ISO date string
+}
+
+interface ApiResponse {
+  message: string;
+  data: Items[];
+}
+
 function SalesReturn() {
-  const [inputVal, setInputVal] = useState('')
+  // const [inputVal, setInputVal] = useState('')
   const [modal, setModal] = useState(false)
   const [errorAlert, setErrorAlert] = useState(false)
   const { handleMutate, fetching, success, error, clearState, response } = useAddSalesReturn()
   const dispatch = useAppDispatch()
-    const [selectedCustomer, setSelectedCustomer] = useState<CustomerOption | null>(customerOptions[0])
-
+const [selectedCustomer, setSelectedCustomer] = useState<CustomerOption | null>(null); // Single selected
+const [customerOptions, setCustomerOptions] = useState<CustomerOption[]>([]); // All options
+const [ProductData,setProductData]=useState<Items[]>([])
   const returnItems = useAppSelector((state) => state.returnItem.sales)
   const customReturnItems = useAppSelector((state) => state.returnItem.customReturn)
   const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
@@ -52,6 +86,32 @@ function SalesReturn() {
       ) + customReturnItems.reduce((acc, val) => acc + val.item!.Price * val.returnQty, 0),
     [returnItems, customReturnItems]
   )
+const { data } = useFetch<{ message: string; data: { billNo: number | null }[] }>(
+  `${Env.VITE_BASE_URL}/home/getInvoice`
+);
+useEffect(() => {
+  if (data && Array.isArray(data.data)) {
+    const customerOptions: CustomerOption[] = [];
+
+    data.data.forEach((item) => {
+      if (item.billNo !== null) {
+        customerOptions.push({
+          value: item.billNo.toString(),
+          label: `Bill No: ${item.billNo}`,
+        });
+      }
+    });
+
+const optionDefalt: CustomerOption = {
+  value: "",
+  label: "Select Bill"
+};
+
+
+    setCustomerOptions([optionDefalt,...customerOptions]);
+  }
+}, [data]);
+
 
   const handleSubmit = () => {
     ;(async () => {
@@ -69,13 +129,13 @@ function SalesReturn() {
     handleAddToReturn({ item: item })
   }
 
-  const handleSearch = () => {
-    alert(inputVal)
-    if (inputVal !== '') {
-      void dispatch(fetchSale(inputVal))
-    }
-    return
-  }
+  // const handleSearch = () => {
+  //   alert(inputVal)
+  //   if (inputVal !== '') {
+  //     void dispatch(fetchSale(inputVal))
+  //   }
+  //   return
+  // }
 
   const handleAddToReturn = (payload: Partial<ReturnItemType> & { item?: ApiItem }) => {
     dispatch(addToReturn(payload))
@@ -97,16 +157,16 @@ function SalesReturn() {
     dispatch(incrementReturn(ids as PayloadIDs))
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputVal(e.target.value)
-  }
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setInputVal(e.target.value)
+  // }
 
   useEffect(() => {
     if (success) {
       dispatch(clearReturn())
       dispatch(clearSaleState())
       setModal(true)
-      setInputVal('')
+      
       clearState()
     }
     if (error) {
@@ -114,10 +174,10 @@ function SalesReturn() {
     }
   }, [success, error])
 
-  const handleCustomerChange = (selected: SingleValue<CustomerOption>) => {
-    setSelectedCustomer(selected)
-  }
-  
+const handleCustomerChange = (selected: SingleValue<CustomerOption>) => {
+  if(selected?.value==="") setProductData([])
+  setSelectedCustomer(selected); // correct now
+};
     const handleCash = (method: string) => {
     console.log('Payment method:', method)
   }
@@ -152,6 +212,25 @@ function SalesReturn() {
     }),
   }
 
+// Fetch is triggered based on selectedCustomer.value
+const { data: Product } = useFetch<ApiResponse>(
+  selectedCustomer && selectedCustomer.value !== ""
+    ? `${Env.VITE_BASE_URL}/home/getReturnProduct/${selectedCustomer.value}`
+    : "" // null to prevent fetch when value is empty
+);
+
+// When Product changes, update local state
+useEffect(() => {
+  if (Product?.data) {
+    setProductData(Product.data);
+    console.log("Fetched product data:", Product.data);
+  }
+}, [Product]);
+
+
+
+
+
   return (
     <div className="flex md:p-5 lg:flex-row flex-col transition-all">
       {response?.data && (
@@ -162,27 +241,42 @@ function SalesReturn() {
         </Modal>
       )}
 
-      <PosBaseMemo itemClickHandler={itemClickHandler} className="max-h-none">
+      <PosBaseMemo itemClickHandler={itemClickHandler} className="max-h-none" ProductData={ProductData} >
         <div className="flex flex-col w-full mb-5">
           <Typography variant="h3" className="mb-3">
             Add Sales Return
           </Typography>
           <div className="flex">
-            <Input
+            {/* <Input
               value={inputVal}
               placeholder="Search Invoice"
               type="text"
               className=" indent-7 mb-0 w-8/12 h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
               onChange={handleChange}
-            />
+            /> */}
             
-            <Button className="w-3/12 ms-auto" onClick={handleSearch}>
+            {/* <Button className="w-3/12 ms-auto" onClick={handleSearch}>
               Search
-            </Button>
+            </Button> */}
           </div>
-             <div className="flex items-center gap-8 mt-5 text-2xl justify-end">
             
-            <label className="font-semibold whitespace-nowrap">Payment </label>
+          <div className='flex gap-4 mt-5'>
+            <input
+              type="date"
+              className="bg-black border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
+            />
+        <Select
+  options={customerOptions}
+  value={selectedCustomer}
+  onChange={handleCustomerChange}
+  placeholder="Bill Number"
+  styles={customStyles}
+  className="bg-black text-white w-[390px]"
+/>
+          </div>
+           <div className="flex items-center gap-8 mt-5  justify-end">
+            
+            <label className="font-semibold whitespace-nowrap">Payment mode</label>
 
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input
@@ -214,35 +308,14 @@ function SalesReturn() {
                 onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
                 className="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
               />
-              credit 
+              credits 
             </label>
 
             <div>
-              
-            
-
-            
-
-            
-
-           
+                  
             </div>
         
           
-          </div>
-          <div className='flex gap-4 mt-5'>
-            <input
-              type="date"
-              className="bg-black border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
-            />
-          <Select
-              options={customerOptions}
-              onChange={handleCustomerChange}
-              placeholder="Customer"
-              value={selectedCustomer}
-              styles={customStyles}
-              className="bg-black text-white w-[390px]"
-            />
           </div>
         </div>
         <> {saleError && <ErrorText message={saleError.message} />}</>
@@ -261,7 +334,7 @@ function SalesReturn() {
                         ItemName: val.Item.ItemName,
                       })
                     }
-                    qtyElement={<span>Total Qty : {val.Qty}</span>}
+                    qtyElement={<span>Total Qty: {val.Qty}</span>}
                     item={val.Item}
                     key={i}
                   />
@@ -312,7 +385,7 @@ function SalesReturn() {
                   delBtnHandler={handleDelItem}
                   minusBtn={minusBtnHandler}
                   plusBtn={plusBtnHander}
-                  className="bg-red-100 bg-opacity-25"
+                  className=""
                   key={val.item?.PKItemID}
                   item={{
                     ...val.item,
@@ -331,8 +404,7 @@ function SalesReturn() {
             disabled: !(returnItems.length || customReturnItems.length),
           }}
           fetching={fetching}
-          totalAmount={totalAmount}
-        />
+          totalAmount={totalAmount} user={undefined} selectedDate={''} selectedOption={''} store={undefined}        />
       </div>
       {error && (
         <AnimatedAlert

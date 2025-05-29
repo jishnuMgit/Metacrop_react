@@ -40,6 +40,11 @@ type AddSalePayload = {
   items: AddSaleItems
   discount?: number | string
   totalAmount: number
+  user:any
+  selectedOption:string
+selectedStore:any
+  selectedDate:string
+  remark:string
 }
 export const useAddSale = () => {
   const { mutate, success, error, fetching, data, clearState } = useApi<{ data?: ApiSalesData }>()

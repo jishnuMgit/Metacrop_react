@@ -9,15 +9,40 @@ import { fuzzySearch } from '@/utils/helpers'
 import { setQrData } from '@/redux/component'
 import clsx from 'clsx'
 import Item from './Item'
+interface Items {
+  PKItemID: number;
+  FKCmpID: number;
+  FKGroupID: number;
+  FKStoreID: number;
+  FKUnitID: number;
+  FKManufactureID: number;
+  ItemCode: string;
+  HSNCode: string;
+  ItemName: string;
+  Class: string;
+  Qty: number;
+  Price: string;        // price as string based on your data
+  Lcost: number;
+  ReOrderLevel: number;
+  MaxLevel: number;
+  TaxPer: number;
+  DelFlag: number;
+  RepFlag: number;
+  CreatedBy: number;
+  CreatedOn: string;    // ISO date string
+  ModifiedBy: number;
+  ModifiedOn: string;   // ISO date string
+}
 
 type PosBaseProps = {
   children?: React.JSX.Element | React.JSX.Element[]
   sort?: SortOption
   className?: string
+  ProductData:Items[]
   itemClickHandler: (item: ApiItem) => void
 }
 
-function PosBase({ children, sort, className, itemClickHandler }: PosBaseProps) {
+function PosBase({ children, sort, className, itemClickHandler,ProductData }: PosBaseProps) {
 
   // 👇 Accessing the store value from Redux
   const currentStore = useAppSelector((state) => state.uiState.store)
@@ -115,8 +140,8 @@ fetchData(clsx(`/products/${ currentStore?.value}`))
     <ItemContainer className={className + 'lg:w-1/3 min-h-screen'}>
       <> {children}</>
       <div className="flex items-center mb-6 mt-5">
-        <div className=" relative w-full ">
-          <Input
+        { !ProductData &&<div className=" relative w-full ">
+         <Input
             name="search"
             onChange={handleChange}
             onKeyUp={handleEnter}
@@ -127,6 +152,9 @@ fetchData(clsx(`/products/${ currentStore?.value}`))
           />
           <SearchIcon />
         </div>
+}
+{ProductData && <hr className="my-4 w-full border-gray-300" />}
+
         {/* <div className="flex p-1">
           <ScanIcon onClick={handleScanner} />
           <Modal isOpen={cam} handleClose={handleClose}>
@@ -140,8 +168,13 @@ fetchData(clsx(`/products/${ currentStore?.value}`))
         {error && <ErrorText message={error.message.substring(0, 60).concat(' ...', `'`)} />}
       </>
       <ProductContainer>
-        <>
-          {products?.map((val, i) => (
+        <>{
+(ProductData?.length===0 && products) && <p>Select the Bill Number First</p>
+          
+        }
+          {ProductData?ProductData.map((val, i) => (
+            <Item onClick={() => itemClickHandler(val)} item={val} key={i} />
+          )):         products?.map((val, i) => (
             <Item onClick={() => itemClickHandler(val)} item={val} key={i} />
           ))}
         </>
@@ -151,3 +184,8 @@ fetchData(clsx(`/products/${ currentStore?.value}`))
 }
 
 export const PosBaseMemo = memo(PosBase)
+
+
+
+
+

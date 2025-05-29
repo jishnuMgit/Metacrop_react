@@ -89,6 +89,7 @@ function EditSale() {
                     <div className="flex ">
                       <div className="flex flex-col w-11/12">
                         <OrderItem
+                        button=''
                           delBtnHandler={removeItem}
                           minusBtn={() => minusBtnHandler(val.PKSoldItemID)}
                           plusBtn={() => plusBtnHandler(val.PKSoldItemID)}

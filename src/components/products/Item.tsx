@@ -27,6 +27,7 @@ function Item({ item, onClick, isSmall, qtyElement }: ItemProps) {
         {qtyElement ? <>{qtyElement}</> : <span className="font-semibold">{item.Qty}</span>}
       </div>
     </div>
+    
   )
 }
 

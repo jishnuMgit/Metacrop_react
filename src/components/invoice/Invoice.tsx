@@ -76,6 +76,10 @@ type InvoiceProps = {
     handleClick?: () => void
     disabled?: boolean
   }
+  user:any
+  selectedDate:string
+  selectedOption:string
+  store:any
   totalAmount: number
   fetching: boolean
 }

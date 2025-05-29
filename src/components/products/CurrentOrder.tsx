@@ -41,6 +41,7 @@ function CurrentOrder() {
           <div className="overflow-y-auto max-h-96 pe-3">
             {orders.map((val) => (
               <OrderItem
+              button=''
                 itemPriceInput={{
                   onChange: (e) => {
                     dispatch(
