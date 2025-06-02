@@ -10,7 +10,7 @@ import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react
 import { SALE_INVOICE_NAMES } from '@/config/constants'
 import { useGetSaleById } from '@/hooks/useSale'
 
-const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Price', 'Qty', 'SoldPrice', 'SubTotal']
+const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Price', 'Qty', 'SoldPrice', "Tax", 'SubTotal']
 
 function Sale() {
   const [edit, setEdit] = useState(false)
@@ -78,12 +78,13 @@ function Sale() {
                               ? 'p-4'
                               : 'p-4 border-b border-blue-gray-50'
                             const columns: DynamicTableCol = {
-                              col1: { value: val?.Item?.ItemName },
+                              col1: { value: val?.ItemName },
                               col2: { value: val.FKItemID },
                               col3: { value: val.Price, prefix: '$' },
                               col4: { value: val?.oldQty ?? 'err' },
                               col5: { value: val.SoldPrice, prefix: '$' },
-                              col6: { value: val.SubTotal, prefix: '$' },
+                                   col6:{value:"$"+""+val?.taxAmt  || 0},
+                              col7: { value: (val.SoldPrice * val.Qty)+(val.taxAmt * val.Qty), prefix: '$' },
                             }
                             return (
                               <TableRow

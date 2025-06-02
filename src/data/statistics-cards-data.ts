@@ -1,4 +1,10 @@
-import { BanknotesIcon, UserPlusIcon, UsersIcon, ChartBarIcon } from '@heroicons/react/24/solid'
+import {
+  BanknotesIcon,
+  UserPlusIcon,
+  UsersIcon,
+  ChartBarIcon,
+  ArrowDownIcon,
+} from '@heroicons/react/24/solid'
 import { color } from '@material-tailwind/react/types/components/card'
 import React from 'react'
 
@@ -25,8 +31,8 @@ export const statisticsCardsData: StatisticsCardType[] = [
     value: '$0',
     footerProps: {
       color: 'text-green-500',
-      value: '+55%',
-      label: 'than last week',
+      value: '',
+      label: 'Gross earnings recorded for the day',
     },
   },
   {
@@ -36,19 +42,19 @@ export const statisticsCardsData: StatisticsCardType[] = [
     value: '2,300',
     footerProps: {
       color: 'text-green-500',
-      value: '+3%',
-      label: 'than last month',
+      value: '',
+      label: 'Total active users for today.',
     },
   },
   {
     color: 'gray',
-    icon: UserPlusIcon,
-    title: 'New Clients',
-    value: '3,462',
+    icon: ArrowDownIcon,
+    title: 'Sale Return',
+    value: '462',
     footerProps: {
       color: 'text-red-500',
-      value: '-2%',
-      label: 'than yesterday',
+      value: '',
+      label: 'Value of products returned',
     },
   },
   {
@@ -58,8 +64,8 @@ export const statisticsCardsData: StatisticsCardType[] = [
     value: '$0',
     footerProps: {
       color: 'text-green-500',
-      value: '+5%',
-      label: 'than yesterday',
+      value: '',
+      label: 'Total gross sales amount ',
     },
   },
 ]

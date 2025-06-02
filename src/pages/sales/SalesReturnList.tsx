@@ -10,7 +10,7 @@ import { Card } from '@material-tailwind/react'
 import { dateParser } from '@/utils/helpers'
 import { useGetSalesReturnList } from '@/hooks/useSalesReturn'
 
-const TABLE_HEAD = ['Customer', 'Sales Return ID', 'Date', 'Items', 'Total Amount']
+const TABLE_HEAD = [ 'Sales Return ID', 'Date', 'Items', 'Total Amount']
 
 function SalesReturnList() {
   const { data, fetching, limit, page, setSortType, setPage } = useGetSalesReturnList()
@@ -53,11 +53,11 @@ function SalesReturnList() {
                 const isLast = index === saleData.length - 1
                 const classes: string = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
                 const columns: DynamicTableCol = {
-                  col1: { value: 'unknown' },
+                  // col1: { value: 'unknown' },
                   col2: { value: val.PKReturnID },
-                  col3: { value: dateParser(val.CreatedOn) },
+                  col3: { value: dateParser(val.createdOn).split(',')[0] },
                   col4: { value: val.SalesReturnItems.length },
-                  col5: { value: val.TotalReturnAmount, prefix: '$' },
+                  col5: { value: val.totalReturnAmount, prefix: '$' },
                 }
 
                 return (

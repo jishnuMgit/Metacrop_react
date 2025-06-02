@@ -2,8 +2,10 @@ import { chartsConfig } from '@/config'
 import { isDarkMode } from '@/utils/helpers'
 import { color } from '@material-tailwind/react/types/components/alert'
 import { Props } from 'react-apexcharts'
-
 type ChartProps = Props
+
+
+
 
 // const websiteViewsChart: ChartProps = {
 //   type: 'bar',
@@ -11,7 +13,7 @@ type ChartProps = Props
 //   series: [
 //     {
 //       name: 'Views',
-//       data: [50, 20, 10, 22, 50, 10, 40],
+//       data: [30, 40, 10],
 //     },
 //   ],
 //   options: {
@@ -25,7 +27,7 @@ type ChartProps = Props
 //     },
 //     xaxis: {
 //       ...chartsConfig.xaxis,
-//       categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+//       categories: ['Cash', 'Bank', 'Credit'],
 //     },
 //   },
 // }
@@ -74,7 +76,7 @@ const completedTaskChart: ChartProps = {
   series: [
     {
       name: 'Sales',
-      data: [50, 40, 300, 220, 500, 250, 400, 230, 500,0,200,400],
+      data: [50, 40, 300, 220, 500, 250, 400, 230, 500, 0, 200, 400],
     },
   ],
   options: {
@@ -92,15 +94,15 @@ const completedTaskChart: ChartProps = {
     },
   },
 }
-const completedTasksChart = {
-  ...completedTaskChart,
-  series: [
-    {
-      name: 'Tasks',
-      data: [0, 40, 300, 220, 500, 250, 400, 230, 500,0,200,400],
-    },
-  ],
-}
+// const completedTasksChart = {
+//   ...completedTaskChart,
+//   series: [
+//     {
+//       name: 'Tasks',
+//       data: [0, 40, 300, 220, 500, 250, 400, 230, 500, 0, 200, 400],
+//     },
+//   ],
+// }
 
 export type ChartDataType = {
   color: color
@@ -110,13 +112,6 @@ export type ChartDataType = {
   chart: Props
 }
 export const statisticsChartsData = [
-  // {
-  //   color: 'white',
-  //   title: 'Website View',
-  //   description: 'Last Campaign Performance',
-  //   footerText: 'campaign sent 2 days ago',
-  //   chart: websiteViewsChart,
-  // },
   {
     color: 'white',
     title: 'Daily Sales',
@@ -132,5 +127,22 @@ export const statisticsChartsData = [
   //   chart: completedTasksChart,
   // },
 ]
+
+// export const statisticsChartsData1 = [
+//   {
+//     color: 'white',
+//     title: 'Website View',
+//     description: 'Last Campaign Performance',
+//     chart: websiteViewsChart,
+//   },
+
+  // {
+  //   color: 'white',
+  //   title: 'Completed Tasks',
+  //   description: 'Last Campaign Performance',
+  //   footerText: 'just updated',
+  //   chart: completedTasksChart,
+  // },
+
 
 export default statisticsChartsData

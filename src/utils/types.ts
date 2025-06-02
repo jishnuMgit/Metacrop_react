@@ -70,6 +70,7 @@ export type ApiItem = {
   ModifiedOn: number
   PKItemID: number
   Price: number
+  taxAmt: number
   Qty: number
   ReOrderLevel: number
   RepFlag: number
@@ -86,12 +87,15 @@ export type ApiItem = {
 }
 
 export type ApiSoldItem = {
+  ItemName: string | number
   CreatedOn: string
   FKItemID: number
   FKSaleID: number
   Item: ApiItem
   ModifiedOn: string
   PKSoldItemID: number
+  taxAmt: number
+
   Price: number
   Qty: number
   SoldPrice: number
@@ -117,8 +121,8 @@ export type ApiSalesData = {
  */
 export type ApiSalesReturn = {
   PKReturnID: number
-  TotalReturnAmount: number
-  CreatedOn: string
+  totalReturnAmount: number
+  createdOn: string
   ModifiedOn: string
   SalesReturnItems: ApiSalesReturnItem[]
 }

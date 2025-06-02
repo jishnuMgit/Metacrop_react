@@ -1,4 +1,8 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
+import { DateRange } from 'react-date-range'
+import 'react-date-range/dist/styles.css' 
+import 'react-date-range/dist/theme/default.css' 
+
 import {
   Typography,
   // Card,
@@ -18,7 +22,8 @@ import { StatisticsCard } from '@/widgets/cards'
 import { StatisticsChart } from '@/widgets/charts'
 import {
   statisticsCardsData,
-  statisticsChartsData,
+  // statisticsChartsData,
+  
   // projectsTableData,
   // ordersOverviewData,
 } from '@/data'
@@ -29,46 +34,273 @@ import {
   ClockIcon,
   // QueueListIcon,
 } from '@heroicons/react/24/solid'
+import { chartsConfig } from '@/config'
+import { isDarkMode } from '@/utils/helpers'
+import { Props } from 'react-apexcharts'
+type ChartProps = Props
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import { colors } from '@material-tailwind/react/types/generic'
 import { useApi } from 'useipa'
 import { ApiAnalyticsSales } from '@/utils/types'
 import { ItemCard } from '@/widgets/cards/ItemCard'
+// import ChartWithDateFilter from '@/data/ChartWithDateFilter'
+import Env from '@/config/env'
+import useFetch from '@/hooks/useFetch'
 
 function inject(this: { value?: string | number }, value?: string | number) {
   this.value = value ? '$' + value : this.value
 }
 
 function Home() {
+
+    const [date, setDate] = useState(new Date());
+
+  const handleChange = (date:any) => {
+    setDate(date);
+    
+  };
+
+
+
+ interface BraDate{
+  cash:number,
+  bank:number,
+  credit:number
+ }
+ interface LineData{
+  Jan:number
+        Feb:number
+        Mar:number
+        Apr:number
+        May:number
+        Jun:number
+        Jul:number
+        Aug:number
+        Sep:number
+        Oct:number
+        Nov:number
+        Dec:number
+ }
+
+const [barData, setbardata] = useState<BraDate>()
+const [LineDatas, setLinedata] = useState<LineData|undefined>()
+
+  const websiteViewsChart: ChartProps = {
+  type: 'bar',
+  height: 320,
+  series: [
+    {
+      name: 'Sales',
+      data: [barData?.cash||0,barData?.bank||0,barData?.credit||0],
+    },
+  ],
+  options: {
+    ...chartsConfig,
+    colors: isDarkMode() ? ['#EB1616'] : ['#388e3c'],
+    plotOptions: {
+      bar: {
+        columnWidth: '16%',
+        borderRadius: 5,
+      },
+    },
+    xaxis: {
+      ...chartsConfig.xaxis,
+      categories: ['Cash', 'Bank', 'Credit'],
+    },
+  },
+}
+
+ const statisticsChartsData1 = [
+  {
+    color: 'white',
+    title: 'Website View',
+    description: 'Last Campaign Performance',
+    chart: websiteViewsChart,
+  },
+]
+
+
+
+
+const dailySalesChart: ChartProps = {
+  type: 'line',
+  height: 320,
+  series: [
+    {
+  name: 'Sales',
+  data: [
+    LineDatas?.Jan ?? 0,
+    LineDatas?.Feb ?? 0,
+    LineDatas?.Mar ?? 0,
+    LineDatas?.Apr ?? 0,
+    LineDatas?.May ?? 0,
+    LineDatas?.Jun ?? 0,
+    LineDatas?.Jul ?? 0,
+    LineDatas?.Aug ?? 0,
+    LineDatas?.Sep ?? 0,
+    LineDatas?.Oct ?? 0,
+    LineDatas?.Nov ?? 0,
+    LineDatas?.Dec ?? 0,
+  ],
+}
+
+  ],
+  options: {
+    ...chartsConfig,
+    colors: ['#0288d1'],
+    stroke: {
+      lineCap: 'round',
+    },
+    markers: {
+      size: 5,
+    },
+    xaxis: {
+      ...chartsConfig.xaxis,
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
+    },
+  },
+}
+
+
+
+ const statisticsChartsData = [
+  {
+    color: 'white',
+    title: 'Daily Sales',
+    description: '15% increase in today sales',
+    footerText: 'updated 4 min ago',
+    chart: dailySalesChart,
+  },
+
+]
+
+    const [showDatePicker, setShowDatePicker] = useState(false)
+        
+
+
   const { data, fetchData } = useApi<{ data: ApiAnalyticsSales }>()
   useEffect(() => {
     fetchData('/analytics/sales')
   }, [])
 
+    const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(), 
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ])
+ const FetchData=async()=>{
+  // alert(dateRange[0]?.startDate)
+      try {
+        const FetchBar=await fetch(`${Env.VITE_BASE_URL}/analytics/BarChartData?Sdate=${dateRange[0]?.startDate}&Edate=${dateRange[0]?.endDate}`,{
+          method:"GET",
+          credentials:'include'
+        })
+
+        const AllData=await FetchBar.json()
+        setbardata(AllData?.data)
+         console.log("barData",barData);
+        
+      } catch (error) {
+        throw new Error()
+      }
+    }
+     const LineDataFetch=async()=>{
+  // alert(dateRange[0]?.startDate)
+      try {
+        const FetchBar=await fetch(`${Env.VITE_BASE_URL}/analytics/LineChart`,{
+          method:"GET",
+          credentials:'include'
+        })
+
+        const AllData=await FetchBar.json()
+        setLinedata(AllData?.data)
+         console.log("barData",barData);
+        
+      } catch (error) {
+        throw new Error()
+      }
+    }
+   
+   
+    useEffect(() => {
+      LineDataFetch()
+  
+  FetchData()
+}, [])
+
+
+//     useEffect(() => {
+  
+//   FetchData()
+// }, [])
+
+  useEffect(()=>{
+FetchData()
+   
+
+  },[dateRange])
+  // For now, just log date range on change — later you can use this to filter chart data
+  const handleSelect = (ranges: any) => {
+    setDateRange([ranges.selection])
+    console.log('Selected range:', ranges.selection)
+  }
+   
+
+  const toggleDatePicker = () => {
+    setShowDatePicker(!showDatePicker)
+  }
+
+  const {data:HomeData}=useFetch(`${Env.VITE_BASE_URL}/home/getHomeCardData`)
+
+
   return (
     <div className="mt-12 mx-6">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
-        {statisticsCardsData.map(({ icon, title, footerProps, color, ...rest }, index) => (
-          <Fragment key={index}>
-            <>
-              {index === 0 && inject.call(rest, data?.data.todayStat._sum.TotalAmount)}
-              {index === 3 && inject.call(rest, data?.data.totalStat._sum.TotalAmount)}
-            </>
-            <StatisticsCard
-              color={color}
-              {...rest}
-              title={title}
-              icon={React.createElement(icon, {
-                className: 'w-6 h-6 text-white ',
-              })}
-              footer={
-                <Typography className="font-normal text-blue-gray-600 ">
-                  <strong className={footerProps?.color}>{footerProps?.value}</strong>
-                  &nbsp;{footerProps?.label}
-                </Typography>
-              }
-            />
-          </Fragment>
-        ))}
+  {statisticsCardsData.map(({ icon, title, footerProps, color }, index) => {
+  // Dynamically assign value based on index
+  let value = '0'
+  if (index === 0) value = `$${data?.data.todayStat._sum.TotalAmount || 0}`
+  if (index === 1) value = `${HomeData?.TodaySalespre || 0}` // No $
+  if (index === 2) value = `$${HomeData?.SalesReturncash || 0}`
+  if (index === 3) value = `$${data?.data.totalStat._sum.TotalAmount || 0}`
+
+  return (
+    <Fragment key={index}>
+      <StatisticsCard
+        color={color}
+        title={title}
+        value={value}
+        icon={React.createElement(icon, {
+          className: 'w-6 h-6 text-white',
+        })}
+        footer={
+          <Typography className="font-normal text-blue-gray-600">
+            <strong className={footerProps?.color}>{footerProps?.value}</strong>
+            &nbsp;{footerProps?.label}
+          </Typography>
+        }
+      />
+    </Fragment>
+  )
+})}
+
+
       </div>
       <div className="grid xl:grid-cols-2 gap-x-6 gap-y-10 mb-12">
         <ItemCard
@@ -92,27 +324,117 @@ function Home() {
           queryParam={{ filter: '?filter=rol' }}
           title="Re Order Level Item"
         /> */}
+        
       </div>
-      <div className="mb-[48px] grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-1">
-        {statisticsChartsData.map(({ title, footerText, color, ...props }) => (
-          <StatisticsChart
-            key={title}
-            color={color as colors}
-            {...props}
-            title={title}
-            footerElement={
-              <Typography
-                variant="small"
-                className="flex items-center font-normal text-blue-gray-600"
-              >
-                <ClockIcon strokeWidth={2} className="h-4 w-4 text-blue-gray-400" />
-                &nbsp;{footerText}
-              </Typography>
-            }
+    
+
+        <div className="mb-[48px] grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-2">
+          
+          {showDatePicker && (
+        <div className="max-w-md absolute z-10">
+          <DateRange
+            editableDateInputs={true}
+            onChange={handleSelect}
+            moveRangeOnFirstSelection={false}
+            ranges={dateRange}
+            rangeColors={['#0288d1']}
+            className="rounded-md shadow-lg"
           />
-        ))}
-      </div>
-      {/* <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
+        </div>
+      )}
+      {statisticsChartsData1.map(({ title, color, ...props }) => (
+        <StatisticsChart
+        
+          key={title}
+          color={color as colors}
+          {...props}
+          
+          title={title}
+          footerElement={
+            <Typography
+              variant="small"
+              className="flex items-center font-normal text-blue-gray-600"
+            >
+               
+      <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleDatePicker}>
+  <ClockIcon strokeWidth={2} className="h-4 w-4 text-blue-gray-400" />
+  <div className="p-2 rounded-md shadow-md bg-white bg-opacity-0">
+    <Typography variant="small" className="text-blue-600 text-base">
+      {dateRange[0].startDate.toLocaleDateString()} - {dateRange[0].endDate.toLocaleDateString()}
+    </Typography>
+  </div>
+</div>
+
+              
+              
+            </Typography>
+          }
+        />
+      ))}
+
+   
+
+       {statisticsChartsData.map(({ title, footerText, color, ...props }) => (
+        <StatisticsChart
+        
+          key={title}
+          color={color as colors}
+          {...props}
+          
+          title={title}
+          footerElement={
+            <Typography
+              variant="small"
+              className="flex items-center font-normal text-blue-gray-600"
+            >
+                        <ClockIcon strokeWidth={2} className="h-4 w-4 text-blue-gray-400" />
+
+         <DatePicker
+      selected={date}
+      onChange={handleChange}
+      className='ml-5 text-blue-800 bg-white/0 cursor-pointer text-xl'
+      showYearPicker
+      dateFormat="yyyy"
+    />
+              
+           
+              
+            </Typography>
+          }
+        />
+      ))}
+    </div>
+    {/* comment */}
+    </div>
+  )
+}
+
+export default Home
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {/* <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card className="overflow-hidden xl:col-span-2 border border-blue-gray-100 dark:border-none shadow-sm dark:bg-dark-primary-bg">
           <CardHeader
             floated={false}
@@ -267,8 +589,3 @@ function Home() {
           </CardBody>
         </Card>
       </div> */}
-    </div>
-  )
-}
-
-export default Home

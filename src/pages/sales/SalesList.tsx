@@ -13,8 +13,9 @@ import { useNavigate } from 'react-router-dom'
 const TABLE_HEAD = [
   // 'Customer',
   'Sales ID',
-  'Status',
+  
   'Date',
+  'Status',
   'Total Items',
   'Total Amount',
   'Action',
@@ -83,7 +84,7 @@ function SalesList() {
                   col1: { value: val.PKSaleID },
                   col2: { value: dateParser(val.CreatedOn) },
                   col3: { value: val.SoldItems.length },
-                  col4: { value: val.TotalAmount, prefix: '$' },
+                  col4: { value: val.TotalAmount  , prefix: '$' },
                 }
                 return (
                   <TableRow

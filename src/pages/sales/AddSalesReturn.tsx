@@ -386,11 +386,11 @@ useEffect(() => {
                   minusBtn={minusBtnHandler}
                   plusBtn={plusBtnHander}
                   className=""
-                  key={val.item?.PKItemID}
+                  key={val.item?.PKItemID ||''}
                   item={{
                     ...val.item,
                     qty: val.returnQty,
-                    id: { soldItemId: val.item?.PKItemID },
+                    id: { soldItemId: val.item?.PKItemID||"" },
                   }}
                 />
               ))}
