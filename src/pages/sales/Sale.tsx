@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { EditSale, InvoiceList } from '@/components/sales/'
-import { Button, Spinner, TableComponent } from '@/components/ui'
+import {  Spinner, TableComponent } from '@/components/ui'//Button
 import { TableBody, TableHeader, TableRow } from '@/components/ui/table'
 import { createInvoiceList, createInvoiceValues } from '@/utils/helpers'
 import { DynamicTableCol } from '@/utils/types'
-import { SquaresPlusIcon } from '@heroicons/react/24/solid'
+// import { SquaresPlusIcon } from '@heroicons/react/24/solid'
 import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
 import { SALE_INVOICE_NAMES } from '@/config/constants'
 import { useGetSaleById } from '@/hooks/useSale'
 
-const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Price', 'Qty', 'SoldPrice', "Tax", 'SubTotal']
+const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Price', 'Qty', "Tax", 'SubTotal']
 
 function Sale() {
   const [edit, setEdit] = useState(false)
@@ -38,7 +38,7 @@ function Sale() {
                     {`See information about this sale`}
                   </Typography>
                 </div>
-                <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+                {/* <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                   <Button
                     onClick={() => setEdit(!edit)}
                     className="flex items-center gap-3"
@@ -47,7 +47,7 @@ function Sale() {
                     <SquaresPlusIcon strokeWidth={2} className="h-4 w-4" />
                     {!edit && query !== 'edit' ? `Edit Sale` : `Cancel`}
                   </Button>
-                </div>
+                </div> */}
               </div>
             </CardHeader>
             <CardBody className="p-6">
@@ -67,24 +67,24 @@ function Sale() {
               </div>
               {!edit && query !== 'edit' ? (
                 <>
-                  {!!data.SoldItems.length && (
+                  {!!data?.SoldItems.length && (
                     <TableComponent heading="Selected Items For Sales">
                       <TableHeader TABLE_HEAD={ITEM_HEAD}></TableHeader>
                       <TableBody fetching={fetching}>
                         <>
-                          {data.SoldItems.map((val, index) => {
-                            const isLast = index === data.SoldItems.length - 1
+                          {data?.SoldItems.map((val, index) => {
+                            const isLast = index === data?.SoldItems?.length - 1
                             const classes: string = isLast
                               ? 'p-4'
                               : 'p-4 border-b border-blue-gray-50'
                             const columns: DynamicTableCol = {
                               col1: { value: val?.ItemName },
                               col2: { value: val.FKItemID },
-                              col3: { value: val.Price, prefix: '$' },
+                              col3: { value: val?.SoldPrice||val.Price, prefix: '$' },
                               col4: { value: val?.oldQty ?? 'err' },
-                              col5: { value: val.SoldPrice, prefix: '$' },
-                                   col6:{value:"$"+""+val?.taxAmt  || 0},
-                              col7: { value: (val.SoldPrice * val.Qty)+(val.taxAmt * val.Qty), prefix: '$' },
+                              // col5: { value: val.SoldPrice, prefix: '$' },
+                                   col5:{value:"$"+""+val?.taxAmt  || 0},
+                              col6: { value: (val.SoldPrice * val.Qty)+(val.taxAmt * val.Qty), prefix: '$' },
                             }
                             return (
                               <TableRow
@@ -105,15 +105,15 @@ function Sale() {
                     </TableComponent>
                   )}
 
-                  {!!data.SalesReturnItems.length && (
+                  {!!data?.SalesReturnItems?.length && (
                     <TableComponent heading="Returned Items For Sales">
                       <TableHeader
                         TABLE_HEAD={ITEM_HEAD.filter((val) => val !== 'SoldPrice')}
                       ></TableHeader>
                       <TableBody fetching={fetching}>
                         <>
-                          {data.SalesReturnItems.map((val, index) => {
-                            const isLast = index === data.SoldItems.length - 1
+                          {data?.SalesReturnItems?.map((val, index) => {
+                            const isLast = index === data?.SoldItems?.length - 1
                             const classes: string = isLast
                               ? 'p-4'
                               : 'p-4 border-b border-blue-gray-50'

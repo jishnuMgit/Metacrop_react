@@ -38,12 +38,12 @@ export const statisticsCardsData: StatisticsCardType[] = [
   {
     color: 'gray',
     icon: UsersIcon,
-    title: "Today's Users",
+    title: "Today's Sales",
     value: '2,300',
     footerProps: {
       color: 'text-green-500',
       value: '',
-      label: 'Total active users for today.',
+      label: 'Total user active for today.',
     },
   },
   {

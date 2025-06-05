@@ -39,7 +39,7 @@ interface currentStoretype {
 
 function Pos() {
   
-  const [sort, setSort] = useState<SortOption>({ option: 'most-saled' })
+  const [sort, setSort] = useState<SortOption>({ option: '?sort=none' })
   const orders = useAppSelector((state) => state.order.orders)
   const discount = useAppSelector((state) => state.order.discount)
   const store = useAppSelector((state) => state.uiState.store)
@@ -58,6 +58,8 @@ function Pos() {
   )
 
 const { data:StoreData,  } = useFetch<any>(`${Env.VITE_BASE_URL}/home/store`);
+console.log(StoreData);
+
 const createOptions = (data: any[], valueKey: string |number, labelKey: string): currentStoretype[] => {
   const allOption: currentStoretype = { value: "", label: "ALL" };
   const options = data.map(item => ({
@@ -69,12 +71,14 @@ const createOptions = (data: any[], valueKey: string |number, labelKey: string):
 
 
 useEffect(() => {
+
+  
   if (StoreData?.Data) {
     setStoreOptions(createOptions(StoreData.Data, 'PKStoreID', 'StoreName'));
   }
-  if (StoreData?.User) {
-    setUserOption(createOptions(StoreData.User, 'PKUserID', 'Name'));
-  }
+  if (StoreData?.AllUser) {
+  setUserOption(createOptions(StoreData.AllUser, 'PKUserID', 'Name'));
+}
 
   console.log("StoreOptions",StoreOptions);
   
@@ -228,15 +232,15 @@ useEffect(() => {
 
 <div className='lg:flex lg:flex-row justify-between md:flex-col'>
 <div className='flex items-center gap-8 mt-5 text-2xl justify-end'>
-   <Button onClick={() => setSort({ option: '?sort=none' })} className="md:w-32 rounded-sm">
+   {/* <Button onClick={() => setSort({ option: '?sort=none' })} className="md:w-32 rounded-sm">
               All
             </Button>
             {/* <Button onClick={() => setSort({ option: '?sort=date' })} className="md:w-32 rounded-sm">
               Recent
-            </Button> */}
+            </Button> 
             <Button onClick={() => setSort({ option: 'most-saled' })} className="md:w-32  rounded-sm">
               Most
-            </Button>
+            </Button> */}
 </div>
           <div className="flex items-center gap-6 mt-5  justify-end">
   <label className="whitespace-nowrap">Payment</label>

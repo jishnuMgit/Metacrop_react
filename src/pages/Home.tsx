@@ -47,19 +47,25 @@ import { ItemCard } from '@/widgets/cards/ItemCard'
 // import ChartWithDateFilter from '@/data/ChartWithDateFilter'
 import Env from '@/config/env'
 import useFetch from '@/hooks/useFetch'
+import { ApexChart } from '@/data/PieChart'
 
 function inject(this: { value?: string | number }, value?: string | number) {
   this.value = value ? '$' + value : this.value
 }
 
+  interface Sybolcurr{
+    CurrSym:string
+
+  }
 function Home() {
 
     const [date, setDate] = useState(new Date());
-
+   const [cury, setCury] = useState<Sybolcurr>();
   const handleChange = (date:any) => {
     setDate(date);
     
   };
+
 
 
 
@@ -85,6 +91,8 @@ function Home() {
 
 const [barData, setbardata] = useState<BraDate>()
 const [LineDatas, setLinedata] = useState<LineData|undefined>()
+
+
 
   const websiteViewsChart: ChartProps = {
   type: 'bar',
@@ -220,6 +228,17 @@ const dailySalesChart: ChartProps = {
         throw new Error()
       }
     }
+
+
+
+  const { data: homedatas1, error } = useFetch(`${Env.VITE_BASE_URL}/home/getHomeCurrency`);
+
+  useEffect(() => {
+    if (homedatas1?.data) {
+      setCury(homedatas1.data);
+    }
+  }, [homedatas1]);
+
      const LineDataFetch=async()=>{
   // alert(dateRange[0]?.startDate)
       try {
@@ -240,7 +259,8 @@ const dailySalesChart: ChartProps = {
    
     useEffect(() => {
       LineDataFetch()
-  
+     
+  // FetchCurr()
   FetchData()
 }, [])
 
@@ -275,10 +295,10 @@ FetchData()
   {statisticsCardsData.map(({ icon, title, footerProps, color }, index) => {
   // Dynamically assign value based on index
   let value = '0'
-  if (index === 0) value = `$${data?.data.todayStat._sum.TotalAmount || 0}`
+  if (index === 0) value = `${cury?.CurrSym} ${data?.data.todayStat._sum.TotalAmount || 0}`
   if (index === 1) value = `${HomeData?.TodaySalespre || 0}` // No $
-  if (index === 2) value = `$${HomeData?.SalesReturncash || 0}`
-  if (index === 3) value = `$${data?.data.totalStat._sum.TotalAmount || 0}`
+  if (index === 2) value = `${cury?.CurrSym} ${HomeData?.SalesReturncash || 0}`
+  if (index === 3) value = `${cury?.CurrSym} ${data?.data.totalStat._sum.TotalAmount || 0}`
 
   return (
     <Fragment key={index}>
@@ -302,7 +322,7 @@ FetchData()
 
 
       </div>
-      <div className="grid xl:grid-cols-2 gap-x-6 gap-y-10 mb-12">
+      {/* <div className="grid xl:grid-cols-2 gap-x-6 gap-y-10 mb-12">
         <ItemCard
           queryParam={{ sort: 'most-saled' }}
           icon={React.createElement(ArrowTrendingUpIcon, {
@@ -316,7 +336,7 @@ FetchData()
           })}
           queryParam={{ filter: '?filter=least' }}
           title="Least Sold"
-        />
+        /> */}
         {/* <ItemCard
           icon={React.createElement(QueueListIcon, {
             className: 'w-6 h-6 text-white ',
@@ -325,8 +345,13 @@ FetchData()
           title="Re Order Level Item"
         /> */}
         
-      </div>
+      {/* </div> */}
     
+    <div className="mb-[48px] grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
+      <ApexChart/>
+       <ApexChart/>
+        <ApexChart/>
+    </div>
 
         <div className="mb-[48px] grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-2">
           

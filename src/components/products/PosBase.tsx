@@ -124,8 +124,10 @@ function PosBase({ children, sort, className, itemClickHandler,ProductData }: Po
 // alert()
   useEffect(() => {
 
-    sort?.option==="most-saled"?fetchData(clsx(`/products/${sort?.option ?? '?sort=none'}/${currentStore.value}`)):
+    
+      sort?.option==="most-saled"?fetchData(clsx(`/products/${sort?.option ?? '?sort=none'}/${ currentStore.value?currentStore.value:""}`)):
 fetchData(clsx(`/products/${ currentStore?.value}`))
+    
   }, [sort?.option,currentStore])
 
   useEffect(() => {

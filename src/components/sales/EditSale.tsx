@@ -18,7 +18,7 @@ function EditSale() {
   const { saleData, touched } = useAppSelector((state) => state.sale)
   const { mutate, error, fetching, data: apiData } = useApi<boolean>()
   const total = useMemo(
-    () => saleData?.SoldItems.reduce((acc, val) => acc + val.Qty * val.Price, 0),
+    () => saleData?.SoldItems.reduce((acc, val) => acc + Number(val.Qty) * Number(val.Price), 0),
     [saleData]
   )
   console.log("saleData",saleData);
@@ -83,21 +83,24 @@ function EditSale() {
         <div className="flex flex-col md:flex-row w-full border-solid border-t-8 pt-5 ">
           <div className="flex w-full overflow-auto md:w-3/4 flex-col ">
             {!fetching ? (
-              saleData.SoldItems?.map((val) => (
+              saleData.SoldItems?.map((val,index) => (
                 <div key={val.PKSoldItemID}>
                   {val.Qty !== 0 && (
-                    <div className="flex ">
+                    <div className="flex  " key={index}>
                       <div className="flex flex-col w-11/12">
                         <OrderItem
                         button=''
                           delBtnHandler={removeItem}
-                          minusBtn={() => minusBtnHandler(val.PKSoldItemID)}
-                          plusBtn={() => plusBtnHandler(val.PKSoldItemID)}
+                          minusBtn={() => minusBtnHandler(val.PKSoldItemID
+)}
+                          plusBtn={() => plusBtnHandler(val.PKSoldItemID
+)}
                           item={{
                             PKItemID: val.FKItemID,
-                            qty: val.Qty,
-                            ItemName: val.Item?.ItemName,
-                            Price: val.Price,
+                            qty: Number(val?.Qty),
+                            ItemName:String( val.ItemName),
+                            Price: val.SoldPrice,
+                            taxAmt:val.taxAmt
                           }}
                         />
                       </div>
