@@ -20,11 +20,11 @@ type CustomerOption = {
 }
 
 
-const customerOptions: CustomerOption[] = [
-  { value: 'john_doe', label: 'John Doe' },
-  { value: 'jane_smith', label: 'Jane Smith' },
-  { value: 'robert_brown', label: 'Robert Brown' },
-]
+// const customerOptions: CustomerOption[] = [
+//   { value: 'john_doe', label: 'John Doe' },
+//   { value: 'jane_smith', label: 'Jane Smith' },
+//   { value: 'robert_brown', label: 'Robert Brown' },
+// ]
 
 // const storeOptions: CustomerOption[] = [
 //    { value: "", label: 'ALL' },
@@ -61,7 +61,7 @@ const { data:StoreData,  } = useFetch<any>(`${Env.VITE_BASE_URL}/home/store`);
 console.log(StoreData);
 
 const createOptions = (data: any[], valueKey: string |number, labelKey: string): currentStoretype[] => {
-  const allOption: currentStoretype = { value: "", label: "ALL" };
+  const allOption: currentStoretype = { value: "", label: "Select Store" };
   const options = data.map(item => ({
     value: item[valueKey],
     label: item[labelKey],
@@ -74,9 +74,11 @@ useEffect(() => {
 
   
   if (StoreData?.Data) {
+    //@ts-ignore
     setStoreOptions(createOptions(StoreData.Data, 'PKStoreID', 'StoreName'));
   }
   if (StoreData?.AllUser) {
+    // @ts-ignore
   setUserOption(createOptions(StoreData.AllUser, 'PKUserID', 'Name'));
 }
 
@@ -99,7 +101,13 @@ useEffect(() => {
 
     }
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
+    // @ts-ignore
     handleMutate({ items, totalAmount, discount, user: user?.value || '', selectedOption, selectedStore:selectedStore?.value||'' , selectedDate,remark })
+
+if(success){
+  alert("ok")
+    window.location.reload()
+}
   }
 
   const handleSubmitWrapper = () => {
@@ -184,6 +192,7 @@ useEffect(() => {
         </>
       </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
+        {/* @ts-ignore */}
         <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}  >
           <div className="flex flex-wrap w-full justify-start gap-10 ">
            

@@ -28,8 +28,8 @@ import {
   // ordersOverviewData,
 } from '@/data'
 import {
-  ArrowTrendingDownIcon,
-  ArrowTrendingUpIcon,
+  // ArrowTrendingDownIcon,
+  // ArrowTrendingUpIcon,
   // CheckCircleIcon,
   ClockIcon,
   // QueueListIcon,
@@ -43,15 +43,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { colors } from '@material-tailwind/react/types/generic'
 import { useApi } from 'useipa'
 import { ApiAnalyticsSales } from '@/utils/types'
-import { ItemCard } from '@/widgets/cards/ItemCard'
+// import { ItemCard } from '@/widgets/cards/ItemCard'
 // import ChartWithDateFilter from '@/data/ChartWithDateFilter'
 import Env from '@/config/env'
 import useFetch from '@/hooks/useFetch'
 import { ApexChart } from '@/data/PieChart'
 
-function inject(this: { value?: string | number }, value?: string | number) {
-  this.value = value ? '$' + value : this.value
-}
+// function inject(this: { value?: string | number }, value?: string | number) {
+//   this.value = value ? '$' + value : this.value
+// }
 
   interface Sybolcurr{
     CurrSym:string
@@ -231,7 +231,7 @@ const dailySalesChart: ChartProps = {
 
 
 
-  const { data: homedatas1, error } = useFetch(`${Env.VITE_BASE_URL}/home/getHomeCurrency`);
+  const { data: homedatas1 } = useFetch(`${Env.VITE_BASE_URL}/home/getHomeCurrency`);
 
   useEffect(() => {
     if (homedatas1?.data) {
