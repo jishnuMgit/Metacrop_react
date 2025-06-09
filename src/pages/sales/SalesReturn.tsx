@@ -7,6 +7,9 @@ import { DynamicTableCol } from '@/utils/types'
 import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
 import { SALES_RETURN_INVOICE } from '@/config/constants'
 import { useGetSalesReturnById } from '@/hooks/useSalesReturn'
+import { useEffect, useState } from 'react'
+import useFetch from '@/hooks/useFetch'
+import Env from '@/config/env'
 
 const TABLE_HEAD = [
   'Item',
@@ -15,14 +18,37 @@ const TABLE_HEAD = [
   'Status',
   'Date',
   'Quantity',
+  'Tax',
   'Price',
   'Total Amount',
 ]
+interface Sybolcurr{
+    CurrSym:string
+
+  }
 
 function Sale() {
   const params = useParams()
   const { response, fetching } = useGetSalesReturnById(params.id)
+  const [Cury,setCury]=useState<Sybolcurr>()
+  const { data: homedatas1 } = useFetch(`${Env.VITE_BASE_URL}/home/getHomeCurrency`);
 
+  useEffect(() => {
+    if (homedatas1?.data) {
+      setCury(homedatas1.data);
+    }
+  }, [homedatas1]);
+
+      console.log("response",response);
+
+
+      // const Fetchchild=async()=>{
+      //   try {
+      //     const FetchData=await fetch() 
+      //   } catch (error) {
+          
+      //   }
+      // }
   return (
     <>
       {response ? (
@@ -52,7 +78,7 @@ function Sale() {
                   </Typography>
                 </div>
                 <div className="mb-5 flex flex-col  ">
-                  {createInvoiceList(SALES_RETURN_INVOICE, createReturnInvoice(response.data!)).map(
+                  {createInvoiceList(SALES_RETURN_INVOICE, createReturnInvoice(response?.data?.items!))?.map(
                     (val, index) => (
                       <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
                     )
@@ -65,8 +91,8 @@ function Sale() {
                     <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
                     <TableBody fetching={fetching}>
                       <>
-                        {response?.data?.SalesReturnItems.map((val, index) => {
-                          const isLast = index === response.data!.SalesReturnItems.length - 1
+                        {response?.data?.Childs?.map((val, index) => {
+                          const isLast = index === response.data!?.Childs.length - 1
                           const classes: string = isLast
                             ? 'p-4'
                             : 'p-4 border-b border-blue-gray-50'
@@ -74,10 +100,11 @@ function Sale() {
                             col1: { value: val.Item.ItemName },
                             col2: { value: val.FKReturnID },
                             col3: { value: val.FKSaleID ?? 'No sale' },
-                            col4: { value: new Date(val.CreatedOn).toLocaleDateString() },
+                            col4: { value: new Date(val.createdOn).toLocaleDateString() },
                             col5: { value: val.Qty },
-                            col6: { value: val.Price, prefix: '$' },
-                            col7: { value: val.SubTotal, prefix: '$' },
+                            col6:{value:val.TaxPer},
+                            col7: { value: val.Price, prefix: `${Cury?.CurrSym}` },
+                            col8: { value: val.SubTotal, prefix: `${Cury?.CurrSym}` },
                           }
 
                           return (

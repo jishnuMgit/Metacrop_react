@@ -115,7 +115,7 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
       <ItemContainer className="w-full">
         <div className="flex flex-col w-full">
           <InvoiceLi start="Bill Number" end="123ABC" />
-          <InvoiceLi start="SubTotal" end={`$ ` + totalAmount.toFixed(2)} />
+          <InvoiceLi start="SubTotal" end={`﷼ ` + totalAmount.toFixed(2)} />
           {/* <InvoiceLi start={`Tax (${tax + '%'}) `} end={taxAmount.toFixed(2)} /> */}
           <InvoiceLi
             start="Discount"
@@ -129,7 +129,7 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
               />
             }
           />
-          <InvoiceLi start="Total:" end={`$ ` + grandTotal.toFixed(2)} bold />
+          <InvoiceLi start="Total:" end={`﷼ ` + grandTotal.toFixed(2)} bold />
         </div>
       </ItemContainer>
 

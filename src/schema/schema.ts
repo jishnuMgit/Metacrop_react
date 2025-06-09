@@ -59,21 +59,18 @@ export const nonSaleReturnObject = object({
 })
 
 export const SalesReturnSchema = object({
+  billNo: string().required('Bill No is required'),
   sales: array(
     object({
       saleId: number().required(),
       items: array(ReturnItemObject).required(),
     })
-  ).min(1),
-  // for custom returns.
-  nonSales: array(nonSaleReturnObject).optional().min(1),
+  ).min(1, 'At least one sales return is required'),
+  nonSales: array(nonSaleReturnObject).optional().min(1, 'At least one custom return is required'),
 }).transform((_, original: InferType<typeof SalesReturnSchema>) => {
-  const { nonSales, sales } = original
-  if (sales?.length === 0) {
-    return { nonSales }
-  }
-  if (nonSales?.length === 0) {
-    return { sales }
-  }
+  const { nonSales, sales, billNo } = original
+  alert(billNo)
+  if (sales?.length === 0) return { nonSales, billNo }
+  if (nonSales?.length === 0) return { sales, billNo }
   return original
 })

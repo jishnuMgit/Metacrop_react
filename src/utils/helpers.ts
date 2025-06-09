@@ -71,10 +71,10 @@ export const createInvoiceValues = (data: ApiSalesData) => {
 
 export const createReturnInvoice = (data: ApiSalesReturn) => {
   return [
-    dateParser(data.CreatedOn),
+    dateParser(data.createdOn),
     data.PKReturnID,
     data.SalesReturnItems?.length,
-    data.TotalReturnAmount,
+    data.totalReturnAmount,
   ]
 }
 

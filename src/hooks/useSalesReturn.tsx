@@ -39,6 +39,7 @@ export const useAddSalesReturn = () => {
   const { mutate, fetching, success, error, clearState, data } = useApi<{ data: ApiSalesReturn }>()
 
   const handleMutate = (payload: InferType<typeof SalesReturnSchema>) => {
+    console.log("Submitting payload:", payload)
     mutate('/sales/return-items', payload)
   }
 

@@ -282,7 +282,7 @@ if(success){
       name="payment_method"
       value="credit"
       onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-      className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
+      className="w-4 h-4 text-purple-600  bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
     />
     Credit
   </label>

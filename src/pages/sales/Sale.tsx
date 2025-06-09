@@ -80,11 +80,11 @@ function Sale() {
                             const columns: DynamicTableCol = {
                               col1: { value: val?.ItemName },
                               col2: { value: val.FKItemID },
-                              col3: { value: val?.SoldPrice||val.Price, prefix: '$' },
+                              col3: { value: val?.SoldPrice||val.Price, prefix: '﷼' },
                               col4: { value: val?.oldQty ?? 'err' },
                               // col5: { value: val.SoldPrice, prefix: '$' },
-                                   col5:{value:"$"+""+val?.taxAmt  || 0},
-                              col6: { value: (val.SoldPrice * val.Qty)+(val.taxAmt * val.Qty), prefix: '$' },
+                                   col5:{value:"﷼"+""+val?.taxAmt  || 0},
+                              col6: { value: (val.SoldPrice * val.Qty)+(val.taxAmt * val.Qty), prefix: '﷼' },
                             }
                             return (
                               <TableRow
@@ -120,9 +120,9 @@ function Sale() {
                             const columns: DynamicTableCol = {
                               col1: { value: val?.Item?.ItemName },
                               col2: { value: val.FKItemID },
-                              col3: { value: val.Price, prefix: '$' },
+                              col3: { value: val.Price, prefix: '﷼' },
                               col4: { value: val.Qty },
-                              col5: { value: val.SubTotal, prefix: '$' },
+                              col5: { value: val.SubTotal, prefix: '﷼' },
                             }
                             return (
                               <TableRow

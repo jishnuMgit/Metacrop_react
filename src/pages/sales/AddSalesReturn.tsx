@@ -115,8 +115,9 @@ const optionDefalt: CustomerOption = {
 
   const handleSubmit = () => {
     ;(async () => {
+      // alert(selectedCustomer?.value)
       const returnData = await SalesReturnSchema.validate(
-        { sales: returnItems, nonSales: customReturnItems },
+        { sales: returnItems, nonSales: customReturnItems,billNo:selectedCustomer?.value },
         {
           stripUnknown: true,
         }
