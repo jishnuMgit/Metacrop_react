@@ -49,6 +49,7 @@ function Pos() {
   const [UserOption,setUserOption]=useState()
   // const [stores, setStores] = useState(null);
   const [user, setUser] = useState(null);
+  const [NoSaleNum,seNosaleNumber]=useState(false)
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -69,6 +70,12 @@ const createOptions = (data: any[], valueKey: string |number, labelKey: string):
   return [allOption, ...options];
 };
 
+
+useEffect(()=>{
+setTimeout(()=>{
+  seNosaleNumber(true)
+},5000)
+},[])
 
 useEffect(() => {
 
@@ -225,10 +232,16 @@ if(success){
               styles={customStyles}
               className="bg-black text-white w-[180px]"
             />
+       
 <div className='flex justify-center items-center border border-gray-800 px-5  cursor-pointer shadow-white hover:shadow-sm'>
-                          <h4 className="flex justify-center items-center text-xl ">Next Invoice :{StoreData?.Seriesnum.Number}</h4>
+
+                          <h4 className="flex justify-center items-center text-xl ">Bill Number : {StoreData?.Seriesnum.Number}</h4>
 
 </div>
+
+ 
+ 
+
 <input 
   type="text"
   placeholder="  Remarks"
@@ -236,6 +249,7 @@ if(success){
   onChange={(e) => setRemarks(e.target.value)}
   className="py-2 bg-black rounded-md text-white border border-white"
 />
+       {!StoreData?.Seriesnum.Number &&NoSaleNum && <p className='text-md text-red-500'>Unable to process sale. System Waiting for a valid bill number</p>}
 
           </div>
 

@@ -152,9 +152,14 @@ type AggregateArgs = {
   _max: CommonArgsProps
   _min: CommonArgsProps
 }
+type Totals = {
+  TotalAmount: Number
+}
 export type ApiAnalyticsSales = {
   todayStat: AggregateArgs
   totalStat: AggregateArgs
+  TotalCash: Totals
+  TotalBank: Totals
 }
 /**
  * Sort types and filter types

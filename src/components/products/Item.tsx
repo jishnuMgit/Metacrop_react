@@ -21,10 +21,10 @@ function Item({ item, onClick, isSmall, qtyElement }: ItemProps) {
         <img
           alt="img"
           className={clsx({ 'h-10': !isSmall, 'h-6': isSmall })}
-          src={`${item.PKItemID % 5 == 0 ? milkImg : groceryImg}`}
+          src={`${item?.PKItemID % 5 == 0 ? milkImg : groceryImg}`}
         />
-        <p className="text-[#28251f] dark:text-white text-sm">{item.ItemName}</p>
-        {qtyElement ? <>{qtyElement}</> : <span className="font-semibold">{item.Qty}</span>}
+        <p className="text-[#28251f] dark:text-white text-sm">{item?.ItemName}</p>
+        {qtyElement ? <>{qtyElement}</> : <span className="font-semibold">{item?.Qty}</span>}
       </div>
     </div>
     

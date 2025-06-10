@@ -321,7 +321,7 @@ useEffect(() => {
         </div>
         <> {saleError && <ErrorText message={saleError.message} />}</>
         <>
-          {soldItems && (
+          {/* {soldItems && (
             <ProductContainer>
               <>
                 {soldItems?.map((val, i) => (
@@ -342,7 +342,7 @@ useEffect(() => {
                 ))}
               </>
             </ProductContainer>
-          )}
+          )} */}
         </>
       </PosBaseMemo>
       <div className="flex flex-col mt-3 lg:mt-0 lg:w-1/2 lg:ms-4 items-center ">

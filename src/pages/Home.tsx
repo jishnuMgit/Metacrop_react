@@ -47,7 +47,9 @@ import { ApiAnalyticsSales } from '@/utils/types'
 // import ChartWithDateFilter from '@/data/ChartWithDateFilter'
 import Env from '@/config/env'
 import useFetch from '@/hooks/useFetch'
-import { ApexChart } from '@/data/PieChart'
+// import { ApexChart } from '@/data/PieChart'
+import PieChart from './PieChart'
+import HomeCardSkeleton from '@/skeletons/HomeCardSkeleton'
 
 // function inject(this: { value?: string | number }, value?: string | number) {
 //   this.value = value ? '$' + value : this.value
@@ -89,9 +91,9 @@ function Home() {
         Dec:number
  }
 
-const [barData, setbardata] = useState<BraDate>()
-const [LineDatas, setLinedata] = useState<LineData|undefined>()
 
+const [barData, setbardata] = useState<BraDate>() 
+const [LineDatas, setLinedata] = useState<LineData|undefined>()
 
 
   const websiteViewsChart: ChartProps = {
@@ -127,6 +129,7 @@ const [LineDatas, setLinedata] = useState<LineData|undefined>()
     chart: websiteViewsChart,
   },
 ]
+
 
 
 
@@ -199,7 +202,7 @@ const dailySalesChart: ChartProps = {
     const [showDatePicker, setShowDatePicker] = useState(false)
         
 
-
+// /Piechart
   const { data, fetchData } = useApi<{ data: ApiAnalyticsSales }>()
   useEffect(() => {
     fetchData('/analytics/sales')
@@ -228,6 +231,8 @@ const dailySalesChart: ChartProps = {
         throw new Error()
       }
     }
+   
+
 
 
 
@@ -292,16 +297,19 @@ FetchData()
   return (
     <div className="mt-12 mx-6">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+        {!data?.data && <HomeCardSkeleton/>}
   {statisticsCardsData.map(({ icon, title, footerProps, color }, index) => {
   // Dynamically assign value based on index
   let value = '0'
   if (index === 0) value = `${cury?.CurrSym} ${data?.data.todayStat._sum.TotalAmount || 0}`
-  if (index === 1) value = `${HomeData?.TodaySalespre || 0}` // No $
-  if (index === 2) value = `${cury?.CurrSym} ${HomeData?.SalesReturncash || 0}`
+  if (index === 1) value = ` ${cury?.CurrSym} ${data?.data.TotalCash?.TotalAmount || 0}` // No $
+  if (index === 2) value = `${cury?.CurrSym} ${data?.data.TotalBank?.TotalAmount || 0}`
   if (index === 3) value = `${cury?.CurrSym} ${data?.data.totalStat._sum.TotalAmount || 0}`
 
   return (
-    <Fragment key={index}>
+    <>
+    {
+      data?.data && <Fragment key={index}>
       <StatisticsCard
         color={color}
         title={title}
@@ -316,12 +324,16 @@ FetchData()
           </Typography>
         }
       />
-    </Fragment>
+    </Fragment>   
+
+    }
+    </>
   )
 })}
 
 
       </div>
+      
       {/* <div className="grid xl:grid-cols-2 gap-x-6 gap-y-10 mb-12">
         <ItemCard
           queryParam={{ sort: 'most-saled' }}
@@ -346,11 +358,11 @@ FetchData()
         /> */}
         
       {/* </div> */}
+       
     
     <div className="mb-[48px] grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
-      <ApexChart/>
-       <ApexChart/>
-        <ApexChart/>
+     
+        <PieChart/>
     </div>
 
         <div className="mb-[48px] grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-2">

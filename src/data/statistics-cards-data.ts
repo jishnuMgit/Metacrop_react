@@ -38,23 +38,23 @@ export const statisticsCardsData: StatisticsCardType[] = [
   {
     color: 'gray',
     icon: UsersIcon,
-    title: "Today's Sales",
+    title: 'Total cash Revenue',
     value: '2,300',
     footerProps: {
       color: 'text-green-500',
       value: '',
-      label: 'Total user active for today.',
+      label: 'Total Payment in cash',
     },
   },
   {
     color: 'gray',
     icon: ArrowDownIcon,
-    title: 'Sale Return',
+    title: 'Total bank Revenue',
     value: '462',
     footerProps: {
       color: 'text-red-500',
       value: '',
-      label: 'Value of products returned',
+      label: 'Total Payment in bank',
     },
   },
   {
