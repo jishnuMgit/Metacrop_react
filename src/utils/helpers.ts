@@ -61,7 +61,7 @@ export const setDarkMode = (dark: boolean) => {
 export const createInvoiceValues = (data: ApiSalesData) => {
   return [
     dateParser(data?.CreatedOn),
-    dateParser(data.ModifiedOn),
+    dateParser(data.modifiedOn),
     data.PKSaleID,
     data.SoldItems.length,
     data.Discount,

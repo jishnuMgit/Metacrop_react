@@ -113,6 +113,10 @@ const optionDefalt: CustomerOption = {
 }, [data]);
 
 
+
+
+console.log("soldItems",returnItems);
+
   const handleSubmit = () => {
     ;(async () => {
       // alert(selectedCustomer?.value)
@@ -284,6 +288,7 @@ useEffect(() => {
                 type="radio"
                 name="payment_method"
                 value="cash"
+                defaultChecked
                 onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
                 className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
               />
@@ -404,6 +409,7 @@ useEffect(() => {
             handleClick: handleSubmit,
             disabled: !(returnItems.length || customReturnItems.length),
           }}
+          type={'return'}
           fetching={fetching}
           totalAmount={totalAmount} user={undefined} selectedDate={''} selectedOption={''} store={undefined}        />
       </div>

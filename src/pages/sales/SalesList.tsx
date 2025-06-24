@@ -18,7 +18,7 @@ const TABLE_HEAD = [
   'Status',
   'Total Items',
   'Total Amount',
-  'Action',
+  // 'Action',
 ]
 
 function SalesList() {

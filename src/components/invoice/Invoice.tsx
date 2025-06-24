@@ -77,6 +77,7 @@ type InvoiceProps = {
     disabled?: boolean
   }
   user:any
+  type:string
   selectedDate:string
   selectedOption:string
   store:any
@@ -84,18 +85,22 @@ type InvoiceProps = {
   fetching: boolean
 }
 
-function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
+function Invoice({ btnProps, totalAmount,type, fetching }: InvoiceProps) {
   const dispatch = useAppDispatch()
   const discount = useAppSelector((state) => state.order.discount)
+    const orders = useAppSelector((state) => state.order.orders)
+
   const tax = 0
   const taxAmount = (tax / 100) * totalAmount
   const grandTotal = totalAmount + taxAmount - Number(discount ?? 0)
 
-  const orders = useAppSelector((state) => state.order.orders)
+  // const orders = useAppSelector((state) => state.order.orders)
 
   const handleGeneratePDF = async () => {
     try {
-      await generateInvoicePDF({
+
+      if(type!=='return'){
+ await generateInvoicePDF({
         totalAmount,
         discount: Number(discount ?? 0),
         tax,
@@ -104,6 +109,8 @@ function Invoice({ btnProps, totalAmount, fetching }: InvoiceProps) {
         billNumber: '123ABC',
         orders,
       })
+      }
+     
       window.location.reload()
     } catch (error) {
       console.error('Error generating invoice PDF:', error)

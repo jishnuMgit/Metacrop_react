@@ -10,6 +10,8 @@ import { useGetSalesReturnById } from '@/hooks/useSalesReturn'
 import { useEffect, useState } from 'react'
 import useFetch from '@/hooks/useFetch'
 import Env from '@/config/env'
+import { PrinterIcon } from '@heroicons/react/24/solid'
+import { generateInvoicePDF2 } from '@/utils/generateInvoicePDF2'
 
 const TABLE_HEAD = [
   'Item',
@@ -49,6 +51,23 @@ function Sale() {
           
       //   }
       // }
+       const handleGeneratePDF = async () => {
+      try {
+        await generateInvoicePDF2({
+          totalAmount :Number(response?.data?.totalReturnAmount),
+          discount: Number( 0),
+          tax:Number(response?.data),
+          taxAmount:Number(0),
+          grandTotal:0,
+          billNumber: '123ABC',
+          orders:response?.data?.Childs,
+        })
+        // alert("ji")
+        // window.location.reload()
+      } catch (error) {
+        console.error('Error generating invoice PDF:', error)
+      }
+    }
   return (
     <>
       {response ? (
@@ -70,6 +89,7 @@ function Sale() {
                 </div>
               </div>
             </CardHeader>
+            
             <CardBody className="p-6">
               <div className="md:w-5/12 w-full ">
                 <div>
@@ -84,7 +104,13 @@ function Sale() {
                     )
                   )}
                 </div>
-              </div>
+<button
+      onClick={() => handleGeneratePDF()}
+      className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-all"
+    >
+      <PrinterIcon className="h-5 w-5" />
+      <span>Print Invoice</span>
+    </button>               </div>
               {response.data && (
                 <>
                   <TableComponent heading="Selected Items For Sales Return">

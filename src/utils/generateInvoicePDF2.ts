@@ -57,18 +57,27 @@ interface InvoiceData {
 
 // Format item description
 const formatItemDescription = (item: ApiItem): string => {
-  const taxPerUnit = item.TaxPer.toFixed(2)
-  const taxRate = ((item.TaxPer / item.Price) * 100).toFixed(2)
-  return `${item.ItemName} (Code: ${item.ItemCode}, HSN: ${item.HSNCode})\nTax: ₹${taxPerUnit}/unit (${taxRate}%)`
+  const taxPer = Number(item?.taxAmt ?? 0)
+  const price = Number(item?.Price ?? 1) // Avoid division by 0
+  const taxRate = price ? ((taxPer / price) * 100).toFixed(2) : '0.00'
+  return `${item.ItemName} (Qty: ${item.Qty ?? 1})\nTax: ₹${taxPer}/unit (${taxRate}%)`
 }
 
-export const generateInvoicePDF = async (invoiceData: InvoiceData): Promise<void> => {
-  const products = invoiceData.orders.map((item) => ({
-    quantity: item.qty.toString(),
-    description: formatItemDescription(item),
-    price: item.Price,
-    taxRate: Number(((item.TaxPer / item.Price) * 100).toFixed(2)),
-  }))
+export const generateInvoicePDF2 = async (invoiceData: InvoiceData): Promise<void> => {
+  console.log('invoiceData', invoiceData)
+
+  const products = invoiceData.orders.map((item) => {
+    const qty = Number(item?.Qty ?? item?.qty ?? 0)
+    const price = Number(item?.Price ?? 0)
+    const tax = Number(item?.TaxPer || item?.taxAmt || 0)
+
+    return {
+      quantity: qty.toString(),
+      description: formatItemDescription(item),
+      price,
+      taxRate: price ? Number(((tax / price) * 100).toFixed(2)) : 0,
+    }
+  })
 
   const invoiceNumber = invoiceData.billNumber ?? `INV-${Date.now()}`
 

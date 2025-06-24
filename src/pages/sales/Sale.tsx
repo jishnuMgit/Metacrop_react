@@ -9,6 +9,9 @@ import { DynamicTableCol } from '@/utils/types'
 import { Card, CardBody, CardHeader, Typography } from '@material-tailwind/react'
 import { SALE_INVOICE_NAMES } from '@/config/constants'
 import { useGetSaleById } from '@/hooks/useSale'
+import { PrinterIcon } from '@heroicons/react/24/solid'
+import { generateInvoicePDF2 } from '@/utils/generateInvoicePDF2'
+
 
 const ITEM_HEAD = ['Item Name', 'Item ID', 'Status', 'Price', 'Qty', "Tax", 'SubTotal']
 
@@ -18,6 +21,23 @@ function Sale() {
   const { search } = useLocation()
   const query = new URLSearchParams(search).get('action')
   const { fetching, data } = useGetSaleById(params.id)
+    const handleGeneratePDF = async () => {
+      try {
+        await generateInvoicePDF2({
+          totalAmount :Number(data?.TotalAmount),
+          discount: Number(data?.Discount ?? 0),
+          tax:Number(0),
+          taxAmount:Number(0),
+          grandTotal:0,
+          billNumber: '123ABC',
+          orders:data?.SoldItems,
+        })
+        // alert("ji")
+        // window.location.reload()
+      } catch (error) {
+        console.error('Error generating invoice PDF:', error)
+      }
+    }
 
   return (
     <>
@@ -51,6 +71,7 @@ function Sale() {
               </div>
             </CardHeader>
             <CardBody className="p-6">
+            
               <div className="md:w-5/12 w-full ">
                 <div>
                   <Typography variant="h6" color="blue-gray" className="dark:text-blue-200">
@@ -64,7 +85,13 @@ function Sale() {
                     )
                   )}
                 </div>
-              </div>
+<button
+      onClick={() => handleGeneratePDF()}
+      className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-all"
+    >
+      <PrinterIcon className="h-5 w-5" />
+      <span>Print Invoice</span>
+    </button>              </div>
               {!edit && query !== 'edit' ? (
                 <>
                   {!!data?.SoldItems.length && (

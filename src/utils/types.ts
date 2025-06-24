@@ -108,7 +108,7 @@ export type ApiSoldItem = {
  */
 export type ApiSalesData = {
   CreatedOn: string
-  ModifiedOn: string
+  modifiedOn: string
   PKSaleID: number | string
   Discount: number
   TotalAmount: number | string
@@ -120,6 +120,7 @@ export type ApiSalesData = {
  * sales return api data type
  */
 export type ApiSalesReturn = {
+  Childs: any
   PKReturnID: number
   totalReturnAmount: number
   createdOn: string

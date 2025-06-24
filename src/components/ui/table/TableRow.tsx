@@ -85,7 +85,7 @@ function TableRow({ classes, action, click = false, status, link, ...props }: Ta
 
       {action && (
         <td className={classes}>
-          <Tooltip content="Edit Sale">
+          {/* <Tooltip content="Edit Sale">
             <IconButton
               aria-label="Edit sale"
               variant="text"
@@ -93,7 +93,7 @@ function TableRow({ classes, action, click = false, status, link, ...props }: Ta
             >
               <PencilIcon className="h-4 w-4 dark:text-white " />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
         </td>
       )}
     </tr>

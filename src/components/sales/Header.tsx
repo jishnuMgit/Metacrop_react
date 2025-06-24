@@ -88,7 +88,7 @@ function Header({
             ))}
           </TabsHeader>
         </Tabs>
-        <div className="w-full md:w-72">
+        {/* <div className="w-full md:w-72">
           <Input
             crossOrigin={''}
             aria-label="search"
@@ -99,7 +99,7 @@ function Header({
             labelProps={{ className: 'dark:peer-focus:!text-white' }}
             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
           />
-        </div>
+        </div> */}
       </div>
     </CardHeader>
   )

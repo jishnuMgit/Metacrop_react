@@ -38,7 +38,8 @@ interface currentStoretype {
 }
 
 function Pos() {
-  
+    const today = new Date().toISOString().split('T')[0] 
+
   const [sort, setSort] = useState<SortOption>({ option: '?sort=none' })
   const orders = useAppSelector((state) => state.order.orders)
   const discount = useAppSelector((state) => state.order.discount)
@@ -50,8 +51,8 @@ function Pos() {
   // const [stores, setStores] = useState(null);
   const [user, setUser] = useState(null);
   const [NoSaleNum,seNosaleNumber]=useState(false)
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedDate, setSelectedDate] = useState(today);
+  const [selectedOption, setSelectedOption] = useState("cash");
 
   const totalAmount = useMemo(
     () => orders.reduce((prev, val) => prev + val.qty * val.Price + val.qty  *  val.TaxPer, 0),
@@ -69,6 +70,8 @@ const createOptions = (data: any[], valueKey: string |number, labelKey: string):
   }));
   return [allOption, ...options];
 };
+
+console.log("orders",orders);
 
 
 useEffect(()=>{
@@ -235,7 +238,7 @@ if(success){
        
 <div className='flex justify-center items-center border border-gray-800 px-5  cursor-pointer shadow-white hover:shadow-sm'>
 
-                          <h4 className="flex justify-center items-center text-xl ">Bill Number : {StoreData?.Seriesnum.Number}</h4>
+                          <h4 className="flex justify-center items-center text-xl ">Bill Number : {StoreData?.Seriesnum?.Number}</h4>
 
 </div>
 
@@ -273,6 +276,7 @@ if(success){
       type="radio"
       name="payment_method"
       value="cash"
+      defaultChecked
       onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
     />
