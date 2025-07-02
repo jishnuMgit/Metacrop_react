@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Button, ErrorText, Modal, Success } from '@/components/ui'
+import {  ErrorText, Modal, Success } from '@/components/ui'//Button,
 import { CurrentOrder, Invoice } from '@/components'
 import { PosBaseMemo } from '@/components/products'
 import { ApiItem, SortOption } from '@/utils/types'
@@ -49,7 +49,7 @@ function Pos() {
   const [StoreOptions,setStoreOptions]=useState()
   const [UserOption,setUserOption]=useState()
   // const [stores, setStores] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
   const [NoSaleNum,seNosaleNumber]=useState(false)
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedOption, setSelectedOption] = useState("cash");
@@ -60,7 +60,7 @@ function Pos() {
   )
 
 const { data:StoreData,  } = useFetch<any>(`${Env.VITE_BASE_URL}/home/store`);
-console.log(StoreData);
+console.log(StoreData,setSort);
 
 const createOptions = (data: any[], valueKey: string |number, labelKey: string): currentStoretype[] => {
   const allOption: currentStoretype = { value: "", label: "Select Store" };
@@ -89,7 +89,7 @@ useEffect(() => {
   }
   if (StoreData?.AllUser) {
     // @ts-ignore
-  setUserOption(createOptions(StoreData.AllUser, 'PKUserID', 'Name'));
+  setUserOption(createOptions(StoreData.AllUser, 'PKCustomerID', 'Name'));
 }
 
   console.log("StoreOptions",StoreOptions);
@@ -111,6 +111,7 @@ useEffect(() => {
 
     }
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
+    // alert(user?.value)
     // @ts-ignore
     handleMutate({ items, totalAmount, discount, user: user?.value || '', selectedOption, selectedStore:selectedStore?.value||'' , selectedDate,remark })
 
@@ -161,36 +162,43 @@ if(success){
     }
   }, [success])
 
-  const customStyles = {
-    control: (base: any) => ({
-      ...base,
-      backgroundColor: 'black',
-      color: 'white',
-      borderColor: '#4B5563', // gray-600
-    }),
-    singleValue: (base: any) => ({
-      ...base,
-      color: 'white',
-    }),
-    menu: (base: any) => ({
-      ...base,
-      backgroundColor: 'black',
-      color: 'white',
-    }),
-    option: (base: any, state: any) => ({
-      ...base,
-      backgroundColor: state.isFocused ? '#374151' : 'black', // dark hover
-      color: 'white',
-    }),
-    input: (base: any) => ({
-      ...base,
-      color: 'white',
-    }),
-    placeholder: (base: any) => ({
-      ...base,
-      color: '#9CA3AF', // gray-400
-    }),
-  }
+ const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+const customStyles = {
+  control: (base: any) => ({
+    ...base,
+    backgroundColor: isDarkMode ? '6B7280' : '#6B7280', // Tailwind gray-500 = #6B7280
+    color: 'white',
+    borderColor: '#4B5563', // gray-600
+  }),
+  singleValue: (base: any) => ({
+    ...base,
+    color: 'white',
+  }),
+  menu: (base: any) => ({
+    ...base,
+    backgroundColor: isDarkMode ? 'black' : '#6B7280',
+    color: 'white',
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isFocused
+      ? (isDarkMode ? '#374151' : '#9CA3AF') // Dark: gray-700, Light: gray-400
+      : isDarkMode
+      ? 'black'
+      : '#6B7280',
+    color: 'white',
+  }),
+  input: (base: any) => ({
+    ...base,
+    color: 'white',
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    color: 'white', // gray-400
+  }),
+};
+
 
   return (
     <>
@@ -211,7 +219,7 @@ if(success){
               type="date"
                value={selectedDate}
         onChange={(e) => setSelectedDate(e.target.value)}
-              className="bg-black border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
+              className="dark:bg-black border bg-gray-500 border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
             />
 
             <Select
@@ -221,7 +229,7 @@ if(success){
               value={user}
 
               styles={customStyles}
-              className="bg-black text-white w-[390px]"
+              className="dark:bg-black bg-gray-500 text-white w-[390px]"
             />
 
             
@@ -233,7 +241,7 @@ if(success){
               value={selectedStore}
               
               styles={customStyles}
-              className="bg-black text-white w-[180px]"
+              className="dark:bg-black bg-gray-500 text-white w-[180px]"
             />
        
 <div className='flex justify-center items-center border border-gray-800 px-5  cursor-pointer shadow-white hover:shadow-sm'>
@@ -250,8 +258,9 @@ if(success){
   placeholder="  Remarks"
   value={remark}
   onChange={(e) => setRemarks(e.target.value)}
-  className="py-2 bg-black rounded-md text-white border border-white"
-/>
+  className="py-2 dark:bg-black bg-gray-500 rounded-md text-white border border-white placeholder-white"
+ />
+
        {!StoreData?.Seriesnum.Number &&NoSaleNum && <p className='text-md text-red-500'>Unable to process sale. System Waiting for a valid bill number</p>}
 
           </div>
@@ -314,6 +323,7 @@ if(success){
         <div className="flex flex-col mt-3 lg:mt-0 lg:w-[500px] lg:ms-4 items-center ">
           <CurrentOrder />
           <Invoice
+          type={'sale'}
           
             btnProps={{
               btnname: 'Generate Bill',

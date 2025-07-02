@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Invoice, ProductContainer } from '@/components'
-import { Item, OrderItem } from '@/components/products'
+import { Invoice } from '@/components'//ProductContainer
+import { OrderItem } from '@/components/products'//Item, 
 import { PosBaseMemo } from '@/components/products/PosBase'
-import { Button, ErrorText, Input, ItemContainer, Modal, Success } from '@/components/ui'
+import { Button, ErrorText,  ItemContainer, Modal, Success } from '@/components/ui'//Input,
 import { AnimatedAlert } from '@/components/ui/Alert'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import {
@@ -13,7 +13,7 @@ import {
   removeFromReturns,
 } from '@/redux/returnItem'
 import type { PayloadIDs, ReturnItemType } from '@/redux/returnItem'
-import { clearSaleState, fetchSale } from '@/redux/sale'
+import { clearSaleState } from '@/redux/sale'//fetchSale
 import { SalesReturnSchema } from '@/schema'
 import { ApiItem } from '@/utils/types'
 import {  Typography } from '@material-tailwind/react'
@@ -75,7 +75,7 @@ const [customerOptions, setCustomerOptions] = useState<CustomerOption[]>([]); //
 const [ProductData,setProductData]=useState<Items[]>([])
   const returnItems = useAppSelector((state) => state.returnItem.sales)
   const customReturnItems = useAppSelector((state) => state.returnItem.customReturn)
-  const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
+  // const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
   const saleError = useAppSelector((state) => state.sale.error)
 
   const totalAmount = useMemo(
@@ -186,36 +186,44 @@ const handleCustomerChange = (selected: SingleValue<CustomerOption>) => {
     const handleCash = (method: string) => {
     console.log('Payment method:', method)
   }
-  const customStyles = {
-    control: (base: any) => ({
-      ...base,
-      backgroundColor: 'black',
-      color: 'white',
-      borderColor: '#4B5563', // gray-600
-    }),
-    singleValue: (base: any) => ({
-      ...base,
-      color: 'white',
-    }),
-    menu: (base: any) => ({
-      ...base,
-      backgroundColor: 'black',
-      color: 'white',
-    }),
-    option: (base: any, state: any) => ({
-      ...base,
-      backgroundColor: state.isFocused ? '#374151' : 'black', // dark hover
-      color: 'white',
-    }),
-    input: (base: any) => ({
-      ...base,
-      color: 'white',
-    }),
-    placeholder: (base: any) => ({
-      ...base,
-      color: '#9CA3AF', // gray-400
-    }),
-  }
+
+
+   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+const customStyles = {
+  control: (base: any) => ({
+    ...base,
+    backgroundColor: isDarkMode ? '6B7280' : '#6B7280', // Tailwind gray-500 = #6B7280
+    color: 'white',
+    borderColor: '#4B5563', // gray-600
+  }),
+  singleValue: (base: any) => ({
+    ...base,
+    color: 'white',
+  }),
+  menu: (base: any) => ({
+    ...base,
+    backgroundColor: isDarkMode ? 'black' : '#6B7280',
+    color: 'white',
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isFocused
+      ? (isDarkMode ? '#374151' : '#9CA3AF') // Dark: gray-700, Light: gray-400
+      : isDarkMode
+      ? 'black'
+      : '#6B7280',
+    color: 'white',
+  }),
+  input: (base: any) => ({
+    ...base,
+    color: 'white',
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    color: 'white', // gray-400
+  }),
+};
 
 // Fetch is triggered based on selectedCustomer.value
 const { data: Product } = useFetch<ApiResponse>(
@@ -268,7 +276,7 @@ useEffect(() => {
           <div className='flex gap-4 mt-5'>
             <input
               type="date"
-              className="bg-black border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
+              className="dark:bg-black bg-gray-500 border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
             />
         <Select
   options={customerOptions}
@@ -276,7 +284,7 @@ useEffect(() => {
   onChange={handleCustomerChange}
   placeholder="Bill Number"
   styles={customStyles}
-  className="bg-black text-white w-[390px]"
+  className="dark:bg-black bg-gray-500 text-white w-[390px]"
 />
           </div>
            <div className="flex items-center gap-8 mt-5  justify-end">

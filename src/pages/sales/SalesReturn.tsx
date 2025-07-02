@@ -117,7 +117,7 @@ function Sale() {
                     <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
                     <TableBody fetching={fetching}>
                       <>
-                        {response?.data?.Childs?.map((val, index) => {
+                        {response?.data?.Childs?.map((val:any, index:any) => {
                           const isLast = index === response.data!?.Childs.length - 1
                           const classes: string = isLast
                             ? 'p-4'

@@ -38,6 +38,8 @@ function Sale() {
         console.error('Error generating invoice PDF:', error)
       }
     }
+    console.log(setEdit);
+    
 
   return (
     <>

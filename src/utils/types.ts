@@ -106,8 +106,13 @@ export type ApiSoldItem = {
 /**
  * sales response api data type
  */
+type customer_masters = {
+  Name: string
+}
 export type ApiSalesData = {
   CreatedOn: string
+  PaymentMethod: string
+  customer_master: customer_masters
   modifiedOn: string
   PKSaleID: number | string
   Discount: number

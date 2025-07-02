@@ -5,15 +5,19 @@ import { usePagination, useSort } from './useSort'
 import { useAppDispatch, useAppSelector } from '@/config/hooks'
 import { fetchSale } from '@/redux/sale'
 
-export const useGetSales = () => {
+export const useGetSales = (filterData?: any) => {
   const { setSort, setSortType, sort, sortType } = useSort()
   const { limit, page, setLimit, setPage } = usePagination()
   const { fetchData, ...rest } = useApi<{ data?: ApiSalesData[] }>()
 
   useEffect(() => {
-    fetchData(`/sales?sort=${sort}&sortOption=${sortType}&page=${page}&limit=${limit}`)
+    console.log('filterData',filterData);
+    
+    fetchData(`/sales?sort=${sort}&sortOption=${sortType}&page=${page}&limit=${limit}&Sdate=${filterData?.startDate}&Edate=${filterData?.endDate}&Product=${filterData?.range?.value}&customer=${filterData?.customer?.value}`)
+    console.log(`/sales?sort=${sort}&sortOption=${sortType}&page=${page}&limit=${limit}&Sdate=${filterData?.startDate}&Edate=${filterData?.endDate}&Product=${filterData?.range?.value}&customer=${filterData?.customer?.value}`);
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, limit, sortType, sort])
+  }, [page, limit, sortType, sort,filterData])
 
   return { ...rest, setLimit, setPage, setSort, setSortType, sortType, page, limit, sort }
 }

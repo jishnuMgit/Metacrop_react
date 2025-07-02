@@ -1,19 +1,17 @@
-import Spinner from '../Spinner'
+import SaleTableSkeleton from "@/skeletons/SaleTableSkeleton";
 
-function TableBody({ children, fetching }: { children: React.ReactNode; fetching?: boolean }) {
+function TableBody({ children, fetching ,filterData}: { children: React.ReactNode; fetching?: boolean;filterData:any }) {
   return (
     <tbody>
       {fetching ? (
-        <tr>
-          <td>
-            <Spinner className="w-svw" />
-          </td>
-        </tr>
+        <SaleTableSkeleton filterData={filterData} />  // ✅ Render skeleton as multiple <tr> rows
       ) : (
-        <>{children}</>
+        <>
+          {children}
+        </>
       )}
     </tbody>
-  )
+  );
 }
 
-export default TableBody
+export default TableBody;
