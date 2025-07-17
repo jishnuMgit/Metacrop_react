@@ -22,6 +22,8 @@ export const links = {
   ADD_SALES_RETURN: '/sales/add-return',
   SETTINGS: '/settings',
   TEST: '#link',
+  attendance:'/attendance',
+  customers:'/customer/Customer'
 } as const
 
 export const sortOptions = {

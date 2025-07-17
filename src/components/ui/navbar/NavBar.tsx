@@ -1,4 +1,3 @@
-// import { Logo } from '@/components/ui'
 import Li from './Li'
 import { GearIcon } from '@/components/icons'
 import { useState } from 'react'
@@ -19,54 +18,63 @@ import Logo from '../../../assets/images/connectlylogo.png'
 function NavBar() {
   const [show, setShow] = useState(false)
   const [settings, setSettings] = useState(false)
-  const [dropdown, setDropdown] = useState(false)
+  const [dropdownSales, setDropdownSales] = useState(false)
+  const [dropdownManage, setDropdownManage] = useState(false)
 
-  const { refs, floatingStyles, context } = useFloating({
-    open: dropdown,
-    onOpenChange: setDropdown,
+  // Sales Dropdown
+  const {
+    refs: refsSales,
+    floatingStyles: floatingStylesSales,
+    context: contextSales,
+  } = useFloating({
+    open: dropdownSales,
+    onOpenChange: setDropdownSales,
   })
-  const { isMounted, styles } = useTransitionStyles(context, {
-    initial: {
-      opacity: 0,
-      transform: 'scale(0.8)',
-    },
+  const { isMounted: isMountedSales, styles: stylesSales } = useTransitionStyles(contextSales, {
+    initial: { opacity: 0, transform: 'scale(0.8)' },
     close: { opacity: 0, transform: 'scale(0.8)' },
   })
-  const hover = useHover(context, { handleClose: safePolygon(), delay: 100 })
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover])
+  const hoverSales = useHover(contextSales, { handleClose: safePolygon(), delay: 100 })
+  const { getReferenceProps: getRefSales, getFloatingProps: getFloatSales } = useInteractions([
+    hoverSales,
+  ])
 
-  const handleClose = () => {
-    setSettings(false)
-  }
-  const handleClick = () => {
-    setSettings(true)
-  }
+  // Manage Dropdown
+  const {
+    refs: refsManage,
+    floatingStyles: floatingStylesManage,
+    context: contextManage,
+  } = useFloating({
+    open: dropdownManage,
+    onOpenChange: setDropdownManage,
+  })
+  const { isMounted: isMountedManage, styles: stylesManage } = useTransitionStyles(contextManage, {
+    initial: { opacity: 0, transform: 'scale(0.8)' },
+    close: { opacity: 0, transform: 'scale(0.8)' },
+  })
+  const hoverManage = useHover(contextManage, { handleClose: safePolygon(), delay: 100 })
+  const { getReferenceProps: getRefManage, getFloatingProps: getFloatManage } = useInteractions([
+    hoverManage,
+  ])
+
+  const handleClose = () => setSettings(false)
+  const handleClick = () => setSettings(true)
 
   return (
     <>
       <nav className="bg-white border-gray-200 sticky z-[8] top-0 shadow dark:bg-dark-primary-bg">
-        <div className=" flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
-          <Link to={'/'}>
-            {/* <Logo small /> */}
+        <div className="flex flex-wrap items-center justify-between mx-auto md:p-4 p-4">
+          <Link to="/">
             <img src={Logo} alt="logo" className="max-w-28 h-full object-cover" />
           </Link>
 
           <button
-            data-collapse-toggle="navbar-default"
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
-            aria-label="navbar collapse"
-            title="collapse"
-            onClick={() => {
-              setShow(!show)
-            }}
+            onClick={() => setShow(!show)}
           >
-            <span className="sr-only">Open main menu</span>
             <svg
               className="w-5 h-5"
-              aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 17 14"
@@ -80,87 +88,144 @@ function NavBar() {
               />
             </svg>
           </button>
-          <div
-            className={`${!show && 'hidden '} transition-colors w-full md:block md:w-auto `}
-            id="navbar-default"
-          >
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
+
+          <div className={`${!show && 'hidden'} w-full md:block md:w-auto`} id="navbar-default">
+            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
               <Li link={links.HOME}>Home</Li>
-              <Li path="sales">
-                <>
-                  <div className="flex flex-row" ref={refs.setReference} {...getReferenceProps()}>
-                    Sales
-                    <span className="flex items-center">
-                      <ChevronDownIcon
-                        strokeWidth={4}
-                        className={`h-4 w-5 transition-transform ${dropdown ? 'rotate-180' : ''}`}
-                      />
-                    </span>
-                  </div>
-                </>
+
+              {/* Manage Dropdown */}
+              <Li path="Manage">
+                <div className="flex flex-row" ref={refsManage.setReference} {...getRefManage()}>
+                  Manage
+                  <ChevronDownIcon
+                    strokeWidth={4}
+                    className={`h-4 w-5 transition-transform ${
+                      dropdownManage ? 'rotate-180' : ''
+                    }`}
+                  />
+                </div>
               </Li>
-              {/* <Li>Procuremnt</Li>
-              <Li>Finance</Li>
-              <Li>Inventory</Li>
-              <Li>Analytics</Li> */}
+
+              {/* Sales Dropdown */}
+              <Li path="sales">
+                <div className="flex flex-row" ref={refsSales.setReference} {...getRefSales()}>
+                  Sales
+                  <ChevronDownIcon
+                    strokeWidth={4}
+                    className={`h-4 w-5 transition-transform ${
+                      dropdownSales ? 'rotate-180' : ''
+                    }`}
+                  />
+                </div>
+              </Li>
+
+              {/* Settings Icon */}
               <Li className="flex items-center">
                 <GearIcon onClick={handleClick} />
               </Li>
 
-              {/* drop down for sales */}
-              {isMounted && (
-                <div
-                  onClick={() => setDropdown(false)}
-                  ref={refs.setFloating}
-                  {...getFloatingProps()}
-                  style={floatingStyles}
-                  className=""
-                >
-                  <div
-                    className="bg-white dark:bg-black dark:border-none border border-solid min-w-32 shadow"
-                    style={{ ...styles }}
-                  >
-                    <List>
-                      <Li
-                        dropdown
-                        path="pos"
-                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
-                        link={links.POS}
-                      >
-                        Pos
-                      </Li>
-                      <Li
-                        dropdown
-                        path="list"
-                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex "
-                        link={links.SALES_LIST}
-                      >
-                        Sales List
-                      </Li>
-                      <Li
-                        dropdown
-                        path="return"
-                        link={links.SALES_RETURN_LIST}
-                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
-                      >
-                        Sales Return
-                      </Li>
-                      <Li
-                        dropdown
-                        path="add-return"
-                        link={links.ADD_SALES_RETURN}
-                        className="hover:bg-gray-100 dark:hover:bg-dark-primary-bg px-4 py-2 w-full flex"
-                      >
-                        Add Sales Return
-                      </Li>
-                    </List>
-                  </div>
-                </div>
-              )}
+              {/* Sales Dropdown Menu */}
+{/* Sales Dropdown Menu */}
+{isMountedSales && (
+  <div
+    onClick={() => setDropdownSales(false)}
+    ref={refsSales.setFloating}
+    {...getFloatSales()}
+    style={floatingStylesSales}
+  >
+    <div
+      className="bg-white dark:bg-black dark:border-none border border-solid w-fit min-w-max shadow rounded-md py-2"
+      style={{ ...stylesSales }}
+    >
+      <ul className="w-full text-sm font-medium text-gray-700 dark:text-gray-200">
+        <li>
+          <Link
+            to={links.POS}
+            className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-dark-primary-bg whitespace-nowrap"
+          >
+            POS
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={links.SALES_LIST}
+            className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-dark-primary-bg whitespace-nowrap"
+          >
+            Sales List
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={links.SALES_RETURN_LIST}
+            className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-dark-primary-bg whitespace-nowrap"
+          >
+            Sales Return
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={links.ADD_SALES_RETURN}
+            className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-dark-primary-bg whitespace-nowrap"
+          >
+            Add Sales Return
+          </Link>
+        </li>
+      </ul>
+    </div>
+  </div>
+)}
+
+{/* Manage Dropdown Menu */}
+{isMountedManage && (
+  <div
+    onClick={() => setDropdownManage(false)}
+    ref={refsManage.setFloating}
+    {...getFloatManage()}
+    style={floatingStylesManage}
+  >
+    <div
+      className="bg-white dark:bg-black border border-gray-200 dark:border-none shadow rounded-md py-2 w-fit min-w-max"
+      style={{ ...stylesManage }}
+    >
+      <ul className="text-sm font-medium text-gray-700 dark:text-gray-200">
+        <li>
+          <Link
+            to={links.customers}
+            className="block px-4 py-2 w-full whitespace-nowrap rounded hover:bg-gray-100 hover:translate-x-1 hover:text-blue-600 dark:hover:bg-dark-primary-bg transition-all duration-150"
+          >
+           Customers 
+          </Link>
+        </li>
+
+          <li>
+          <Link
+            to={links.attendance}
+            className="block px-4 py-2 w-full whitespace-nowrap rounded hover:bg-gray-100 hover:translate-x-1 hover:text-blue-600 dark:hover:bg-dark-primary-bg transition-all duration-150"
+          >
+            Employees
+          </Link>
+        </li>
+
+         {/* <li>
+          <Link
+            to={links.attendance}
+            className="block px-4 py-2 w-full whitespace-nowrap rounded hover:bg-gray-100 hover:translate-x-1 hover:text-blue-600 dark:hover:bg-dark-primary-bg transition-all duration-150"
+          >
+            Attendance
+          </Link>
+        </li> */}
+        {/* Add more manage links here if needed */}
+      </ul>
+    </div>
+  </div>
+)}
+
+
             </ul>
           </div>
         </div>
       </nav>
+
       {<Settings isOpen={settings} handleClose={handleClose} />}
     </>
   )

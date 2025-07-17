@@ -12,6 +12,9 @@ import {
   SalesReturn,
   Pos,
 } from '@/pages/sales'
+import path from 'path'
+import Attendance from '@/pages/sales/Attendance'
+import Customer from '@/pages/customer/Customer'
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +46,15 @@ export const router = createBrowserRouter([
             ],
             errorElement: <Error />,
           },
+          {
+            path:"attendance",
+            Component:Attendance
+          },
+          {
+            path:"/customer/Customer",
+            Component:Customer
+          }
+
         ],
       },
     ],

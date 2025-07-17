@@ -285,7 +285,7 @@ useEffect(() => {
   placeholder="Bill Number"
   styles={customStyles}
   className="dark:bg-black bg-gray-500 text-white w-[390px]"
-/>
+/> 
           </div>
            <div className="flex items-center gap-8 mt-5  justify-end">
             

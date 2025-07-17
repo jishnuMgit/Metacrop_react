@@ -1,7 +1,7 @@
 import Env from '@/config/env';
 import { ApexChart } from '@/data/PieChart';
 import PiecartSkeleton from '@/skeletons/PiecartSkeleton';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const PieChart = () => {
   const [piedata, setpiedata] = useState<any>();
