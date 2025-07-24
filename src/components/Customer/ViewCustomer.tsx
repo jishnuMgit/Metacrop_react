@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CustomerTableSkeleton  from '../../skeletons/customerTableSkeleton'
+
 import {
   Card,
   CardBody,
@@ -11,100 +13,110 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-const dummyCustomers = [
-  {
-    name: "John Doe",
-    email: "john@example.com",
-    countryCode: "+968",
-    phone: "91234567",
-  },
-  {
-    name: "Sara Ahmed",
-    email: "sara@example.com",
-    countryCode: "+968",
-    phone: "92345678",
-    address: "Salalah, Oman",
-  },
-  {
-    name: "Ali Hassan",
-    email: "ali@example.com",
-    countryCode: "+968",
-    phone: "93456789",
-  },
-  {
-    name: "Fatima Noor",
-    email: "fatima@example.com",
-    countryCode: "+968",
-    phone: "94567890",
-  },
-  {
-    name: "Ahmed Said",
-    email: "ahmed@example.com",
-    countryCode: "+968",
-    phone: "95678901",
-    address: "Ibri, Oman",
-  },
-  {
-    name: "Layla Yousuf",
-    email: "layla@example.com",
-    countryCode: "+968",
-    phone: "96789012",
-  },
-];
+interface DataInterface {
+  id: number;
+  name: string;
+  email: string;
+  countryCode: string;
+  phone: string;
+}
 
 export default function ViewCustomer() {
   const [open, setOpen] = useState(false);
-  const [editCustomer, setEditCustomer] = useState<any>(null);
+  const [editCustomer, setEditCustomer] = useState<DataInterface | null>(null);
+  const [Data, setData] = useState<DataInterface[]>([]);
 
-  const handleEdit = (customer: any) => {
+  const handleEdit = (customer: DataInterface) => {
     setEditCustomer({ ...customer });
     setOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!editCustomer) return;
+
     const fullPhone = `${editCustomer.countryCode}${editCustomer.phone}`;
-    console.log("Updated Customer:", {
+    const payload = {
       ...editCustomer,
       fullPhone,
-    });
-    setOpen(false);
+    };
+
+    try {
+      await fetch(`http://localhost:3001/api/v1/customer/updatecustomer/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+
+      await handleFetch();
+      setOpen(false);
+    } catch (err) {
+      console.error("Failed to update customer", err);
+    }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditCustomer((prev: any) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setEditCustomer((prev) => prev ? { ...prev, [name]: value } : null);
   };
+
+  const handleFetch = async () => {
+    try {
+      const Req = await fetch('http://localhost:3001/api/v1/customer/GetCustomer', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+
+      const res = await Req.json();
+
+      const normalized = res.data.map((item: any) => ({
+        id: item.PKCustomerID,
+        name: item.Name,
+        email: item.Email,
+        countryCode: item.country_code,
+        phone: item.Phone,
+      }));
+
+      setData(normalized);
+    } catch (error) {
+      console.error("Fetch failed", error);
+    }
+  };
+
+  useEffect(() => {
+    handleFetch();
+  }, []);
 
   return (
-    <div className="p-6">
-      <Typography variant="h5" className="mb-4 text-blue-gray-700">
+    <div className="w-full h-screen">
+      <div className="p-6 w-full h-screen">
+      <Typography variant="h5" className="mb-4 text-blue-gray-700 dark:text-white">
         Customer List
       </Typography>
+{Data.length==0 && <CustomerTableSkeleton />}
+
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {dummyCustomers.map((customer, index) => (
-          <Card key={index} className="shadow-md border border-blue-gray-100">
+
+
+        {Data.map((customer, index) => (
+          <Card
+            key={index}
+            className="shadow-md border border-blue-gray-100 dark:bg-dark-primary-bg dark:border-gray-800"
+          >
             <CardBody>
-              <Typography variant="h6" color="blue-gray">
-                {customer.name}
+              <Typography variant="h6" className="text-blue-gray-900 dark:text-white">
+                {customer?.name}
               </Typography>
-              <Typography variant="small" className="text-gray-700">
-                📧 {customer.email}
+              <Typography variant="small" className="text-gray-700 dark:text-gray-300">
+                📧 {customer?.email}
               </Typography>
-              <Typography variant="small" className="text-gray-700">
+              <Typography variant="small" className="text-gray-700 dark:text-gray-300">
                 📞 {customer.countryCode} {customer.phone}
               </Typography>
 
               <div className="mt-4 flex justify-end">
-                <Button
-                  size="sm"
-                  color="blue"
-                  onClick={() => handleEdit(customer)}
-                >
+                <Button size="sm" color="blue" onClick={() => handleEdit(customer)}>
                   Edit
                 </Button>
               </div>
@@ -113,16 +125,19 @@ export default function ViewCustomer() {
         ))}
       </div>
 
-      {/* Modal */}
+      {/* Edit Modal */}
       <Dialog open={open} handler={() => setOpen(false)} size="sm">
-        <DialogHeader>Edit Customer</DialogHeader>
-        <DialogBody className="grid gap-4">
+        <DialogHeader className="dark:bg-dark-primary-bg dark:text-white">
+          Edit Customer
+        </DialogHeader>
+        <DialogBody className="grid gap-4 dark:bg-dark-primary-bg">
           <Input
             label="Name"
             name="name"
             value={editCustomer?.name || ""}
             onChange={handleInputChange}
             crossOrigin={undefined}
+            className="dark:text-white"
           />
           <Input
             label="Email"
@@ -130,6 +145,7 @@ export default function ViewCustomer() {
             value={editCustomer?.email || ""}
             onChange={handleInputChange}
             crossOrigin={undefined}
+            className="dark:text-white"
           />
           <Input
             label="Country Code"
@@ -137,6 +153,7 @@ export default function ViewCustomer() {
             value={editCustomer?.countryCode || ""}
             onChange={handleInputChange}
             crossOrigin={undefined}
+            className="dark:text-white"
           />
           <Input
             label="Phone Number"
@@ -144,9 +161,10 @@ export default function ViewCustomer() {
             value={editCustomer?.phone || ""}
             onChange={handleInputChange}
             crossOrigin={undefined}
+            className="dark:text-white"
           />
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter className="dark:bg-dark-primary-bg">
           <Button variant="text" onClick={() => setOpen(false)} className="mr-2">
             Cancel
           </Button>
@@ -155,6 +173,7 @@ export default function ViewCustomer() {
           </Button>
         </DialogFooter>
       </Dialog>
+    </div>
     </div>
   );
 }

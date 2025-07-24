@@ -14,35 +14,44 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const AttendanceTable = () => {
-  const dummyData = Array.from({ length: 45 }, (_, i) => ({
-    id: i + 1,
-    employee: `Employee ${i % 5 + 1}`,
-    position: ["Manager", "Sales", "Support"][i % 3],
-    date: new Date(2024, 6, (i % 30) + 1),
-    status: ["Present", "Absent", "Leave", "Half day"][i % 4],
-  }));
+  const today = new Date();
+  const defaultStart = new Date(today.getFullYear(), today.getMonth(), 1);
+  const defaultEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-  const employeeOptions = [...new Set(dummyData.map((d) => d.employee))].map(
-    (emp) => ({ value: emp, label: emp })
-  );
-  const positionOptions = [...new Set(dummyData.map((d) => d.position))].map(
-    (pos) => ({ value: pos, label: pos })
-  );
-
-  const [startDate, setStartDate] = useState(new Date(2024, 6, 1));
-  const [endDate, setEndDate] = useState(new Date(2024, 6, 31));
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [selectedPosition, setSelectedPosition] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(new Date(2024, 6)); // July
-  const [filteredData, setFilteredData] = useState(dummyData);
+  const [rawData, setRawData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [startDate, setStartDate] = useState(defaultStart);
+  const [endDate, setEndDate] = useState(defaultEnd);
+  const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
+  const [selectedPosition, setSelectedPosition] = useState<any>(null);
+  const [selectedMonth, setSelectedMonth] = useState(today);
   const [currentPage, setCurrentPage] = useState(1);
   const [openFilter, setOpenFilter] = useState(false);
 
   const rowsPerPage = 10;
 
+  // ✅ Fetch data
   useEffect(() => {
-    const filtered = dummyData.filter((item) => {
-      const matchDate = item.date >= startDate && item.date <= endDate;
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/v1/staff/GetAllAttendanceRecords", {
+          credentials: "include",
+        });
+        const data = await res.json();
+        setRawData(data);
+        setFilteredData(data);
+      } catch (error) {
+        console.error("Error fetching attendance records", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // ✅ Apply filters
+  useEffect(() => {
+    const filtered = rawData.filter((item) => {
+      const itemDate = new Date(item.date);
+      const matchDate = itemDate >= startDate && itemDate <= endDate;
       const matchEmployee = selectedEmployee
         ? item.employee === selectedEmployee.value
         : true;
@@ -53,7 +62,17 @@ const AttendanceTable = () => {
     });
     setFilteredData(filtered);
     setCurrentPage(1);
-  }, [startDate, endDate, selectedEmployee, selectedPosition]);
+  }, [startDate, endDate, selectedEmployee, selectedPosition, rawData]);
+
+  const employeeOptions = [...new Set(rawData.map((d) => d.employee))].map((emp) => ({
+    value: emp,
+    label: emp,
+  }));
+
+  const positionOptions = [...new Set(rawData.map((d) => d.position))].map((pos) => ({
+    value: pos,
+    label: pos,
+  }));
 
   const currentPageData = filteredData.slice(
     (currentPage - 1) * rowsPerPage,
@@ -119,7 +138,7 @@ const AttendanceTable = () => {
               <label className="text-sm">Start Date</label>
               <DatePicker
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => setStartDate(date!)}
                 selectsStart
                 startDate={startDate}
                 endDate={endDate}
@@ -130,7 +149,7 @@ const AttendanceTable = () => {
               <label className="text-sm">End Date</label>
               <DatePicker
                 selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                onChange={(date) => setEndDate(date!)}
                 selectsEnd
                 startDate={startDate}
                 endDate={endDate}
@@ -144,9 +163,9 @@ const AttendanceTable = () => {
             <DatePicker
               selected={selectedMonth}
               onChange={(date) => {
-                setSelectedMonth(date);
-                const start = new Date(date.getFullYear(), date.getMonth(), 1);
-                const end = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+                const start = new Date(date!.getFullYear(), date!.getMonth(), 1);
+                const end = new Date(date!.getFullYear(), date!.getMonth() + 1, 0);
+                setSelectedMonth(date!);
                 setStartDate(start);
                 setEndDate(end);
               }}
@@ -164,10 +183,10 @@ const AttendanceTable = () => {
             onClick={() => {
               setSelectedEmployee(null);
               setSelectedPosition(null);
-              setStartDate(new Date(2024, 6, 1));
-              setEndDate(new Date(2024, 6, 31));
-              setSelectedMonth(new Date(2024, 6));
-              setFilteredData(dummyData);
+              setStartDate(defaultStart);
+              setEndDate(defaultEnd);
+              setSelectedMonth(today);
+              setFilteredData(rawData);
               setOpenFilter(false);
             }}
           >
@@ -194,12 +213,10 @@ const AttendanceTable = () => {
           <tbody>
             {currentPageData.map((item, i) => (
               <tr key={item.id} className="text-gray-800 dark:text-gray-100">
-                <td className="border p-2">
-                  {i + 1 + (currentPage - 1) * rowsPerPage}
-                </td>
+                <td className="border p-2">{i + 1 + (currentPage - 1) * rowsPerPage}</td>
                 <td className="border p-2">{item.employee}</td>
                 <td className="border p-2">{item.position}</td>
-                <td className="border p-2">{item.date.toDateString()}</td>
+                <td className="border p-2">{new Date(item.date).toDateString()}</td>
                 <td className="border p-2">{item.status}</td>
               </tr>
             ))}

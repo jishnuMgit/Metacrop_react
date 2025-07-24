@@ -10,11 +10,11 @@ import {
 
 interface CustomerForm {
   Name: string;
-  FKCmpID: number | string;
+  // FKCmpID: number | string;
   country_code: string;
   Phone: string;
   Email: string;
-  CreatedBy: number | string;
+  // CreatedBy: number | string;
   // ModifiedBy: number | string;
   // DelFlag: number;
 }
@@ -22,15 +22,16 @@ interface CustomerForm {
 export default function AddCustomerPage() {
   const [formData, setFormData] = useState<CustomerForm>({
     Name: "",
-    FKCmpID: "",
+    // FKCmpID: "",
     country_code: "",
     Phone: "",
     Email: "",
-    CreatedBy: "",
+    // CreatedBy: "",
     // ModifiedBy: "",
     // DelFlag: 0,
   });
 
+  //http://localhost:3001/api/v1/customer/register
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>
   ): void => {
@@ -41,8 +42,24 @@ export default function AddCustomerPage() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+      try {
+        const Req=await fetch('http://localhost:3001/api/v1/customer/register',{
+          method:'post',
+          headers: {
+    'Content-Type': 'application/json' // 👈 Needed for JSON body
+  },
+          body:JSON.stringify(formData),
+          credentials:'include'
+        })
+        const res=await Req.json()
+        console.log(res);
+        window.location.reload()
+
+      } catch (error) {
+        throw new Error()
+      }
     console.log("Form Submitted:", formData);
     // You can now send this data to your backend via Axios or Fetch
   };
@@ -69,12 +86,12 @@ export default function AddCustomerPage() {
               value={formData.Name}
               onChange={handleChange}
               required crossOrigin={undefined}            />
-            <Input
+            {/* <Input
               label="Company ID"
               name="FKCmpID"
               value={formData.FKCmpID}
               onChange={handleChange}
-              required crossOrigin={undefined}            />
+              required crossOrigin={undefined}            /> */}
             <Input
               label="Country Code"
               name="country_code"
@@ -94,11 +111,11 @@ export default function AddCustomerPage() {
               value={formData.Email}
               onChange={handleChange}
               required crossOrigin={undefined}            />
-            <Input
+            {/* <Input
               label="Created By"
               name="CreatedBy"
               value={formData.CreatedBy}
-              onChange={handleChange} crossOrigin={undefined}            />
+              onChange={handleChange} crossOrigin={undefined}            /> */}
             {/* <Input
               label="Modified By"
               name="ModifiedBy"

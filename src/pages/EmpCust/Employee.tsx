@@ -40,11 +40,33 @@ export default function Employee() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = async(e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    console.log("Employee Submitted:", formData);
-    // Send to backend API
+      try {
+        const Req=await fetch('http://localhost:3001/api/v1/staff/register',{
+          method:'post',
+          headers: {
+    'Content-Type': 'application/json' // 👈 Needed for JSON body
+  },
+          body:JSON.stringify(formData),
+          credentials:'include'
+        })
+        const res=await Req.json()
+        console.log(res);
+        window.location.reload()
+
+      } catch (error) {
+        throw new Error()
+      }
+    console.log("Form Submitted:", formData);
+    // You can now send this data to your backend via Axios or Fetch
   };
+
+  // const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  //   e.preventDefault();
+  //   console.log("Employee Submitted:", formData);
+  //   // Send to backend API
+  // };
 
   return (
     <div className="p-6">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -7,44 +7,89 @@ import {
   Checkbox,
 } from "@material-tailwind/react";
 
-const employees = [
-  { name: "Employee 1", position: "Manager" },
-  { name: "Employee 2", position: "Sales" },
-  { name: "Employee 3", position: "Support" },
-  { name: "Employee 4", position: "Sales" },
-  { name: "Employee 5", position: "Support" },
-];
+interface AttendanceEntry {
+  staffId: number;
+  employee: string;
+  position: string;
+  date1: Date;
+  morning1: boolean;
+  afternoon1: boolean;
+  isLeave: boolean;
+}
 
-const EnterAttendancePage = () => {
+const EnterAttendancePage: React.FC = () => {
   const today = new Date();
+  const [attendanceData, setAttendanceData] = useState<AttendanceEntry[]>([]);
 
-  const [attendanceData, setAttendanceData] = useState(
-    employees.map((emp) => ({
-      employee: emp.name,
-      position: emp.position,
-      date1: today,
-      morning1: false,
-      afternoon1: false,
-      
-      Leave: false,
-    }))
-  );
+  // ✅ Load attendance from backend
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/v1/staff/GetAllStaffAttendance", {
+          method: "GET",
+          credentials: "include", // for cookie/session
+        });
 
-  const handleCheckboxChange = (index: number, field: string) => {
+        const data = await res.json();
+
+        const formatted: AttendanceEntry[] = data.map((att: any) => ({
+          staffId: att.staffId,
+          employee: `${att.staff.FirstName} ${att.staff.LastName}`,
+          position: att.staff.job,
+          date1: new Date(att.date),
+          morning1: att.morning,
+          afternoon1: att.afternoon,
+          isLeave: att.leave,
+        }));
+
+        setAttendanceData(formatted);
+      } catch (err) {
+        console.error("Fetch attendance error", err);
+      }
+    };
+
+    fetchAttendance();
+  }, []);
+
+  // ✅ Toggle checkbox logic
+  const handleCheckboxChange = (index: number, field: keyof AttendanceEntry) => {
     const updated = [...attendanceData];
-    updated[index][field] = !updated[index][field];
+
+    if (field === "isLeave") {
+      updated[index].isLeave = !updated[index].isLeave;
+      if (updated[index].isLeave) {
+        updated[index].morning1 = false;
+        updated[index].afternoon1 = false;
+      }
+    } else if (field === "morning1" || field === "afternoon1") {
+      updated[index][field] = !updated[index][field];
+      if (updated[index].morning1 || updated[index].afternoon1) {
+        updated[index].isLeave = false;
+      }
+    }
+
     setAttendanceData(updated);
   };
 
-  const handleDateChange = (index: number, field: string, date: Date) => {
-    const updated = [...attendanceData];
-    updated[index][field] = date;
-    setAttendanceData(updated);
-  };
+  // ✅ Submit to backend
+  const handleSubmit = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/api/v1/staff/UpdateOrCreate", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(attendanceData),
+      });
 
-  const handleSubmit = () => {
-    console.log("Submitted Attendance:", attendanceData);
-    // You can send this to backend via fetch/axios
+      if (!res.ok) throw new Error("Failed to save attendance");
+
+      alert("Attendance submitted successfully!");
+    } catch (err) {
+      console.error("Submit error", err);
+      alert("Something went wrong while submitting.");
+    }
   };
 
   return (
@@ -58,11 +103,10 @@ const EnterAttendancePage = () => {
           <tr>
             <th className="border p-2">Employee</th>
             <th className="border p-2">Position</th>
-            <th className="border p-2">Date 1</th>
+            <th className="border p-2">Date</th>
             <th className="border p-2">Morning</th>
             <th className="border p-2">Afternoon</th>
             <th className="border p-2">Leave</th>
-       
           </tr>
         </thead>
         <tbody>
@@ -70,12 +114,12 @@ const EnterAttendancePage = () => {
             <tr key={index} className="text-center">
               <td className="border p-2">{entry.employee}</td>
               <td className="border p-2">{entry.position}</td>
-
               <td className="border p-2">
                 <DatePicker
                   selected={entry.date1}
-                  onChange={(date) => handleDateChange(index, "date1", date!)}
-                  className="border rounded px-2 py-1 w-32"
+                  onChange={() => {}}
+                  className="border rounded px-2 py-1 w-32 bg-gray-100 cursor-not-allowed"
+                  readOnly
                 />
               </td>
               <td className="border p-2">
@@ -92,12 +136,10 @@ const EnterAttendancePage = () => {
                   crossOrigin={undefined}
                 />
               </td>
-
-              
               <td className="border p-2">
                 <Checkbox
-                  checked={entry.Leave}
-                  onChange={() => handleCheckboxChange(index, "Leave")}
+                  checked={entry.isLeave}
+                  onChange={() => handleCheckboxChange(index, "isLeave")}
                   crossOrigin={undefined}
                 />
               </td>
