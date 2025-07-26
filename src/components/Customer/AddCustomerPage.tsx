@@ -7,6 +7,8 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { CreateAxiosDefaults } from "useipa";
+import Env from "@/config/env";
 
 interface CustomerForm {
   Name: string;
@@ -14,24 +16,35 @@ interface CustomerForm {
   country_code: string;
   Phone: string;
   Email: string;
+  Address:string;
+      VatNo:string
   // CreatedBy: number | string;
   // ModifiedBy: number | string;
   // DelFlag: number;
 }
 
+
 export default function AddCustomerPage() {
+
+
   const [formData, setFormData] = useState<CustomerForm>({
     Name: "",
     // FKCmpID: "",
     country_code: "",
     Phone: "",
     Email: "",
+    	Address:"",
+      VatNo:""
+
     // CreatedBy: "",
     // ModifiedBy: "",
     // DelFlag: 0,
   });
-
-  //http://localhost:3001/api/v1/customer/register
+const client: CreateAxiosDefaults= {
+    baseURL: Env.VITE_BASE_URL,
+    withCredentials: true,
+  }
+  
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>
   ): void => {
@@ -45,7 +58,7 @@ export default function AddCustomerPage() {
   const handleSubmit = async(e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
       try {
-        const Req=await fetch('http://localhost:3001/api/v1/customer/register',{
+        const Req=await fetch(`${client?.baseURL}/customer/register`,{
           method:'post',
           headers: {
     'Content-Type': 'application/json' // 👈 Needed for JSON body
@@ -93,13 +106,14 @@ export default function AddCustomerPage() {
               onChange={handleChange}
               required crossOrigin={undefined}            /> */}
             <Input
-              label="Country Code"
+              label="Country Code Eg: 968"
               name="country_code"
               value={formData.country_code}
               onChange={handleChange}
               required crossOrigin={undefined}            />
             <Input
               label="Phone"
+            
               name="Phone"
               value={formData.Phone}
               onChange={handleChange}
@@ -111,24 +125,28 @@ export default function AddCustomerPage() {
               value={formData.Email}
               onChange={handleChange}
               required crossOrigin={undefined}            />
-            {/* <Input
-              label="Created By"
-              name="CreatedBy"
-              value={formData.CreatedBy}
-              onChange={handleChange} crossOrigin={undefined}            /> */}
-            {/* <Input
-              label="Modified By"
-              name="ModifiedBy"
-              value={formData.ModifiedBy}
+                <Input
+              label="Value added tax No"
+              name="VatNo"
+              value={formData.VatNo}
               onChange={handleChange}
-            />
-            <Input
-              label="Delete Flag"
-              type="number"
-              name="DelFlag"
-              value={formData.DelFlag.toString()}
-              onChange={handleChange}
-            /> */}
+              required crossOrigin={undefined}            />
+            
+<div>
+  <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-white">
+    Address
+  </label>
+  <textarea
+    name="Address"
+    value={formData.Address}
+    onChange={(e) =>
+      setFormData((prev) => ({ ...prev, Address: e.target.value }))
+    }
+    required
+    rows={4}
+    className="w-full rounded-md border border-gray-300 dark:border-gray-600 p-2 dark:bg-dark-primary-bg dark:text-white"
+  />
+</div>
 
             <div className="col-span-1 md:col-span-2 flex justify-end">
               <Button type="submit" color="blue">

@@ -6,6 +6,8 @@ import {
   Button,
   Checkbox,
 } from "@material-tailwind/react";
+import { CreateAxiosDefaults } from "useipa";
+import Env from "@/config/env";
 
 interface AttendanceEntry {
   staffId: number;
@@ -17,15 +19,19 @@ interface AttendanceEntry {
   isLeave: boolean;
 }
 
+const client: CreateAxiosDefaults = {
+    baseURL: Env.VITE_BASE_URL,
+    withCredentials: true,
+  }
 const EnterAttendancePage: React.FC = () => {
-  const today = new Date();
+  // const today = new Date();
   const [attendanceData, setAttendanceData] = useState<AttendanceEntry[]>([]);
 
   // ✅ Load attendance from backend
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/v1/staff/GetAllStaffAttendance", {
+        const res = await fetch(`${client?.baseURL}/staff/GetAllStaffAttendance`, {
           method: "GET",
           credentials: "include", // for cookie/session
         });
@@ -74,7 +80,7 @@ const EnterAttendancePage: React.FC = () => {
   // ✅ Submit to backend
   const handleSubmit = async () => {
     try {
-      const res = await fetch("http://localhost:3001/api/v1/staff/UpdateOrCreate", {
+      const res = await fetch(`${client?.baseURL}/staff/UpdateOrCreate`, {
         method: "POST",
         credentials: "include",
         headers: {

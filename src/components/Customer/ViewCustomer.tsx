@@ -12,6 +12,8 @@ import {
   DialogFooter,
   Input,
 } from "@material-tailwind/react";
+import { CreateAxiosDefaults } from "useipa";
+import Env from "@/config/env";
 
 interface DataInterface {
   id: number;
@@ -30,6 +32,10 @@ export default function ViewCustomer() {
     setEditCustomer({ ...customer });
     setOpen(true);
   };
+  const client: CreateAxiosDefaults= {
+      baseURL: Env.VITE_BASE_URL,
+      withCredentials: true,
+    }
 
   const handleSave = async () => {
     if (!editCustomer) return;
@@ -40,8 +46,9 @@ export default function ViewCustomer() {
       fullPhone,
     };
 
+
     try {
-      await fetch(`http://localhost:3001/api/v1/customer/updatecustomer/`, {
+      await fetch(`${client?.baseURL}/customer/updatecustomer/`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -62,7 +69,7 @@ export default function ViewCustomer() {
 
   const handleFetch = async () => {
     try {
-      const Req = await fetch('http://localhost:3001/api/v1/customer/GetCustomer', {
+      const Req = await fetch(`${client?.baseURL}/customer/GetCustomer`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
