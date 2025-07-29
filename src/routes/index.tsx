@@ -12,7 +12,7 @@ import {
   SalesReturn,
   Pos,
 } from '@/pages/sales'
-import path from 'path'
+// import path from 'path'
 import Attendance from '@/pages/sales/Attendance'
 import Customer from '@/pages/customer/Customer'
 

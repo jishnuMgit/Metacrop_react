@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { ApexChart } from "@/data/PieChart";
+import { CreateAxiosDefaults } from "useipa";
+import Env from "@/config/env";
 
+
+const client: CreateAxiosDefaults= {
+    baseURL: Env.VITE_BASE_URL,
+    withCredentials: true,
+  }
 const ShowAttendancePie = () => {
   const [chartData, setChartData] = useState<
     { label: string; value: number }[]
@@ -9,7 +16,7 @@ const ShowAttendancePie = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/v1/staff/GetAttendanceSummary", {
+        const res = await fetch(`${client?.baseURL}/staff/GetAttendanceSummary`, {
           credentials: "include",
         });
         const data = await res.json();

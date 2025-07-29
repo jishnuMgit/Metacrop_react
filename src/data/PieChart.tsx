@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import {
   Card,
@@ -7,15 +7,26 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
-export const ApexChart = ({ data = [] ,description}) => {
+// ✅ Define the prop type
+type ChartItem = {
+  label: string;
+  value: number;
+};
+
+interface ApexChartProps {
+  data: ChartItem[];
+  description?: string;
+}
+
+export const ApexChart: React.FC<ApexChartProps> = ({ data = [], description }) => {
   const [state, setState] = useState({
-    series: [],
+    series: [] as number[],
     options: {
       chart: {
         width: 380,
-        type: "pie",
+        type: "pie" as const,
       },
-      labels: [],
+      labels: [] as string[],
       responsive: [
         {
           breakpoint: 480,
@@ -24,7 +35,7 @@ export const ApexChart = ({ data = [] ,description}) => {
               width: 200,
             },
             legend: {
-              position: "bottom",
+              position: "bottom" as const,
             },
           },
         },
@@ -32,20 +43,19 @@ export const ApexChart = ({ data = [] ,description}) => {
     },
   });
 
-useEffect(() => {
-  if (data && data.length > 0) {
-    setState({
-      series: data.map((item) =>
-        typeof item.value === "number" ? Number(item.value.toFixed(2)) : 0
-      ),
-      options: {
-        ...state.options,
-        labels: data.map((item) => item.label ?? "Unknown"),
-      },
-    });
-  }
-}, [data]);
-
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setState({
+        series: data.map((item) =>
+          typeof item.value === "number" ? Number(item.value.toFixed(2)) : 0
+        ),
+        options: {
+          ...state.options,
+          labels: data.map((item) => item.label ?? "Unknown"),
+        },
+      });
+    }
+  }, [data]);
 
   return (
     <Card className="border border-blue-gray-100 shadow-sm dark:bg-dark-primary-bg dark:border-none">

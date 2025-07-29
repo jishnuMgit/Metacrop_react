@@ -110,7 +110,7 @@ type OrderItemProps = {
 
 function OrderItem({
   item,
-  button,
+
   minusBtn,
   plusBtn,
   delBtnHandler,

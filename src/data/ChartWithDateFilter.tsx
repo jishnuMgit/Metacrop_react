@@ -35,7 +35,7 @@ const ChartWithDateFilter: React.FC<ChartWithDateFilterProps> = ({ chartData }) 
           selectsEnd
           startDate={startDate}
           endDate={endDate}
-          minDate={startDate}
+          // minDate={startDate}
           placeholderText="End Date"
           className="border p-2 rounded"
         />

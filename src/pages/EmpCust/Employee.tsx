@@ -8,6 +8,8 @@ import {
   Typography,
   Textarea,
 } from "@material-tailwind/react";
+import { CreateAxiosDefaults } from "useipa";
+import Env from "@/config/env";
 
 interface EmployeeForm {
   FirstName: string;
@@ -29,6 +31,10 @@ export default function Employee() {
     Address: "",
     job: "",
   });
+  const client: CreateAxiosDefaults= {
+        baseURL: Env.VITE_BASE_URL,
+        withCredentials: true,
+      }
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -43,7 +49,7 @@ export default function Employee() {
     const handleSubmit = async(e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
       try {
-        const Req=await fetch('http://localhost:3001/api/v1/staff/register',{
+        const Req=await fetch(`${client?.baseURL}/staff/register`,{
           method:'post',
           headers: {
     'Content-Type': 'application/json' // 👈 Needed for JSON body

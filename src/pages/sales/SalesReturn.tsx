@@ -98,7 +98,7 @@ function Sale() {
                   </Typography>
                 </div>
                 <div className="mb-5 flex flex-col  ">
-                  {createInvoiceList(SALES_RETURN_INVOICE, createReturnInvoice(response?.data?.items!))?.map(
+                  {createInvoiceList(SALES_RETURN_INVOICE, createReturnInvoice(response?.data?.Childs ?? []))?.map(
                     (val, index) => (
                       <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
                     )
@@ -115,7 +115,7 @@ function Sale() {
                 <>
                   <TableComponent heading="Selected Items For Sales Return">
                     <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
-                    <TableBody fetching={fetching}>
+<TableBody fetching={fetching} filterData={null}>
                       <>
                         {response?.data?.Childs?.map((val:any, index:any) => {
                           const isLast = index === response.data!?.Childs.length - 1

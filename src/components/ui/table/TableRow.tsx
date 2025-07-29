@@ -1,6 +1,6 @@
 import { DynamicTableCol } from '@/utils/types'
-import { PencilIcon } from '@heroicons/react/24/solid'
-import { Avatar, Chip, IconButton, Tooltip, Typography } from '@material-tailwind/react'
+// import { PencilIcon } from '@heroicons/react/24/solid'
+import {  Chip,  Typography } from '@material-tailwind/react'//IconButton, Tooltip,Avatar,
 import { colors } from '@material-tailwind/react/types/generic'
 import clsx from 'clsx'
 import { Fragment } from 'react'

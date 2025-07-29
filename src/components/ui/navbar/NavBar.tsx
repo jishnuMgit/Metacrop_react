@@ -10,7 +10,7 @@ import {
   safePolygon,
   useTransitionStyles,
 } from '@floating-ui/react'
-import { List } from '@material-tailwind/react'
+// import { List } from '@material-tailwind/react'
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import { links } from '@/config/constants'
 import Logo from '../../../assets/images/connectlylogo.png'

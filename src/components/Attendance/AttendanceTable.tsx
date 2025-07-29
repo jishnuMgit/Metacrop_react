@@ -12,6 +12,8 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import Env from "@/config/env";
+import { CreateAxiosDefaults } from "useipa";
 
 const AttendanceTable = () => {
   const today = new Date();
@@ -29,12 +31,19 @@ const AttendanceTable = () => {
   const [openFilter, setOpenFilter] = useState(false);
 
   const rowsPerPage = 10;
+  
+
+
+ const client: CreateAxiosDefaults = {
+    baseURL: Env.VITE_BASE_URL,
+    withCredentials: true,
+  }
 
   // ✅ Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/v1/staff/GetAllAttendanceRecords", {
+        const res = await fetch(`${client.baseURL}/staff/GetAllAttendanceRecords`, {
           credentials: "include",
         });
         const data = await res.json();
