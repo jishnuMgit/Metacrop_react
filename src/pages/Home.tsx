@@ -291,7 +291,7 @@ FetchData()
     setShowDatePicker(!showDatePicker)
   }
 
-  const {data:HomeData}=useFetch(`${Env.VITE_BASE_URL}/home/getHomeCardData`)
+  useFetch(`${Env.VITE_BASE_URL}/home/getHomeCardData`)
 
 
   return (

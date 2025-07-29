@@ -7,6 +7,7 @@ import { useGetSales } from '@/hooks/useSale'
 import { dateParser } from '@/utils/helpers'
 import type { ApiSalesData, DynamicTableCol, SortTypes } from '@/utils/types'
 import { Card } from '@material-tailwind/react'
+import { colors } from '@material-tailwind/react/types/generic'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -113,15 +114,16 @@ range:Range
         const isLast = index === saleData.length - 1;
         const classes: string = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
-        const status = {
-          text: val?.PaymentMethod === 'credit' ? 'Not paid' : 'paid',
-          color: val?.PaymentMethod === 'credit' ? 'red' : 'green',
-          index: 3,
-          classes:
-            val?.PaymentMethod !== 'credit'
-              ? 'dark:text-[rgb(33,234,48)]'
-              : 'dark:text-[rgb(255,0,0)]',
-        };
+       const status = {
+  text: val?.PaymentMethod === 'credit' ? 'Not paid' : 'paid',
+  color: (val?.PaymentMethod === 'credit' ? 'red' : 'green') as colors,
+  index: 3,
+  classes:
+    val?.PaymentMethod !== 'credit'
+      ? 'dark:text-[rgb(33,234,48)]'
+      : 'dark:text-[rgb(255,0,0)]',
+};
+
 
         let columns: DynamicTableCol;
 

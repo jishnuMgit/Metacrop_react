@@ -53,6 +53,7 @@ export type DynamicTableCol = {
 
 export type ApiItem = {
   Class: string
+  
   CreatedBy: number
   CreatedOn: string
   DelFlag: number

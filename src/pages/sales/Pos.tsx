@@ -49,7 +49,7 @@ function Pos() {
   const [StoreOptions,setStoreOptions]=useState()
   const [UserOption,setUserOption]=useState()
   // const [stores, setStores] = useState(null);
-  const [user, setUser] = useState('');
+const [user, setUser] = useState<CustomerOption | null>(null);
   const [NoSaleNum,seNosaleNumber]=useState(false)
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedOption, setSelectedOption] = useState("cash");

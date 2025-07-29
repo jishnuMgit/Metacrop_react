@@ -51,17 +51,21 @@ function SalesReturnList() {
     <>
       <Card className="h-full w-auto dark:bg-dark-primary-bg mx-6 mt-6">
         <Header
-          btnClick={() => navigate(links.ADD_SALES_RETURN)}
-          setSortType={setSortType}
-          name="Sales Return "
-          handleEnter={handleEnter}
-          handleQuery={handleQuery}
-        />
+  btnClick={() => navigate(links.ADD_SALES_RETURN)}
+  setSortType={setSortType}
+  name="Sales Return"
+  handleEnter={handleEnter}
+  handleQuery={handleQuery}
+  onFilterApply={() => {}}
+/>
+
         <TableComponent className="dark:px-6">
           <TableHeader TABLE_HEAD={TABLE_HEAD}></TableHeader>
-          <TableBody 
-            
-          fetching={fetching}>
+         <TableBody 
+  fetching={fetching} 
+  filterData={saleData || []}
+>
+
             <>
               {saleData?.map((val, index) => {
                 const isLast = index === saleData?.length - 1

@@ -1,5 +1,5 @@
 import { chartsConfig } from '@/config'
-import { isDarkMode } from '@/utils/helpers'
+// import { isDarkMode } from '@/utils/helpers'
 import { color } from '@material-tailwind/react/types/components/alert'
 import { Props } from 'react-apexcharts'
 type ChartProps = Props
@@ -70,30 +70,6 @@ const dailySalesChart: ChartProps = {
   },
 }
 
-const completedTaskChart: ChartProps = {
-  type: 'line',
-  height: 320,
-  series: [
-    {
-      name: 'Sales',
-      data: [50, 40, 300, 220, 500, 250, 400, 230, 500, 0, 200, 400],
-    },
-  ],
-  options: {
-    ...chartsConfig,
-    colors: ['#388e3c'],
-    stroke: {
-      lineCap: 'round',
-    },
-    markers: {
-      size: 5,
-    },
-    xaxis: {
-      ...chartsConfig.xaxis,
-      categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    },
-  },
-}
 // const completedTasksChart = {
 //   ...completedTaskChart,
 //   series: [

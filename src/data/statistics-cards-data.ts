@@ -1,6 +1,6 @@
 import {
   BanknotesIcon,
-  UserPlusIcon,
+  // UserPlusIcon,
   UsersIcon,
   ChartBarIcon,
   ArrowDownIcon,
