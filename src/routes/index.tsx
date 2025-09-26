@@ -15,6 +15,7 @@ import {
 // import path from 'path'
 import Attendance from '@/pages/sales/Attendance'
 import Customer from '@/pages/customer/Customer'
+import Reconciliation from '@/components/Reconciliation/Reconciliation'
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
           {
             path:"attendance",
             Component:Attendance
+          },
+          {
+path:"reconciliation",
+Component:Reconciliation
           },
           {
             path:"/customer/Customer",
