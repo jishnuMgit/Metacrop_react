@@ -44,7 +44,9 @@ const returnItemSlice = createSlice({
         }
 
         // if no saleId and no item in customReturn, push first item to customReturn
-        state.customReturn.push({ item: rest.item, returnQty: 1 })
+        // @ts-ignore
+state.customReturn.push({ item: rest.item, returnQty: 1 });
+
         return
       }
 
