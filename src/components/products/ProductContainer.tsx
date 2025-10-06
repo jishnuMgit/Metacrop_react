@@ -11,7 +11,7 @@ function ProductContainer({ className, children }: ProductContainerProps) {
   return (
     <div
       className={clsx(
-        'grid grid-flow-row xl:grid-cols-4 grid-cols-3 max-h-[450px] justify-items-center items-center overflow-y-auto pe-3 ',
+        'grid grid-flow-row xl:grid-cols-4 grid-cols-3 max-h-[450px] justify-items-center items-center bor overflow-y-auto pe-3 ',
         className
       )}
     >

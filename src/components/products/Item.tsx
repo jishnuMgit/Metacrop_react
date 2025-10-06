@@ -15,7 +15,7 @@ function Item({ item, onClick, isSmall, qtyElement }: ItemProps) {
   return (
     <div
       onClick={onClick}
-      className=" p-1 cursor-pointer hover:bg-blue-400 w-full h-full border border-sm dark:border-black py-3"
+      className=" p-1 cursor-pointer hover:bg-blue-300 w-full h-full border-black border-[1px] border-lg dark:border-black py-3"
     >
       <div className="flex flex-col items-center">
         <img

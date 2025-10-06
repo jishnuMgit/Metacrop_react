@@ -35,17 +35,18 @@ export default function Reconciliation() {
   const rowsPerPage = 10
   const totalPages = Math.ceil(transactions.length / rowsPerPage)
 
-  const FetchData = async () => {
-    try {
-      const res = await fetch(`${client.baseURL}/reconciliation/get`, {
-        method: "GET",
-        credentials: "include",
-      })
+const FetchData = async () => {
+  try {
+    const res = await fetch(`${client.baseURL}/reconciliation/get`, {
+      method: "GET",
+      credentials: "include",
+    });
 
-      const result = await res.json()
+    const result = await res.json();
 
-      // Map API response into Transaction format
-      const mapped: Transaction[] = result.data.map((item: any) => ({
+    // Map API response into Transaction format
+    const mapped: Transaction[] =
+      result?.data?.map((item: any) => ({
         id: item.PKSettlementID,
         totalSales: item.TotalSalesAmount,
         cardSales: item.TotalCardSalesAmount,
@@ -54,13 +55,15 @@ export default function Reconciliation() {
         paidToBank: item.PaidToBank,
         settlementDate: new Date(item.CreatedAt).toLocaleString(),
         status: item.Status === 1 ? "Success" : "Failed",
-      }))
+      })) || [];
 
-      setTransactions(mapped)
-    } catch (err) {
-      console.error("Error fetching data:", err)
-    }
+    setTransactions(mapped);
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    setTransactions([]); // empty if error
   }
+};
+
 
   useEffect(() => {
     FetchData()
@@ -218,7 +221,7 @@ export default function Reconciliation() {
                       <td className="px-3 py-2 border">
                         <input
                           type="number"
-                          value={row.actualAmount}
+                          // value={row.actualAmount}
                           onChange={(e) =>
                             handleRowChange(
                               row.id,
@@ -259,16 +262,45 @@ export default function Reconciliation() {
               >
                 Close
               </button>
-              <button
-                onClick={() => {
-                  console.log("Reconciliation rows:", rows)
-                  alert("Reconciliation submitted ✅")
-                  setSelectedTx(null)
-                }}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-              >
-                Confirm
-              </button>
+             <button
+  onClick={async () => {
+    if (!selectedTx) return;
+
+    try {
+      const res = await fetch(`${client.baseURL}/reconciliation/post`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          settlementId: selectedTx.id,
+          rows: rows,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit reconciliation");
+      }
+
+      const data = await res.json();
+      console.log("Reconciliation submitted:", data);
+      alert("Reconciliation submitted ✅");
+
+      // Close modal after success
+      setSelectedTx(null);
+      setRows([]);
+      FetchData(); // refresh table after submit
+    } catch (err) {
+      console.error("Error submitting reconciliation:", err);
+      alert("❌ Error submitting reconciliation");
+    }
+  }}
+  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+>
+  Confirm
+</button>
+
             </div>
           </div>
         </div>

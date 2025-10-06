@@ -149,7 +149,7 @@ function PosBase({
               className="indent-7 mb-0 w-full h-8 border border-sm rounded-sm p-5 placeholder:text-[#429CF0] dark:placeholder:text-dark-text-color dark:bg-black dark:border-none dark:focus-visible:outline-none"
               type="text"
               value={searchInputVal}
-              placeholder="Product Name"
+              placeholder="Product Name / Barcode"
             />
             <SearchIcon />
           </div>

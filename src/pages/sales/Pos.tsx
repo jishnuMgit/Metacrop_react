@@ -55,7 +55,7 @@ const [user, setUser] = useState<CustomerOption | null>(null);
   const [selectedOption, setSelectedOption] = useState("cash");
 
   const totalAmount = useMemo(
-    () => orders.reduce((prev, val) => prev + val.qty * val.Price + val.qty  *  val.TaxPer, 0),
+    () => orders.reduce((prev, val) => prev + val.qty * val.Price + ( ((val.TaxPer/100)*val.Price)*val.qty   ), 0),
     [orders]
   )
 
@@ -300,7 +300,7 @@ const customStyles = {
       onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
       className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 rounded-full"
     />
-    Bank
+    Card
   </label>
 
   <label className="flex items-center gap-1 cursor-pointer select-none">

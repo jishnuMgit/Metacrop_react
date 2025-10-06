@@ -102,7 +102,7 @@ const [LineDatas, setLinedata] = useState<LineData|undefined>()
   series: [
     {
       name: 'Sales',
-      data: [barData?.cash||0,barData?.bank||0,barData?.credit||0],
+      data: [Math.round(Number(barData?.cash))||0,Math.round(Number(barData?.bank))||0,Math.round(Number(barData?.credit))||0],
     },
   ],
   options: {
@@ -301,10 +301,10 @@ FetchData()
   {statisticsCardsData.map(({ icon, title, footerProps, color }, index) => {
   // Dynamically assign value based on index
   let value = '0'
-  if (index === 0) value = `${cury?.CurrSym} ${data?.data.todayStat._sum.TotalAmount || 0}`
-  if (index === 1) value = ` ${cury?.CurrSym} ${data?.data.TotalCash?.TotalAmount || 0}` // No $
-  if (index === 2) value = `${cury?.CurrSym} ${data?.data.TotalBank?.TotalAmount || 0}`
-  if (index === 3) value = `${cury?.CurrSym} ${data?.data.totalStat._sum.TotalAmount || 0}`
+  if (index === 0) value = `${cury?.CurrSym} ${Math.round(Number(data?.data.todayStat._sum.TotalAmount))  || 0}`
+  if (index === 1) value = ` ${cury?.CurrSym} ${ Math.round(Number( data?.data.TotalCash?.TotalAmount)) || 0}` // No $
+  if (index === 2) value = `${cury?.CurrSym} ${ Math.round(Number(data?.data.TotalBank?.TotalAmount))  || 0}`
+  if (index === 3) value = `${cury?.CurrSym} ${ Math.round(Number(data?.data.totalStat._sum.TotalAmount))  || 0}`
 
   return (
     <>

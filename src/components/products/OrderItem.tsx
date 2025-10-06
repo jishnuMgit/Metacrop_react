@@ -168,7 +168,7 @@ function OrderItem({
         </div>
 
         <div className="text-md m-5 font-medium text-gray-600 whitespace-nowrap">
-          {`Tax: ${item.TaxPer}﷼`}
+          {`Tax: ${(item.TaxPer)} %`}
         </div>
 
         <div className="flex items-center justify-end">

@@ -78,14 +78,28 @@ const [ProductData,setProductData]=useState<Items[]>([])
   // const soldItems = useAppSelector((state) => state.sale.saleData?.SoldItems)
   const saleError = useAppSelector((state) => state.sale.error)
 
-  const totalAmount = useMemo(
-    () =>
-      returnItems.reduce(
-        (acc, sale) => acc + sale.items.reduce((a, i) => a + i.returnQty! * i.Price, 0),
-        0
-      ) + customReturnItems.reduce((acc, val) => acc + val.item!.Price * val.returnQty, 0),
-    [returnItems, customReturnItems]
-  )
+const totalAmount = useMemo(() => {
+  const returnTotal = returnItems.reduce(
+    (acc, sale) =>
+      acc +
+      sale.items.reduce((a, i) => a + (i.returnQty! * i.Price), 0),
+    0
+  );
+
+  const customReturnTotal = customReturnItems.reduce((acc, val) => {
+    const price = Number(val.item?.Price) || 0;
+    const qty = Number(val.returnQty) || 0;
+    const taxPer = Number(val.item?.TaxPer) || 0;
+
+    // tax per item
+    const taxAmount = (taxPer / 100) * price;
+
+    return acc + (price + taxAmount) * qty;
+  }, 0);
+
+  return returnTotal + customReturnTotal;
+}, [returnItems, customReturnItems]);
+
 const { data } = useFetch<{ message: string; data: { billNo: number | null }[] }>(
   `${Env.VITE_BASE_URL}/home/getInvoice`
 );

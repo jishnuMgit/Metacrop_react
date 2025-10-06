@@ -16,6 +16,7 @@ export type PayloadIDs = { soldItemId: number; saleId?: number }
 export type CustomReturnType = {
   item?: ApiItem
   returnQty: number
+  TaxPer:Number
 }
 
 const INITIAL_STATE: {
