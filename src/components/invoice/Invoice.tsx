@@ -111,7 +111,7 @@ function Invoice({ btnProps, totalAmount,type, fetching }: InvoiceProps) {
       })
       }
      
-      window.location.reload()
+      // window.location.reload()
     } catch (error) {
       console.error('Error generating invoice PDF:', error)
     }

@@ -14,6 +14,7 @@ type ReturnSales = {
 
 export type PayloadIDs = { soldItemId: number; saleId?: number }
 export type CustomReturnType = {
+  PKItemID: number
   item?: ApiItem
   returnQty: number
   TaxPer:Number
@@ -88,6 +89,14 @@ state.customReturn.push({ item: rest.item, returnQty: 1 });
         }
       }
     },
+    editPrice: (state, action: PayloadAction<{ PKItemID: number; customPrice: number }>) => {
+      const { PKItemID, customPrice } = action.payload
+      state.customReturn.forEach((item) => {
+        if (item.item?.PKItemID === PKItemID) {
+          item.item.Price = customPrice
+        }
+      })
+    },
     // decrement return qty. if return qty equal to 1, remove return item from this slice
     decrementReturn: (state, action: PayloadAction<PayloadIDs>) => {
       const { saleId, soldItemId } = action.payload
@@ -139,6 +148,6 @@ state.customReturn.push({ item: rest.item, returnQty: 1 });
   },
 })
 
-export const { addToReturn, incrementReturn, decrementReturn, clearReturn, removeFromReturns } =
+export const { addToReturn, incrementReturn,editPrice, decrementReturn, clearReturn, removeFromReturns } =
   returnItemSlice.actions
 export default returnItemSlice.reducer

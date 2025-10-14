@@ -212,111 +212,102 @@ const customStyles = {
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
         {/* @ts-ignore */}
         <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}  >
-          <div className="flex flex-wrap w-full justify-start gap-10 ">
-           
-
-            <input
-              type="date"
-               value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-              className="dark:bg-black border bg-gray-500 border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
-            />
-
-            <Select
-              options={UserOption}
-              onChange={setUser}
-              placeholder="Customer"
-              value={user}
-
-              styles={customStyles}
-              className="dark:bg-black bg-gray-500 text-white w-[390px]"
-            />
-
-            
-
-            <Select
-              options={StoreOptions}
-              onChange={handleStoreChange}
-              placeholder="Store"
-              value={selectedStore}
-              
-              styles={customStyles}
-              className="dark:bg-black bg-gray-500 text-white w-[180px]"
-            />
-       
-<div className='flex justify-center items-center border border-gray-800 px-5  cursor-pointer shadow-white hover:shadow-sm'>
-
-                          <h4 className="flex justify-center items-center text-xl ">Bill Number : {StoreData?.Seriesnum?.Number}</h4>
-
-</div>
-
- 
- 
-
-<input 
-  type="text"
-  placeholder="  Remarks"
-  value={remark}
-  onChange={(e) => setRemarks(e.target.value)}
-  className="py-2 dark:bg-black bg-gray-500 rounded-md text-white border border-white placeholder-white"
- />
-
-       {!StoreData?.Seriesnum.Number &&NoSaleNum && <p className='text-md text-red-500'>Unable to process sale. System Waiting for a valid bill number</p>}
-
-          </div>
-
-<div className='lg:flex lg:flex-row justify-between md:flex-col'>
-<div className='flex items-center gap-8 mt-5 text-2xl justify-end'>
-   {/* <Button onClick={() => setSort({ option: '?sort=none' })} className="md:w-32 rounded-sm">
-              All
-            </Button>
-            {/* <Button onClick={() => setSort({ option: '?sort=date' })} className="md:w-32 rounded-sm">
-              Recent
-            </Button> 
-            <Button onClick={() => setSort({ option: 'most-saled' })} className="md:w-32  rounded-sm">
-              Most
-            </Button> */}
-</div>
-          <div className="flex items-center gap-6 mt-5  justify-end">
-  <label className="whitespace-nowrap">Payment</label>
-
-  <label className="flex items-center gap-1 cursor-pointer select-none">
+  <div className="w-full p-6 rounded-2xl  shadow-lg border border-gray-700">
+  {/* Filters Row */}
+  <h1 className=' mb-5 text-2xl font-bold '>Add Sales</h1>
+  <div className="flex flex-wrap w-full justify-start gap-6 items-center">
+    
+    {/* Date */}
     <input
-      type="radio"
-      name="payment_method"
-      value="cash"
-      defaultChecked
-      onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
+      type="date"
+      value={selectedDate}
+      onChange={(e) => setSelectedDate(e.target.value)}
+      className="dark:bg-neutral-900 bg-gray-800 border border-gray-600 hover:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-[200px] px-4 py-2 rounded-lg text-white placeholder-gray-300 outline-none transition duration-200 [&::-webkit-calendar-picker-indicator]:invert"
     />
-    Cash
-  </label>
 
-  <label className="flex items-center gap-1 cursor-pointer select-none">
-    <input
-      type="radio"
-      name="payment_method"
-      value="bank"
-      onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-      className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 rounded-full"
+    {/* Customer */}
+    <Select
+      options={UserOption}
+      onChange={setUser}
+      placeholder="Select Customer"
+      value={user}
+      styles={customStyles}
+      className="dark:bg-neutral-900 bg-gray-800 text-white w-[350px] rounded-lg focus:border-blue-400 focus:ring-2 focus:ring-blue-500 transition duration-200"
     />
-    Card
-  </label>
 
-  <label className="flex items-center gap-1 cursor-pointer select-none">
-    <input
-      type="radio"
-      name="payment_method"
-      value="credit"
-      onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-      className="w-4 h-4 text-purple-600  bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
+    {/* Store */}
+    <Select
+      options={StoreOptions}
+      onChange={handleStoreChange}
+      placeholder="Select Store"
+      value={selectedStore}
+      styles={customStyles}
+      className="dark:bg-neutral-900 bg-gray-800 text-white w-[200px] rounded-lg focus:border-blue-400 focus:ring-2 focus:ring-blue-500 transition duration-200"
     />
-    Credit
-  </label>
+
+    {/* Bill Number */}
+    <div className="flex justify-center items-center border border-gray-700 bg-gray-800 rounded-lg px-6 py-2 cursor-pointer shadow-sm hover:shadow-blue-500/20 transition duration-300">
+      <h4 className="flex items-center text-lg font-medium text-white">
+        Bill No:{" "}
+        <span className="ml-2 text-blue-400 font-semibold">
+          {StoreData?.Seriesnum?.Number ?? "—"}
+        </span>
+      </h4>
+    </div>
+
+    {/* Remarks */}
+    <input
+      type="text"
+      placeholder="Remarks"
+      value={remark}
+      onChange={(e) => setRemarks(e.target.value)}
+      className="py-2 px-4 dark:bg-neutral-900 bg-gray-800 rounded-lg text-white border border-gray-600 placeholder-gray-300 hover:border-blue-400 focus:ring-2 focus:ring-blue-500 outline-none transition duration-200 w-[250px]"
+    />
+  </div>
+
+  {/* Warning message */}
+  {!StoreData?.Seriesnum?.Number && NoSaleNum && (
+    <span className="text-sm text-red-400 mt-2 ml-1">
+      ⚠️ Unable to process sale. Waiting for a valid bill number.
+    </span>
+  )}
+
+  {/* Divider */}
+  <div className="border-t border-gray-700 mt-6 mb-4"></div>
+
+  {/* Payment Section */}
+  <div className="flex flex-wrap justify-between items-center gap-6">
+    <div></div> {/* Placeholder for future buttons if needed */}
+
+    <div className="flex items-center gap-6">
+      <label className="font-medium text-gray-900 dark:text-white whitespace-nowrap">
+        Payment Mode:
+      </label>
+
+      {[
+        { label: "Cash", value: "cash", color: "blue" },
+        { label: "Card", value: "bank", color: "green" },
+        { label: "Credit", value: "credit", color: "purple" },
+      ].map((mode) => (
+        <label
+          key={mode.value}
+          className="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-white hover:text-white transition"
+        >
+          <input
+            type="radio"
+            name="payment_method"
+            value={mode.value}
+            defaultChecked={mode.value === "cash"}
+            onClick={(e) => handleCash(e.currentTarget.value)}
+            className={`w-5 h-5 text-${mode.color}-500 border-gray-500 focus:ring-${mode.color}-500 rounded-full`}
+          />
+          {mode.label}
+        </label>
+      ))}
+    </div>
+  </div>
 </div>
 
-        
-</div>
 
         </PosBaseMemo>
 

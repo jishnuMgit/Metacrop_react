@@ -26,6 +26,7 @@ export default function ViewCustomer() {
   const [open, setOpen] = useState(false);
   const [editCustomer, setEditCustomer] = useState<DataInterface | null>(null);
   const [Data, setData] = useState<DataInterface[]>([]);
+  const [Loading,setLoading]=useState(false)
   const [searchTerm, setSearchTerm] = useState(""); // 🔍 New state
 
   const handleEdit = (customer: DataInterface) => {
@@ -68,6 +69,7 @@ export default function ViewCustomer() {
   };
 
   const handleFetch = async () => {
+    setLoading(true)
     try {
       const Req = await fetch(`${client?.baseURL}/customer/GetCustomer`, {
         method: 'GET',
@@ -86,6 +88,7 @@ export default function ViewCustomer() {
       }));
 
       setData(normalized);
+      setLoading(false)
     } catch (error) {
       console.error("Fetch failed", error);
     }
@@ -118,7 +121,8 @@ export default function ViewCustomer() {
           />
         </div>
 
-        {Data.length === 0 && <CustomerTableSkeleton />}
+        {Loading && <CustomerTableSkeleton />}
+        { Data? Data.length === 0 && <h1> ⚠️ No Customer Found ⚠️ </h1>:"" }
 
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredData.map((customer, index) => (

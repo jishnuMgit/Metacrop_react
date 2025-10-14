@@ -23,6 +23,7 @@ import { useAddSalesReturn } from '@/hooks/useSalesReturn'
 import Select,  { SingleValue } from 'react-select';
 import useFetch from '@/hooks/useFetch'
 import Env from '@/config/env'
+import { editPrice } from '@/redux/returnItem'
 
 // type Invoiceoption={
 // billNo:number|null
@@ -287,64 +288,68 @@ useEffect(() => {
             </Button> */}
           </div>
             
-          <div className='flex gap-4 mt-5'>
-            <input
-              type="date"
-              className="dark:bg-black bg-gray-500 border border-gray-700  hover:border-white   w-[180px] px-4 text-white [&::-webkit-calendar-picker-indicator]:invert"
-            />
-        <Select
-  options={customerOptions}
-  value={selectedCustomer}
-  onChange={handleCustomerChange}
-  placeholder="Bill Number"
-  styles={customStyles}
-  className="dark:bg-black bg-gray-500 text-white w-[390px]"
-/> 
-          </div>
-           <div className="flex items-center gap-8 mt-5  justify-end">
-            
-            <label className="font-semibold whitespace-nowrap">Payment mode</label>
+          <div className="flex flex-col gap-6 mt-6">
+  {/* Date & Customer Select */}
+  <div className="flex flex-wrap items-center gap-4">
+    <input
+      type="date"
+      className="dark:bg-gray-800 bg-gray-800 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 w-[200px] px-4 py-2 rounded-xl text-white dark:text-gray-100 outline-none transition duration-200 [&::-webkit-calendar-picker-indicator]:invert"
+    />
 
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="radio"
-                name="payment_method"
-                value="cash"
-                defaultChecked
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 rounded-full"
-              />
-              Cash
-            </label>
+    <Select
+      options={customerOptions}
+      value={selectedCustomer}
+      onChange={handleCustomerChange}
+      placeholder="Select Bill Number"
+      styles={customStyles}
+      className="dark:bg-gray-800 bg-gray-800 text-white dark:text-gray-100 w-[400px] rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition duration-200"
+    />
+  </div>
 
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="radio"
-                name="payment_method"
-                value="bank"
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-                className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 rounded-full"
-              />
-              Bank
-            </label>
+  {/* Payment Mode Section */}
+  <div className="flex flex-wrap items-center justify-between md:justify-end gap-6 mt-4">
+    <label className="font-semibold text-black dark:text-gray-300 whitespace-nowrap">
+      Payment Mode
+    </label>
 
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="radio"
-                name="payment_method"
-                value="credit"
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => handleCash(e.currentTarget.value)}
-                className="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 rounded-full"
-              />
-              credits 
-            </label>
+    <div className="flex flex-wrap gap-6">
+      <label className="flex items-center gap-2 cursor-pointer select-none">
+        <input
+          type="radio"
+          name="payment_method"
+          value="cash"
+          defaultChecked
+          onClick={(e) => handleCash(e.currentTarget.value)}
+          className="w-5 h-5 text-blue-500 border-gray-400 focus:ring-blue-400 rounded-full"
+        />
+        <span className=" text-black dark:text-gray-300">Cash</span>
+      </label>
 
-            <div>
-                  
-            </div>
-        
-          
-          </div>
+      <label className="flex items-center gap-2 cursor-pointer select-none">
+        <input
+          type="radio"
+          name="payment_method"
+          value="bank"
+          onClick={(e) => handleCash(e.currentTarget.value)}
+          className="w-5 h-5 text-green-500 border-gray-400 focus:ring-green-400 rounded-full"
+        />
+        <span className=" text-black dark:text-gray-300">Bank</span>
+      </label>
+
+      <label className="flex items-center gap-2 cursor-pointer select-none">
+        <input
+          type="radio"
+          name="payment_method"
+          value="credit"
+          onClick={(e) => handleCash(e.currentTarget.value)}
+          className="w-5 h-5 text-purple-500 border-gray-400 focus:ring-purple-400 rounded-full"
+        />
+        <span className=" text-black dark:text-gray-300">Credits</span>
+      </label>
+    </div>
+  </div>
+</div>
+
         </div>
         <> {saleError && <ErrorText message={saleError.message} />}</>
         <>
@@ -414,6 +419,14 @@ useEffect(() => {
                   minusBtn={minusBtnHandler}
                   plusBtn={plusBtnHander}
                   className=""
+                  itemPriceInput={{
+                                    onChange: (e) => {
+                                      dispatch(
+                                        //@ts-ignore
+                                        editPrice({ PKItemID: val.item?.PKItemID, customPrice: Number(e.target.value) })
+                                      )
+                                    },
+                                  }}
                   key={val.item?.PKItemID ||''}
                   item={{
                     ...val.item,

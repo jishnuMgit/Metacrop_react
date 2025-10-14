@@ -97,13 +97,21 @@ function Sale() {
                     {`Invoice Details`}
                   </Typography>
                 </div>
-                <div className="mb-5 flex flex-col  ">
-                  {createInvoiceList(SALES_RETURN_INVOICE, createReturnInvoice(response?.data?.Childs ?? []))?.map(
-                    (val, index) => (
-                      <InvoiceList key={index} name={val.name} value={val.value}></InvoiceList>
-                    )
-                  )}
-                </div>
+               <div className="mb-5 flex flex-col">
+  {createInvoiceList(
+    SALES_RETURN_INVOICE,
+    createReturnInvoice(response?.data?.Childs ?? [])
+  )?.map((val, index) => {
+    // Get the corresponding Child for this row if needed
+    const child = response?.data?.Childs[index];
+    const createdOn = child?.createdOn
+      ? new Date(child.createdOn).toLocaleDateString()
+      : 'N/A';
+
+    return <InvoiceList key={index} name={val.name} value={createdOn} />;
+  })}
+</div>
+
 <button
       onClick={() => handleGeneratePDF()}
       className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-all"

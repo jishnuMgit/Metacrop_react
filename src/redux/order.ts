@@ -51,14 +51,14 @@ const orderSlice = createSlice({
       })
     },
     // Initially item have fixed price from db. but you can edit price
-    editPrice: (state, action: PayloadAction<{ PKItemID: number; customPrice: number }>) => {
+   editPrice: (state, action: PayloadAction<{ PKItemID: number; customPrice: number }>) => {
       const { PKItemID, customPrice } = action.payload
       state.orders.forEach((item) => {
         if (item.PKItemID === PKItemID) {
           item.Price = customPrice
         }
       })
-    },
+    }, 
     clearOrder: (state) => {
       state.orders = []
       state.totalAmount = 0
