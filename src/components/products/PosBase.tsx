@@ -158,7 +158,7 @@ function PosBase({
       </div>
 
       <>
-        {fetching && <Spinner />}
+        {fetching && <div className='mt-12'> <Spinner /> </div>}
         {error && (
           <ErrorText
             message={error.message.substring(0, 60).concat(' ...', `'`)}

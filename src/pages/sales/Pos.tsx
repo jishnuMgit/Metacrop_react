@@ -279,19 +279,20 @@ const customStyles = {
   <div className="flex flex-wrap justify-between items-center gap-6">
     <div></div> {/* Placeholder for future buttons if needed */}
 
-    <div className="flex items-center gap-6">
-      <label className="font-medium text-gray-900 dark:text-white whitespace-nowrap">
+    <div className="lg:flex md:flex-col  items-center gap-6">
+      <label className="font-medium mb-3 text-gray-900 dark:text-white whitespace-nowrap">
         Payment Mode:
       </label>
 
-      {[
+     <div className='flex gap-2'>
+       {[
         { label: "Cash", value: "cash", color: "blue" },
         { label: "Card", value: "bank", color: "green" },
         { label: "Credit", value: "credit", color: "purple" },
       ].map((mode) => (
         <label
           key={mode.value}
-          className="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-white hover:text-white transition"
+          className="flex  items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-white hover:text-white transition"
         >
           <input
             type="radio"
@@ -304,6 +305,7 @@ const customStyles = {
           {mode.label}
         </label>
       ))}
+     </div>
     </div>
   </div>
 </div>

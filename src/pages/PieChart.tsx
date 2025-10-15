@@ -58,9 +58,22 @@ const PieChart = () => {
         <PiecartSkeleton />
       ) : (
         <>
-          <ApexChart description="Cash And Bank Revenue" data={pieChartData} />
-          <ApexChart description="Top-Selling Items" data={pieChartData2} />
-          <ApexChart description="Low-Selling Items" data={pieChartData3} />
+
+<div>
+  
+            <ApexChart description="Cash And Bank Revenue" data={pieChartData} />
+
+  </div>       
+<div>
+       <ApexChart description="Top-Selling Items" data={pieChartData2} />
+
+  </div>      
+<div>
+  
+       <ApexChart description="Low-Selling Items" data={pieChartData3} />
+
+  </div>  
+
         </>
       )}
     </>
