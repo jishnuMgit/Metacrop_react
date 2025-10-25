@@ -37,7 +37,7 @@ function Login() {
           {/* Left Side - Form */}
           <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 py-12">
             <div className="text-center mb-6">
-              <Typography variant="h2" className="font-bold mb-2">
+              <Typography variant="h2" className="font-bold mb-2 dark:text-black">
                 Sign In
               </Typography>
               <Typography variant="paragraph" className="text-base font-normal text-gray-600">
