@@ -1,5 +1,6 @@
 import Env from "@/config/env";
 import { TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { log } from "console";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -179,7 +180,9 @@ setTimeout(() => {
       acc.AccCode.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  //@ts-ignore
   const isDark = document.documentElement.classList.contains("dark");
+console.log(isDark);
 
   return (
     <div className="p-4 sm:p-6 md:p-10 mb-36 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
