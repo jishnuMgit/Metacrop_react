@@ -1,6 +1,5 @@
 import Env from "@/config/env";
 import { TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { log } from "console";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
