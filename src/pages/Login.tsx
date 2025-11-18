@@ -10,6 +10,7 @@ import { useFormApi } from 'useipa'
 import { Button, Typography } from '@material-tailwind/react'
 import Logo from '../assets/images/connectlylogo-removebg-preview.png'
 import { EtheralShadow } from '@/components/ui/EtherealShadow'
+import { toast } from 'react-toastify'
 
 function Login() {
   const [show, setShow] = useState(false)
@@ -19,6 +20,8 @@ function Login() {
   useEffect(() => {
     if (success) {
       setCookie('logged_in', 'true')
+              toast.success('Welcome User');
+      
       navigate('/')
     }
   }, [success, navigate])

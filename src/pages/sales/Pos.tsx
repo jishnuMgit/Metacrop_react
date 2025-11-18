@@ -14,6 +14,7 @@ import Select, { SingleValue } from 'react-select'
 import { setStore } from '@/redux/component'
 import Env from '@/config/env'
 import useFetch from '@/hooks/useFetch'
+import { toast } from 'react-toastify'
 type CustomerOption = {
   value: string
   label: string
@@ -39,7 +40,7 @@ interface currentStoretype {
 
 function Pos() {
     const today = new Date().toISOString().split('T')[0] 
-
+ const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [sort, setSort] = useState<SortOption>({ option: '?sort=none' })
   const orders = useAppSelector((state) => state.order.orders)
   const discount = useAppSelector((state) => state.order.discount)
@@ -59,8 +60,8 @@ const [user, setUser] = useState<CustomerOption | null>(null);
     [orders]
   )
 
-const { data:StoreData,  } = useFetch<any>(`${Env.VITE_BASE_URL}/home/store`);
-console.log(StoreData,setSort);
+const { data: StoreData, refresh: refetch } =
+  useFetch<any>(`${Env.VITE_BASE_URL}/home/store`);console.log(StoreData,setSort);
 
 const createOptions = (data: any[], valueKey: string |number, labelKey: string): currentStoretype[] => {
   const allOption: currentStoretype = { value: "", label: "Select Store" };
@@ -105,21 +106,30 @@ useEffect(() => {
   const dispatch = useAppDispatch()
 
   const handleSubmit = async (): Promise<void> => {
-    
-    if(!selectedOption){
-      return alert("select the method")
+    if (!selectedOption) return alert("Select the method")
 
-    }
     const items = await BillGenerate.validate(orders, { stripUnknown: true })
-    // alert(user?.value)
-    // @ts-ignore
-    handleMutate({ items, totalAmount, discount, user: user?.value || '', selectedOption, selectedStore:selectedStore?.value||'' , selectedDate,remark })
 
-if(success){
-  alert("ok")
-    window.location.reload()
-}
+    handleMutate({
+      items,
+      totalAmount,
+      discount,
+      user: user?.value || '',
+      selectedOption,
+      selectedStore: selectedStore?.value || '',
+      selectedDate,
+      remark,
+    })
   }
+
+  // ✅ Listen for success change
+  useEffect(() => {
+    if (success) {
+        toast.success('Sale added successfully!');
+   setRefreshTrigger(prev => prev + 1);
+   refetch()
+    }
+  }, [success])
 
   const handleSubmitWrapper = () => {
     handleSubmit().catch(() =>
@@ -211,7 +221,7 @@ const customStyles = {
       </Modal>
       <div className="flex md:p-5 lg:flex-row flex-col transition-all">
         {/* @ts-ignore */}
-        <PosBaseMemo itemClickHandler={itemClickHandler} sort={sort}  >
+        <PosBaseMemo refreshTrigger={refreshTrigger} itemClickHandler={itemClickHandler} sort={sort}  >
   <div className="w-full p-6 rounded-2xl  shadow-lg border border-gray-700">
   {/* Filters Row */}
   <h1 className=' mb-5 text-2xl font-bold '>Add Sales</h1>
@@ -311,7 +321,7 @@ const customStyles = {
 </div>
 
 
-        </PosBaseMemo>
+        </PosBaseMemo >
 
         <div className="flex flex-col mt-3 lg:mt-0 lg:w-[500px] lg:ms-4 items-center ">
           <CurrentOrder />

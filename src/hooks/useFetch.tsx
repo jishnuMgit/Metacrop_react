@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface FetchState<T> {
   data: T | null;
@@ -6,12 +6,22 @@ interface FetchState<T> {
   error: string | null;
 }
 
-function useFetch<T = any>(url: string) {
+interface UseFetchReturn<T> extends FetchState<T> {
+  refresh: () => void; // ✅ explicitly declare refresh
+}
+
+function useFetch<T = any>(url: string): UseFetchReturn<T> {
   const [state, setState] = useState<FetchState<T>>({
     data: null,
     loading: true,
     error: null,
   });
+
+  const [refreshIndex, setRefreshIndex] = useState(0);
+
+  const refresh = useCallback(() => {
+    setRefreshIndex(prev => prev + 1);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -22,10 +32,8 @@ function useFetch<T = any>(url: string) {
 
         const response = await fetch(url, {
           method: 'GET',
-          credentials: 'include', 
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
         });
 
         if (!response.ok) {
@@ -49,9 +57,9 @@ function useFetch<T = any>(url: string) {
     return () => {
       isMounted = false;
     };
-  }, [url]);
+  }, [url, refreshIndex]);
 
-  return state;
+  return { ...state, refresh };
 }
 
 export default useFetch;

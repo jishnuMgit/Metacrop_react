@@ -47,8 +47,9 @@ type PosBaseProps = {
   children?: ReactNode
   sort?: SortOption
   className?: string
-  ProductData: Items[]
+  ProductData?: Items[]
   itemClickHandler: (item: ApiItem) => void
+  refreshTrigger?: boolean // 👈 Added this prop
 }
 
 function PosBase({
@@ -57,6 +58,7 @@ function PosBase({
   className,
   itemClickHandler,
   ProductData,
+  refreshTrigger, // 👈 receives from parent
 }: PosBaseProps) {
   const currentStore = useAppSelector((state) => state.uiState.store)
   const [products, setProducts] = useState<ApiItem[]>()
@@ -66,10 +68,9 @@ function PosBase({
 
   const dispatch = useAppDispatch()
   const { qrData } = useAppSelector((state) => state.uiState)
-  const { data, error, fetching, clearState, fetchData } = useApi<{
-    data: ApiItem[]
-  }>()
+  const { data, error, fetching, clearState, fetchData } = useApi<{ data: ApiItem[] }>()
 
+  // 🔍 Search input handler
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (error) clearState()
     setSearchInputVal(e.target.value)
@@ -79,6 +80,7 @@ function PosBase({
     setProducts(productRef.current)
   }
 
+  // ⌨️ Enter key triggers fetch
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (controller) controller.abort()
     const newController = new AbortController()
@@ -91,6 +93,7 @@ function PosBase({
     }
   }
 
+  // 📦 Update state when new data comes
   useEffect(() => {
     if (data) {
       const items = Array.isArray(data.data) ? data.data : [data.data]
@@ -99,6 +102,7 @@ function PosBase({
     }
   }, [data])
 
+  // 📱 QR Code based search
   useEffect(() => {
     if (qrData !== '') {
       setSearchInputVal(qrData)
@@ -109,6 +113,7 @@ function PosBase({
     }
   }, [qrData])
 
+  // 🏬 Initial fetch
   useEffect(() => {
     const storeCode = currentStore[0] ?? ''
     const path =
@@ -118,12 +123,26 @@ function PosBase({
     fetchData(clsx(path))
   }, [sort?.option, currentStore])
 
+  // 🔄 Reload when parent trigger changes
+  useEffect(() => {
+    if (refreshTrigger !== undefined) {
+      const storeCode = currentStore[0] ?? ''
+      const path =
+        sort?.option === 'most-saled'
+          ? `/products/${sort?.option ?? '?sort=none'}/${storeCode}`
+          : `/products/${storeCode}`
+      fetchData(clsx(path))
+    }
+  }, [refreshTrigger]) // 👈 Runs on parent refresh
+
+  // 🛑 Clean up controller
   useEffect(() => {
     return () => {
       if (controller) controller.abort()
     }
   }, [controller])
 
+  // 💾 Format product data
   const formattedProductData: ApiItem[] = useMemo(() => {
     return ProductData?.map((val) => ({
       ...val,
@@ -132,12 +151,12 @@ function PosBase({
       qty: val.Qty || 1,
       Price: Number(val.Price),
       ModifiedOn: new Date(val.ModifiedOn).getTime(),
-    }))
+    })) ?? []
   }, [ProductData])
 
   return (
-    <ItemContainer className={clsx(className, ' min-h-screen')}>
-{children as React.ReactElement}
+    <ItemContainer className={clsx(className, 'min-h-screen')}>
+      {children as React.ReactElement}
 
       <div className="flex items-center mb-6 mt-5">
         {!ProductData && (
@@ -158,7 +177,11 @@ function PosBase({
       </div>
 
       <>
-        {fetching && <div className='mt-12'> <Spinner /> </div>}
+        {fetching && (
+          <div className="mt-12">
+            <Spinner />
+          </div>
+        )}
         {error && (
           <ErrorText
             message={error.message.substring(0, 60).concat(' ...', `'`)}

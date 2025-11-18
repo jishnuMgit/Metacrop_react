@@ -24,7 +24,8 @@ export const links = {
   TEST: '#link',
   attendance:'/attendance',
   customers:'/customer/Customer',
-  reconciliation:'/reconciliation'
+  reconciliation:'/reconciliation',
+  PaymentVoucher:'/PaymentVoucher'
 } as const
 
 export const sortOptions = {

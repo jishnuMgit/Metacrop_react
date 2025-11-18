@@ -50,8 +50,10 @@ selectedStore:any
   selectedDate:string
   remark:string
 }
+// ✅ useAddSale hook
 export const useAddSale = () => {
   const { mutate, success, error, fetching, data, clearState } = useApi<{ data?: ApiSalesData }>()
+
   const handleMutate = (payload: AddSalePayload) => {
     mutate('/sales', payload)
   }

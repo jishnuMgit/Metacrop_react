@@ -214,7 +214,16 @@ function NavBar() {
           </Link>
         </li>
 
-        
+         <li>
+          <Link
+            to={links.PaymentVoucher}
+            className="block px-4 py-2 w-full whitespace-nowrap rounded hover:bg-gray-100 hover:translate-x-1 hover:text-blue-600 dark:hover:bg-dark-primary-bg transition-all duration-150"
+          >
+                PaymentVoucher    
+
+          </Link>
+        </li>
+
 
          {/* <li>
           <Link
